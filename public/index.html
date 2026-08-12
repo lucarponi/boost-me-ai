@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
+<meta content="#ff7f6a" name="theme-color"/>
+<title>BOOST ME V6 Beta</title>
+<style>
+:root{
+  --bg:#fffaf7;--ink:#222229;--muted:#7a7480;--card:#fff;--pink:#ff7f8f;--coral:#ff7f6a;
+  --blue:#4a90e2;--sky:#59c3f0;--green:#4cc38a;--orange:#ff9b42;--yellow:#ffd95a;
+  --red:#ff6b6b;--line:#f1e5e2;--shadow:0 12px 34px rgba(65,46,58,.10);--radius:26px
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:
+radial-gradient(circle at 10% 0%,#ffe8ee 0,transparent 26%),
+radial-gradient(circle at 100% 0%,#e9f6ff 0,transparent 30%),
+radial-gradient(circle at 100% 65%,#e9fff2 0,transparent 25%),var(--bg);
+color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif}
+body{min-height:100vh}.app{max-width:540px;margin:0 auto;padding:24px 18px 112px}
+.brand{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.brand h1{margin:0;font-size:30px;letter-spacing:-.03em}.brand .tag{font-size:13px;color:var(--muted)}
+.hero{background:linear-gradient(135deg,#fff 0%,#fff0f4 48%,#eef8ff 100%);border:1px solid #f5e5e8;border-radius:30px;padding:22px;box-shadow:var(--shadow);position:relative;overflow:hidden;margin-bottom:16px}.hero:after{content:"";position:absolute;right:-36px;top:-48px;width:150px;height:150px;border-radius:50%;background:#ffd7df66}.hero h2{margin:0;font-size:28px;letter-spacing:-.03em;position:relative;z-index:1}.hero p{margin:6px 0 0;color:var(--muted);position:relative;z-index:1}.quote{margin-top:12px;font-weight:750;position:relative;z-index:1}
+.card{background:rgba(255,255,255,.95);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);margin-bottom:14px}.section-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}.section-title h3{margin:0;font-size:18px}.soft{font-size:12px;color:var(--muted)}
+.status{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.status-pill{padding:8px 11px;border-radius:999px;font-size:12px;font-weight:800}.status-pill.done{background:#e9f8ef;color:#26784d}.status-pill.open{background:#fff2d9;color:#8b6510}.status-pill.wait{background:#eef5ff;color:#376ba7}
+.weight-card{background:linear-gradient(135deg,#fff 0%,#fff0f2 100%)}.weight-input{display:flex;align-items:end;gap:8px}.weight-input input{width:150px;border:0;background:transparent;font-size:42px;font-weight:850;letter-spacing:-.04em;outline:none;color:var(--ink)}.unit{font-size:18px;color:var(--muted);padding-bottom:6px}
+.body-grid,.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{background:#faf8f8;border:1px solid var(--line);border-radius:16px;padding:12px}.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}.field input{border:0;background:transparent;width:100%;font-size:22px;font-weight:800;outline:none}
+.primary,.secondary{width:100%;border:0;border-radius:20px;padding:15px;font-size:16px;font-weight:850;cursor:pointer}.primary{color:white;background:linear-gradient(135deg,var(--coral),var(--pink));box-shadow:0 10px 24px #ff7f7f44}.secondary{color:#3a647e;background:#edf7ff}
+.quick-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}.quick{border-radius:22px;padding:15px;min-height:105px}.quick b{display:block;font-size:25px;margin-top:4px}.pink{background:#ffe8ed}.orangebg{background:#fff0df}.bluebg{background:#eaf4ff}.greenbg{background:#eafaf2}
+.plant{display:flex;align-items:center;gap:16px;background:linear-gradient(135deg,#f0fff6,#fff);border:1px solid #d6f2e2;border-radius:24px;padding:16px;margin-bottom:14px}.plant-emoji{font-size:48px}.plant b{display:block;font-size:16px}.plant span{font-size:13px;color:var(--muted)}
+.evening-toggle{display:flex;justify-content:space-between;align-items:center;gap:12px}.evening-toggle .moon{font-size:36px}.evening-content{display:none;margin-top:15px}.evening-content.open{display:block}
+.row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.choice{border:1px solid var(--line);border-radius:18px;background:#fff!important;padding:14px 8px;text-align:center;font-weight:750;cursor:pointer;transition:.15s;position:relative;color:var(--ink)}.choice .ico{font-size:30px;display:block;margin-bottom:5px}.choice small{display:block;font-weight:600;color:var(--muted);margin-top:2px}.choice.active{transform:translateY(-2px);box-shadow:0 8px 18px rgba(0,0,0,.08)}.choice.active:after{content:"✓";position:absolute;right:9px;top:8px;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:13px;font-weight:900}.choice.blue.active{background:#eaf4ff!important;border-color:#a7d0ff;color:#2268b2}.choice.blue.active:after{background:var(--blue)}.choice.orange.active{background:#fff1e5!important;border-color:#ffd1a9;color:#b96a17}.choice.orange.active:after{background:var(--orange)}.choice.green.active{background:#eafaf2!important;border-color:#a9e4c7;color:#278c5e}.choice.green.active:after{background:var(--green)}
+.segment{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.seg{padding:12px 8px;border-radius:16px;border:1px solid var(--line);background:#fff;font-weight:750;cursor:pointer}.seg.good.active{background:#e8f8ee;border-color:#a9dfba;color:#217346}.seg.reg.active{background:#fff7d9;border-color:#f1d675;color:#8b6b00}.seg.bad.active{background:#fff0ef;border-color:#ffc4bf;color:#b64239}
+.drops{display:flex;justify-content:space-between;gap:7px}.drop{font-size:36px;filter:grayscale(1);opacity:.25;cursor:pointer;transition:.15s}.drop.on{filter:none;opacity:1;transform:translateY(-2px)}
+.save-note{text-align:center;color:var(--muted);font-size:12px;margin-top:8px}
+.tab{display:none}.tab.active{display:block}.bottom{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.94);backdrop-filter:blur(16px);border-top:1px solid var(--line);padding:8px max(10px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left));z-index:20}.bottom-inner{max-width:540px;margin:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:4px}.nav{border:0;background:transparent;padding:8px 4px;border-radius:14px;color:#8b8490;font-size:11px;font-weight:700;cursor:pointer}.nav span{display:block;font-size:23px;margin-bottom:1px}.nav.active{background:#fff2f4;color:#d95870}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px}.kpi{border-radius:22px;padding:16px}.kpi b{font-size:26px;display:block;margin-top:4px}.progressbar{height:12px;border-radius:99px;background:#f1e9e7;overflow:hidden;margin:10px 0}.progressbar>div{height:100%;background:linear-gradient(90deg,var(--coral),var(--pink));width:0}canvas{width:100%;height:240px;display:block}
+.cal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.cal-head button{border:0;background:#f6f0ef;border-radius:12px;padding:8px 11px}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}.dow{text-align:center;font-size:11px;color:var(--muted);padding:5px}.day{aspect-ratio:1;border-radius:14px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-weight:750;cursor:pointer}.day.full{background:#ffdfe6;border-color:#ffc3cf}.day.partial{background:#fff1c7;border-color:#f6d978}.day.empty{opacity:.45}.day.today{outline:2px solid #4a90e2}
+.celebrate{display:grid;grid-template-columns:1fr 1fr;gap:10px}.badge{border-radius:22px;padding:16px;min-height:125px}.badge .ico{font-size:32px}.badge b{display:block;margin-top:8px}.badge small{color:var(--muted)}
+.settings-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.mini input{width:100%;border:1px solid var(--line);border-radius:14px;padding:11px}
+.toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%) translateY(20px);background:#222;color:#fff;padding:12px 16px;border-radius:16px;opacity:0;pointer-events:none;transition:.25s;z-index:80;font-weight:700}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.spark{position:fixed;pointer-events:none;font-size:22px;animation:pop 900ms ease-out forwards;z-index:90}@keyframes pop{0%{transform:translate(0,0) scale(.5);opacity:0}20%{opacity:1}100%{transform:translate(var(--x),var(--y)) scale(1.4);opacity:0}}
+.modal{position:fixed;inset:0;background:rgba(30,25,31,.38);backdrop-filter:blur(7px);z-index:60;display:none;align-items:flex-end;justify-content:center}.modal.open{display:flex}.sheet{width:min(540px,100%);max-height:92vh;overflow:auto;background:var(--bg);border-radius:30px 30px 0 0;padding:18px 18px calc(24px + env(safe-area-inset-bottom));box-shadow:0 -15px 50px rgba(0,0,0,.18)}.sheet-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.sheet-head h3{margin:0;font-size:22px}.close{border:0;background:#f1eceb;border-radius:50%;width:36px;height:36px;font-size:20px}
+.modal .choice{padding:11px 6px}.modal .choice .ico{font-size:26px}.modal-section{margin:16px 0}.date-badge{display:inline-block;background:#eef5ff;color:#376ba7;padding:7px 10px;border-radius:999px;font-size:12px;font-weight:800}
+@media(min-width:700px){.app{padding-top:34px}.bottom{left:50%;right:auto;transform:translateX(-50%);width:540px;border-radius:24px 24px 0 0}.modal{align-items:center}.sheet{border-radius:30px;max-height:86vh}}
+
+.chart-grid{display:grid;grid-template-columns:1fr;gap:14px}
+.chart-card canvas{height:220px}
+.chart-legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;font-size:12px;color:var(--muted)}
+.legend-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
+.auto-note{font-size:12px;color:#4b7189;margin-top:8px;text-align:center}
+.movement-card{background:linear-gradient(135deg,#ffffff 0%,#f3faff 100%)}
+.close-card{background:linear-gradient(135deg,#ffffff 0%,#fff9e9 100%)}
+@media(min-width:700px){.chart-grid{grid-template-columns:1fr 1fr}.chart-grid .wide{grid-column:1/-1}}
+.plant-progress{display:block}.plant-head{display:flex;align-items:center;gap:14px}.plant-track{display:grid;grid-template-columns:auto 1fr auto 1fr auto;align-items:center;gap:7px;margin-top:18px}.plant-stage{text-align:center;min-width:58px}.plant-stage span{display:block;font-size:34px}.plant-stage small{display:block;font-size:10px;color:var(--muted);font-weight:750;margin-top:3px}.plant-line{height:7px;background:#dff2e7;border-radius:99px;overflow:hidden}.plant-line>div{height:100%;background:#4cc38a;border-radius:99px;width:0}.plant-line.future{opacity:.55}.plant-caption{text-align:center;margin-top:13px;font-size:12px;font-weight:800;color:#34835d}
+.vs{display:block;margin-top:5px;font-size:12px;font-weight:800}.vs.good{color:#25845a}.vs.neutral{color:#777}.vs.watch{color:#c07816}
+.insight{border-radius:20px;padding:14px 16px;margin:12px 0;background:linear-gradient(135deg,#fff5df,#fff);font-weight:750;font-size:14px}
+.weekly-pct{font-size:36px;font-weight:900;letter-spacing:-.04em}.week-meter{height:13px;background:#f1e8e5;border-radius:99px;overflow:hidden;margin:12px 0 7px}.week-meter>div{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#ffd95a,#4cc38a)}.week-scale{display:flex;justify-content:space-between;font-size:10px;color:var(--muted)}
+.celebration-pop{display:none;border-radius:24px;padding:16px;margin-bottom:14px;background:linear-gradient(135deg,#fff1c9,#ffe8ef,#eaf8ff);border:1px solid #f5dca4;box-shadow:var(--shadow)}.celebration-pop.show{display:flex;gap:12px;align-items:center}.celebration-pop .big{font-size:38px}.celebration-pop b{display:block;font-size:16px}.celebration-pop span{font-size:12px;color:var(--muted)}
+.choice.other.active{background:#fff8dc!important;border-color:#f0d36a;color:#8a6a00}.choice.other.active:after{background:#d9ad18}.row.four{grid-template-columns:repeat(4,1fr)}.row.four .choice{padding:12px 5px}.row.four .choice .ico{font-size:27px}@media(max-width:390px){.row.four{grid-template-columns:repeat(2,1fr)}}
+
+.cycle-card{background:linear-gradient(135deg,#fff,#fff0f3)}.cycle-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}.cycle-btn{border:1px solid var(--line);background:#fff;border-radius:17px;padding:12px;font-weight:850}.cycle-btn.start{color:#c64f69}.cycle-btn.end{color:#48769d}.cycle-state{font-size:14px;font-weight:800}.cycle-sub{font-size:12px;color:var(--muted);margin-top:3px}
+.week-card{background:linear-gradient(135deg,#fff,#eef8ff 55%,#f0fff6)}.week-insight,.week-tip{border-radius:18px;padding:13px;margin-top:9px;font-size:13px;line-height:1.45}.week-insight{background:#fff;border:1px solid var(--line)}.week-tip{background:#fff5d9;border:1px solid #f4df9b}.week-score{display:flex;gap:12px;align-items:center}.week-score .emoji{font-size:40px}.week-score b{display:block;font-size:18px}.week-score span{font-size:12px;color:var(--muted)}
+.backup-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}.backup-btn{border:0;border-radius:17px;padding:13px;font-weight:850}.backup-btn.export{background:#eaf4ff;color:#376ba7}.backup-btn.import{background:#eafaf2;color:#278c5e}.backup-note{font-size:11px;color:var(--muted);margin-top:9px}.cycle-dot{width:7px;height:7px;border-radius:50%;background:#ff7f8f;position:absolute;bottom:5px}.day{position:relative}
+
+.meal-types{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;padding:4px 0 11px}.meal-types button{white-space:nowrap;border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 11px;font-weight:800}.meal-types button:nth-child(-n+3){grid-column:span 2}.meal-types button:nth-child(n+4){grid-column:span 3}.meal-types button.active{background:#fff1c9;border-color:#f2cf67}
+.meal-checks{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}.meal-checks span{font-size:11px;font-weight:800;padding:7px 9px;border-radius:999px;background:#f4f4f4;color:#888}.meal-checks span.done{background:#e7f8ef;color:#278c5e}
+.badge{transition:.2s}.badge.unlocked{transform:translateY(-2px);box-shadow:0 10px 24px rgba(50,50,80,.12)}.badge.unlocked .ico{font-size:40px}.celebrate-week{background:linear-gradient(135deg,#fff2c9,#ffe8ef,#e9f7ff,#edfff2)!important;border:1px solid #f1dc9b}
+
+/* V6 Beta 10 - validated hierarchy */
+#todayTab > #todayStatus,
+#todayTab > #homeCelebration,
+#todayTab > .plant-progress,
+#todayTab > .advisor-compat,
+#todayTab > .focus-compat,
+#todayTab > #homeFoodCard{display:none!important}
+#todayTab > .quick-grid{grid-template-columns:1fr 1fr!important}
+#todayTab > .quick-grid > :nth-child(3),
+#todayTab > .quick-grid > :nth-child(4){display:none!important}
+.integrated-focus{background:#eef8ff;border-radius:16px;padding:11px;margin-top:10px}
+.progress-plant-card{background:linear-gradient(135deg,#f0fff6,#fff)}
+.progress-plant-row{display:grid;grid-template-columns:1fr auto 1.2fr auto 1fr;align-items:center;text-align:center;gap:8px}
+.progress-plant-small{font-size:34px}.progress-plant-main{font-size:58px}.progress-arrow{font-size:22px;color:var(--muted)}
+.celebrate-week{background:linear-gradient(135deg,#fff2c9,#ffe8ef,#e9f7ff,#edfff2)!important;border:1px solid #f1dc9b}
+
+.food-hero-compact{padding:18px 20px!important;min-height:0!important}
+.food-hero-compact h1{margin-bottom:0!important}
+.food-progress-line{margin:12px 0}.food-progress-line>div:first-child{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.meter{height:9px;background:#edf0f2;border-radius:999px;overflow:hidden;margin-top:7px}.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ffd56a,#ff9fa8);border-radius:999px;transition:width .35s}
+.meal-day-footer{margin-top:12px;padding:11px;border-radius:15px;background:#f7f8fa;font-weight:750;font-size:13px}
+.compat-hidden{display:none!important}
+.progress-plant-card{background:linear-gradient(135deg,#effff5,#fff,#fff8df)}
+.progress-plant-card .goal-bar{margin-top:14px}
+.celebrate-rainbow{background:linear-gradient(120deg,#ffe6eb,#fff1c9,#e8fae8,#e5f4ff,#f2eaff)!important}
+.rainbow-card{background:linear-gradient(120deg,#fff0f3,#fff5d7,#ecfae9,#e9f7ff,#f3edff)!important;border:1px solid #eadff4!important}
+#goalFat,#goalMuscle{margin-bottom:10px}
+
+.chart-card canvas{height:145px!important}.chart-card{padding:13px!important}.chart-grid{gap:10px!important}
+.objective-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0 14px}.objective-field{display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:800;color:var(--muted)}.objective-field input{width:100%;box-sizing:border-box;margin:0!important;min-width:0}.input-unit{display:flex;align-items:center;gap:7px}.input-unit input{flex:1}.input-unit b{font-size:12px}
+.achievement-strip{display:flex;flex-wrap:wrap;gap:8px}.achievement-pill{padding:9px 11px;border-radius:15px;background:#fff;font-size:12px;font-weight:800;box-shadow:0 2px 8px rgba(0,0,0,.05)}.achievement-pill.locked{opacity:.48}.rainbow-card{background:linear-gradient(120deg,#fff0f3,#fff5d7,#ecfae9,#e9f7ff,#f3edff)!important}
+@media(max-width:430px){.objective-grid{grid-template-columns:1fr}.chart-card canvas{height:135px!important}}
+
+#progressTab .chart-card{min-height:0!important}
+#progressTab #chart{height:125px!important;max-height:125px!important}
+#progressTab #fatChart,#progressTab #muscleChart{height:115px!important;max-height:115px!important}
+
+#progressTab .chart-grid{gap:10px!important}
+#progressTab .chart-card{padding:12px 14px!important;min-height:0!important}
+#progressTab #chart{height:120px!important;max-height:120px!important}
+#progressTab #fatChart,#progressTab #muscleChart{height:105px!important;max-height:105px!important}
+
+.celebrate-grid{display:grid;gap:12px}
+.celebrate-summary{background:linear-gradient(135deg,#fff3d6 0%,#eefbee 32%,#eaf6ff 66%,#f6ebff 100%)!important}
+.celebrate-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.celebrate-metric{border-radius:18px;padding:12px 8px;text-align:center;border:1px solid rgba(0,0,0,.04)}
+.celebrate-metric span{font-size:24px;display:block}.celebrate-metric b{font-size:24px;display:block;line-height:1.1;margin:4px 0}.celebrate-metric small{font-size:10px;color:var(--muted);font-weight:800}
+.celebrate-line{margin-top:10px;background:#fff;border-radius:15px;padding:10px 12px;font-size:13px;font-weight:750}
+.achievement-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.achievement-pill{min-height:58px;padding:11px 12px!important;border-radius:17px!important;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.25;border:1px solid rgba(0,0,0,.045);box-shadow:none!important}
+.achievement-pill:nth-child(4n+1){background:linear-gradient(135deg,#effff5,#fff)!important}
+.achievement-pill:nth-child(4n+2){background:linear-gradient(135deg,#fff7e8,#fff)!important}
+.achievement-pill:nth-child(4n+3){background:linear-gradient(135deg,#fff0f5,#fff)!important}
+.achievement-pill:nth-child(4n){background:linear-gradient(135deg,#eef6ff,#fff)!important}
+.next-grid{display:grid;gap:8px}.next-card{padding:11px 12px;border-radius:16px;background:#fafafa}.next-head{display:flex;justify-content:space-between;gap:10px;font-size:12px;font-weight:850}.next-bar{height:8px;border-radius:999px;background:#edf0f2;overflow:hidden;margin-top:7px}.next-bar i{display:block;height:100%;border-radius:999px}
+.next-card:nth-child(4n+1) .next-bar i{background:#4fc58d}.next-card:nth-child(4n+2) .next-bar i{background:#ff8a65}.next-card:nth-child(4n+3) .next-bar i{background:#f5b72e}.next-card:nth-child(4n) .next-bar i{background:#4d93e8}
+.rainbow-card{background:linear-gradient(120deg,#fff0f3,#fff5d7,#ecfae9,#e9f7ff,#f3edff)!important}
+.celebrate-footer{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#fff0f6,#fff8e8,#eef9ff)!important}.celebrate-footer-emoji{font-size:34px}
+@media(max-width:430px){.celebrate-metrics{grid-template-columns:repeat(2,1fr)}}
+
+/* BOOST ME — Celebrá badge tiles */
+#celebrateTab .achievement-grid{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:9px!important;
+}
+#celebrateTab .achievement-pill{
+  aspect-ratio:1/1!important;
+  min-height:0!important;
+  padding:10px 7px!important;
+  border-radius:20px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:5px!important;
+  text-align:center!important;
+  box-shadow:0 5px 14px rgba(40,35,55,.06)!important;
+  border:1px solid rgba(0,0,0,.045)!important;
+  overflow:hidden;
+}
+#celebrateTab .achievement-pill .badge-ico{font-size:28px;line-height:1}
+#celebrateTab .achievement-pill .badge-num{font-size:25px;line-height:1;font-weight:950;letter-spacing:-.5px}
+#celebrateTab .achievement-pill .badge-name{font-size:10px;line-height:1.1;font-weight:850;color:var(--ink)}
+#celebrateTab .achievement-pill.badge-move{background:linear-gradient(145deg,#fff2d9,#fffaf0)!important}
+#celebrateTab .achievement-pill.badge-days{background:linear-gradient(145deg,#e9faef,#f8fffa)!important}
+#celebrateTab .achievement-pill.badge-streak{background:linear-gradient(145deg,#ffe9ef,#fff8fa)!important}
+#celebrateTab .achievement-pill.badge-water{background:linear-gradient(145deg,#e8f5ff,#f8fcff)!important}
+#celebrateTab .achievement-pill.badge-food{background:linear-gradient(145deg,#f1eaff,#fbf9ff)!important}
+#celebrateTab .achievement-pill.badge-move .badge-num{color:#ef9a24}
+#celebrateTab .achievement-pill.badge-days .badge-num{color:#42b96f}
+#celebrateTab .achievement-pill.badge-streak .badge-num{color:#f05f7b}
+#celebrateTab .achievement-pill.badge-water .badge-num{color:#438fd8}
+#celebrateTab .achievement-pill.badge-food .badge-num{color:#8b68d7}
+@media(max-width:370px){
+  #celebrateTab .achievement-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+
+.ai-result-card{background:linear-gradient(135deg,#fff8e9,#f4fbff,#f5fff7)!important}
+.ai-result-main{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.ai-result-kpi{border-radius:18px;padding:14px;text-align:center}
+.ai-result-kpi span{font-size:24px;display:block}.ai-result-kpi b{font-size:28px;display:block;line-height:1.1;margin:4px 0}.ai-result-kpi small{font-size:10px;font-weight:800;color:var(--muted)}
+.ai-result-title{font-weight:900;font-size:16px;margin-top:8px}.ai-confidence{font-size:12px;font-weight:800;margin-top:8px;padding:8px 10px;border-radius:13px;background:#fff}
+.ai-actions{display:grid;gap:8px;margin-top:12px}.ai-loading{opacity:.65;pointer-events:none}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="brand"><div><h1>BOOST ME</h1><div class="tag">Un día a la vez.</div></div><div style="font-size:28px">🌞</div></div>
+<section class="tab active" id="todayTab">
+<div class="hero">
+<h2 id="greeting">Hola ✨</h2>
+<p>Hoy cuidarte lleva un minuto.</p>
+<div class="quote" id="quote">Cada registro cuenta.</div>
+</div><div class="card week-card"><div class="section-title"><h3>💡 Mi semana</h3><span class="soft">últimos 7 días</span></div><div class="week-score"><div class="emoji" id="weekEmoji">🌱</div><div><b id="weekTitle">Juntando datos…</b><span id="weekSubtitle">Tus registros se convierten en contexto.</span></div></div><div class="week-insight" id="weekInsight">Todavía no hay suficientes datos.</div><div class="integrated-focus"><b>🎯 Tu foco: <span id="integratedFocusTitle">CONSTANCIA</span></b><div class="soft" id="integratedFocusText">Una cosa por vez.</div></div><div class="week-tip" id="weekTip"><b>👉 Sugerencia:</b> seguí registrando.</div></div><div class="card weight-card">
+<div class="section-title"><h3>🌞 Peso de hoy</h3><span class="soft" id="weightTrend">mañana</span></div>
+<div class="weight-input"><input id="weight" inputmode="decimal" placeholder="—"/><div class="unit">kg</div></div>
+<div class="body-grid" style="margin:12px 0">
+<div class="field"><label>Grasa corporal %</label><input id="fat" inputmode="decimal" placeholder="—"/></div>
+<div class="field"><label>Masa muscular kg</label><input id="muscle" inputmode="decimal" placeholder="—"/></div>
+</div>
+<button class="secondary" id="saveMorning">☀️ Guardar datos de la mañana</button>
+</div><div class="quick-grid">
+<div class="quick pink">🎯 Objetivo<b id="homeGoal">—</b><span class="soft" id="homeGoalSub">definilo en Progreso</span></div>
+<div class="quick orangebg">🔥 Racha<b id="homeStreak">0</b><span class="soft">días completos</span></div>
+<div class="quick greenbg">🧡 Grasa<b id="homeFatTrend">—</b><span class="soft">tendencia</span></div>
+<div class="quick bluebg">💪 Músculo<b id="homeMuscleTrend">—</b><span class="soft">tendencia</span></div>
+</div><div class="card movement-card">
+<div class="section-title"><h3>🏃 Movimiento</h3><span class="soft">se guarda al tocar</span></div>
+<div class="row four">
+<button class="choice blue" id="pilates" type="button"><span class="ico">🧘</span>Pilates<small>fuerza</small></button>
+<button class="choice orange" id="tennis" type="button"><span class="ico">🎾</span>Tenis<small>running</small></button>
+<button class="choice green" id="walk" type="button"><span class="ico">🚶</span>Caminata<small>pasos</small></button>
+<button class="choice other" id="other" type="button"><span class="ico">⚡</span>Otro<small>rutina</small></button>
+</div>
+<div class="auto-note" id="movementNote">Tocá una actividad cuando la hagas. No hace falta cerrar el día.</div>
+</div><div class="card cycle-card"><div class="section-title"><h3>🌸 Ciclo</h3><span class="soft" id="cycleBadge">sin registrar</span></div><div class="cycle-state" id="cycleState">¿Empezó tu ciclo?</div><div class="cycle-sub" id="cycleSub">Marcá el día 1 y el final.</div><div class="cycle-actions"><button class="cycle-btn start" id="cycleStart">🌸 Marcar día 1</button><button class="cycle-btn end" id="cycleEnd">✓ Marcar final</button></div></div><div class="card close-card">
+<div class="evening-toggle">
+<div><div class="soft">AL FINAL DEL DÍA</div><h3 style="margin:4px 0 0">🌙 Cerrar mi día</h3><div class="soft" id="eveningSummary">Completalo cuando termine el día.</div></div>
+<div class="moon">🌙</div>
+</div>
+<button class="secondary" id="toggleEvening" style="margin-top:13px">Abrir cierre del día</button>
+<div class="evening-content" id="eveningContent">
+<div class="modal-section">
+<div class="section-title"><h3>🍽️ ¿Cómo comí hoy?</h3></div>
+<div class="segment" id="foodSeg">
+<button class="seg good" data-v="Bien" type="button">🟢 Bien</button>
+<button class="seg reg" data-v="Regular" type="button">🟡 Regular</button>
+<button class="seg bad" data-v="Mal" type="button">🔴 Mal</button>
+</div>
+</div>
+<div class="modal-section">
+<div class="section-title"><h3>💧 Agua</h3><span class="soft" id="waterText">0 de 5</span></div>
+<div class="drops" id="todayDrops">
+<span class="drop" data-i="1">💧</span><span class="drop" data-i="2">💧</span><span class="drop" data-i="3">💧</span><span class="drop" data-i="4">💧</span><span class="drop" data-i="5">💧</span>
+</div>
+</div>
+<button class="primary" id="saveEvening">✨ Cerrar y guardar mi día</button>
+<div class="save-note">El ejercicio suma, pero no es requisito para completar el día.</div>
+</div>
+</div><div class="status" id="todayStatus"></div><div class="celebration-pop" id="homeCelebration"><div class="big" id="homeCelebrationIcon">🎉</div><div><b id="homeCelebrationTitle">Hoy también suma</b><span id="homeCelebrationText">Cada registro cuenta.</span></div></div><div class="plant plant-progress"><div class="plant-head"><div class="plant-emoji" id="plantEmoji">🌱</div><div><b id="plantTitle">Tu planta está empezando</b><span id="plantSub">Cada día completo la hace crecer.</span></div></div><div class="plant-track"><div class="plant-stage"><span>🌱</span><small>Empezaste</small></div><div class="plant-line"><div id="plantFill"></div></div><div class="plant-stage"><span id="plantNow">🌱</span><small id="plantNowLabel">Hoy</small></div><div class="plant-line future"></div><div class="plant-stage"><span id="plantNext">🌿</span><small id="plantNextLabel">Próximo</small></div></div><div class="plant-caption" id="plantCaption">Primer brote 🌱</div></div><div class="card advisor-compat" style="background:linear-gradient(135deg,#eaf7ff,#fff,#effff5);border:1px solid #cfe8f6">
+<div class="section-title"><h3>💙 BOOST ME te dice</h3><span class="soft">hoy</span></div>
+<div id="advisorMain" style="font-size:16px;font-weight:850;line-height:1.4">Estoy juntando información para conocerte mejor.</div>
+<div id="advisorAction" style="margin-top:10px;background:#fff;border-radius:16px;padding:11px;font-size:13px;font-weight:750">👉 Por ahora, seguí registrando.</div></div><div class="card focus-compat" style="background:linear-gradient(135deg,#fff6d9,#fff)">
+<div class="section-title"><h3>🎯 Tu foco</h3><span class="soft">esta semana</span></div>
+<b id="focusTitle" style="font-size:22px">CONSTANCIA</b><div class="soft" id="focusText">Una cosa por vez. BOOST ME va a elegir el foco según tus datos.</div></div><div class="card" id="homeFoodCard"><div class="section-title"><h3>🍽️ Hoy</h3><span class="soft">comidas</span></div>
+<div class="kpis"><div class="kpi orangebg">🔥 Calorías<b id="homeCalories">0 / —</b><span class="soft">kcal</span></div><div class="kpi bluebg">💪 Proteína<b id="homeProtein">0 / —</b><span class="soft">g</span></div></div>
+<div class="insight" id="homeFoodStatus">Todavía no cargaste objetivos de comida.</div>
+<button class="secondary" id="goFood" style="margin-top:9px">Ir a Comidas →</button></div></section>
+<section class="tab" id="progressTab">
+<div class="hero"><h2>📈 Tu progreso</h2><p>Lo importante, de un vistazo.</p></div><div class="card progress-plant-card">
+<div class="section-title"><h3>🌱 Tu planta</h3><span class="soft">tu progreso visual</span></div>
+<div class="progress-plant-row"><div><div class="progress-plant-small">🌱</div><span class="soft">Empezaste</span></div><div class="progress-arrow">→</div><div><div class="progress-plant-main" id="progressPlantEmoji">🌱</div><b id="progressPlantLabel">Empezando</b></div><div class="progress-arrow">→</div><div><div class="progress-plant-small" id="progressPlantNext">🌿</div><span class="soft">Próximo</span></div></div>
+<div class="progressbar"><div id="goalBar"></div></div><b id="goalLabel" style="display:block;margin-top:8px;font-size:14px">Sin definir</b><div class="soft" id="goalText">Definilo abajo.</div></div><div class="kpis compat-hidden">
+<div class="kpi pink">⚖️ Peso actual<b id="kWeight">—</b><span class="soft">kg</span><span class="vs neutral" id="kWeightVs">— vs. anterior</span></div>
+<div class="kpi orangebg">🔥 Racha<b id="kStreak">0</b><span class="soft">días completos</span></div>
+<div class="kpi bluebg">💪 Músculo<b id="kMuscle">—</b><span class="soft">kg</span><span class="vs neutral" id="kMuscleVs">— vs. anterior</span></div>
+<div class="kpi greenbg">🧡 Grasa<b id="kFat">—</b><span class="soft">%</span><span class="vs neutral" id="kFatVs">— vs. anterior</span></div>
+</div><div class="insight" id="dailyInsight">✨ Cuando haya dos registros, te cuento qué cambió.</div><div class="card"><div class="section-title"><h3>📉 Descenso semanal</h3><span class="soft">referencia: 0,5%</span></div><div id="weekly" style="font-size:27px;font-weight:850">—</div><div class="weekly-pct" id="weeklyPct">—</div><div class="soft" id="weeklyPctMsg">Todavía no hay dos semanas para comparar.</div><div class="week-meter"><div id="weeklyPctBar"></div></div><div class="week-scale"><span>0%</span><span>0,5% ✓</span><span>1%+</span></div></div><div class="chart-grid">
+<div class="card chart-card wide">
+<div class="section-title"><h3>📈 Peso hacia el objetivo</h3><span class="soft">tendencia diaria</span></div>
+<canvas id="chart"></canvas>
+<div class="chart-legend"><span><span class="legend-dot" style="background:#ff7f8f"></span>Peso</span><span><span class="legend-dot" style="background:#4cc38a"></span>Objetivo</span></div>
+</div>
+<div class="card chart-card">
+<div class="section-title"><h3>🧡 Grasa corporal</h3><span class="soft" id="fatDelta">—</span></div>
+<canvas id="fatChart"></canvas>
+</div>
+<div class="card chart-card">
+<div class="section-title"><h3>💪 Masa muscular</h3><span class="soft" id="muscleDelta">—</span></div>
+<canvas id="muscleChart"></canvas>
+</div>
+</div><div class="card"><div class="section-title"><h3>🎯 Objetivos</h3><span class="soft">editables</span></div><div class="objective-grid">
+<label class="objective-field"><span>Peso objetivo</span><div class="input-unit"><input id="goalWeight" step="0.1" type="number"/><b>kg</b></div></label>
+<label class="objective-field"><span>Fecha objetivo</span><input id="goalDate" type="date"/></label>
+<label class="objective-field"><span>Grasa corporal objetivo</span><div class="input-unit"><input id="goalFat" placeholder="Opcional" step="0.1" type="number"/><b>%</b></div></label>
+<label class="objective-field"><span>Masa muscular objetivo</span><div class="input-unit"><input id="goalMuscle" placeholder="Opcional" step="0.1" type="number"/><b>kg</b></div></label>
+</div><button class="primary" id="saveGoal">Guardar objetivos</button></div><div class="card"><div class="section-title"><h3>📅 Historial</h3><span class="soft">ver y corregir días</span></div>
+<button class="secondary" id="openCalendar">Abrir calendario →</button></div><div class="card"><div class="section-title"><h3>🛟 Backup</h3><span class="soft">protege tu historial</span></div><div class="backup-actions"><button class="backup-btn export" id="exportBackup">⬇️ Exportar</button><button class="backup-btn import" id="importBackup">⬆️ Restaurar</button></div><input accept=".json,application/json" id="backupFile" style="display:none" type="file"/><div class="backup-note">Guardá una copia cada tanto. Restaurar reemplaza los datos actuales por los del backup.</div></div></section>
+<section class="tab" id="foodTab">
+<div class="hero food-hero-compact"><div><div class="eyebrow">🍽️ COMIDAS · BETA</div><h1>Comer con contexto</h1></div><div class="hero-emoji">🥗</div></div><div class="card"><div class="section-title"><h3>💡 ¿Qué puedo comer?</h3></div><div class="insight" id="eatSuggestion">Cargá tus objetivos para recibir una sugerencia.</div></div><div class="card"><div class="section-title"><h3>Hoy</h3><span class="soft">vs. objetivo</span></div><div class="food-progress-line"><div><span>🔥 Calorías</span><b><span id="dayCalories">0</span> / <span id="dayCaloriesGoal">—</span> kcal</b></div><div class="meter"><i id="calorieProgress"></i></div></div><div class="food-progress-line"><div><span>💪 Proteína</span><b><span id="dayProtein">0</span> / <span id="dayProteinGoal">—</span> g</b></div><div class="meter"><i id="proteinProgress"></i></div></div><div class="soft" id="foodRemaining">Definí tus objetivos abajo.</div><div class="meal-checks" id="mealChecks"></div></div><div class="card"><div class="section-title"><h3>➕ Registrar comida</h3><span class="soft">foto + texto</span></div><label class="secondary" style="display:block;text-align:center">📷 Elegir foto<input accept="image/*" id="mealPhoto" style="display:none" type="file"/></label><div class="soft" id="photoName" style="margin:8px 0">Sin foto.</div><div class="meal-types" id="mealTypes"><button data-meal="Desayuno">☀️ Desayuno</button><button data-meal="Almuerzo">🥗 Almuerzo</button><button data-meal="Merienda">🧉 Merienda</button><button data-meal="Cena">🌙 Cena</button><button data-meal="Colación">🍎 Colación</button></div><textarea id="mealText" placeholder="Contame qué comiste y cualquier detalle útil…" rows="3" style="width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:16px;padding:12px;font:inherit"></textarea><button class="primary" id="addMeal" style="margin-top:10px">✨ Analizar con IA</button><div class="save-note">Vos cargás foto + descripción. BOOST ME estimará calorías y proteína cuando conectemos la IA.</div></div><div class="card ai-result-card" id="aiMealResult" style="display:none">
+<div class="section-title"><h3>✨ Análisis</h3><span class="soft">estimado</span></div>
+<div class="ai-result-main">
+<div class="ai-result-kpi orangebg"><span>🔥</span><b id="aiCalories">—</b><small>kcal</small></div>
+<div class="ai-result-kpi bluebg"><span>💪</span><b id="aiProtein">—</b><small>g proteína</small></div>
+</div>
+<div class="ai-result-title" id="aiMealName">—</div>
+<div class="soft" id="aiMealSummary"></div>
+<div class="ai-confidence" id="aiConfidence"></div>
+<div class="ai-actions">
+<button class="primary" id="confirmAiMeal">Guardar este análisis</button>
+<button class="secondary" id="discardAiMeal">Volver a analizar</button>
+</div>
+</div><div class="card"><div class="section-title"><h3>🧾 Lo de hoy</h3><span class="soft" id="mealCount"></span></div><div id="mealList"></div><div class="meal-day-footer" id="mealDayFooter">0 comidas registradas · 0 kcal · 0 g proteína</div></div><div class="card"><div class="section-title"><h3>📚 Mis recetas</h3><span class="soft">guardadas</span></div>
+<button class="primary" id="toggleRecipe">＋ Agregar receta</button>
+<div id="recipeForm" style="display:none;margin-top:12px">
+<input id="recipeName" placeholder="Nombre de la receta"/>
+<textarea id="recipeText" placeholder="Pegá ingredientes, cantidades y tus ajustes…" rows="4" style="width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:16px;padding:12px;font:inherit;margin-top:8px"></textarea>
+<input id="recipeServings" min="1" placeholder="¿Cuántas porciones rinde?" style="margin-top:8px" type="number"/>
+<button class="secondary" id="saveRecipe" style="margin-top:9px">✨ Analizar y guardar</button>
+<div class="save-note">La IA calculará calorías y proteína por porción. Por ahora la receta queda guardada para analizarla después.</div>
+</div><div id="recipeList" style="margin-top:10px"></div></div><div class="card"><div class="section-title"><h3>🎯 Objetivos</h3></div><div class="row"><input id="calorieGoal" placeholder="kcal/día" type="number"/><input id="proteinGoal" placeholder="proteína g/día" type="number"/></div><button class="secondary" id="saveFoodGoals" style="margin-top:9px">Guardar objetivos</button></div></section><section class="tab" id="calendarTab">
+<div class="hero"><h2>📅 Calendario</h2><p>Tocá cualquier día para editar todo.</p></div>
+<div class="card"><div class="cal-head"><button id="prevM">‹</button><b id="monthTitle"></b><button id="nextM">›</button></div><div class="calendar" id="calendar"></div><div class="soft" style="margin-top:12px">🩷 día completo · 💛 parcial · blanco sin registro</div></div>
+</section>
+<section class="tab" id="celebrateTab">
+<div class="hero celebrate-rainbow"><h2>🏆 Celebrá</h2><p>No mires solo lo que falta.</p></div>
+<div class="celebrate-grid">
+<div class="card celebrate-summary">
+<div class="section-title"><h3>🌈 Esta semana</h3><span class="soft">todo suma</span></div>
+<div class="celebrate-metrics">
+<div class="celebrate-metric greenbg"><span>🌱</span><b id="celebrateDays">0</b><small>días completos</small></div>
+<div class="celebrate-metric orangebg"><span>💪</span><b id="celebrateMoves">0</b><small>en movimiento</small></div>
+<div class="celebrate-metric pink"><span>🔥</span><b id="celebrateStreak">0</b><small>racha actual</small></div>
+<div class="celebrate-metric bluebg"><span>💧</span><b id="celebrateWater">0</b><small>agua bien</small></div>
+</div>
+<div class="celebrate-line" id="celebrateHighlights">Tu semana se va armando con cada registro ✨</div>
+</div>
+<div class="card rainbow-card">
+<div class="section-title"><h3>✨ Recién desbloqueados</h3><span class="soft">bien ahí</span></div>
+<div class="achievement-grid" id="recentAchievements"></div>
+</div>
+<div class="card">
+<div class="section-title"><h3>👀 Casi ahí</h3><span class="soft">próximos hitos</span></div>
+<div class="next-grid" id="nextAchievements"></div>
+</div>
+<div class="card">
+<div class="section-title"><h3>🏆 Todos mis logros</h3><span class="soft">siempre hay uno más</span></div>
+<div class="achievement-grid all-achievements" id="badges"></div>
+</div>
+<div class="card celebrate-footer">
+<div class="celebrate-footer-emoji">🎉</div>
+<div><b>Todo lo que hacés cuenta.</b><div class="soft">La idea no es ser perfecta. Es sumar BOOST ME.</div></div>
+</div>
+</div></section>
+</div>
+<div class="bottom"><div class="bottom-inner">
+<button class="nav active" data-tab="todayTab"><span>🏠</span>Hoy</button><button class="nav" data-tab="foodTab"><span>🍽️</span>Comidas</button><button class="nav" data-tab="progressTab"><span>📈</span>Progreso</button><button class="nav" data-tab="celebrateTab"><span>🏆</span>Celebrá</button></div></div>
+<div class="modal" id="editModal">
+<div class="sheet">
+<div class="sheet-head"><div><span class="date-badge" id="editDateBadge"></span><h3 style="margin-top:7px">Editar día</h3></div><button class="close" id="closeModal">×</button></div>
+<div class="mini-grid">
+<div class="field"><label>Peso kg</label><input id="eWeight" inputmode="decimal"/></div>
+<div class="field"><label>Grasa %</label><input id="eFat" inputmode="decimal"/></div>
+</div>
+<div class="field" style="margin-top:10px"><label>Masa muscular kg</label><input id="eMuscle" inputmode="decimal"/></div>
+<div class="modal-section">
+<div class="section-title"><h3>💪 Movimiento</h3></div>
+<div class="row four">
+<button class="choice blue" id="ePilates" type="button"><span class="ico">🧘</span>Pilates</button>
+<button class="choice orange" id="eTennis" type="button"><span class="ico">🎾</span>Tenis</button>
+<button class="choice green" id="eWalk" type="button"><span class="ico">🚶</span>Caminata</button>
+<button class="choice other" id="eOther" type="button"><span class="ico">⚡</span>Otro</button>
+</div>
+</div>
+<div class="modal-section">
+<div class="section-title"><h3>🍽️ Comida</h3></div>
+<div class="segment" id="eFoodSeg">
+<button class="seg good" data-v="Bien" type="button">🟢 Bien</button>
+<button class="seg reg" data-v="Regular" type="button">🟡 Regular</button>
+<button class="seg bad" data-v="Mal" type="button">🔴 Mal</button>
+</div>
+</div>
+<div class="modal-section">
+<div class="section-title"><h3>💧 Agua</h3><span class="soft" id="eWaterText">0 de 5</span></div>
+<div class="drops" id="editDrops">
+<span class="drop" data-i="1">💧</span><span class="drop" data-i="2">💧</span><span class="drop" data-i="3">💧</span><span class="drop" data-i="4">💧</span><span class="drop" data-i="5">💧</span>
+</div>
+</div>
+<button class="primary" id="saveEdit">Guardar cambios</button>
+</div>
+</div>
+<div class="toast" id="toast">Guardado ✨</div>
+<script>
+const KEY='mi_progreso_dashboard_v1';
+let db=JSON.parse(localStorage.getItem(KEY)||'{"entries":{},"goal":{}}');
+db.entries=db.entries||{};db.goal=db.goal||{};db.cycles=db.cycles||[];db.meals=db.meals||{};db.recipes=db.recipes||[];db.foodGoals=db.foodGoals||{};db.settings=db.settings||{};
+let water=0,food='',editWater=0,editFood='',editingDate=null,calDate=new Date();
+const $=id=>document.getElementById(id); function localKey(d=new Date()){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`} const today=()=>localKey();
+const num=v=>v===''||v==null?null:Number(String(v).replace(',','.'));
+const entries=()=>Object.keys(db.entries).sort().map(date=>({date,...db.entries[date]}));
+function saveDB(){localStorage.setItem(KEY,JSON.stringify(db))}
+function waterValueToCount(v){if(v==='Bien')return 5;if(v==='Regular')return 3;if(v==='Mal')return 1;return 0}
+function countToWater(v){return v>=4?'Bien':v>=2?'Regular':v>=1?'Mal':''}
+function isComplete(x){return !!(x&&x.weight!=null&&x.food&&x.water)}
+function lastWeightBefore(date=today()){const a=entries().filter(x=>x.date<date&&x.weight!=null);return a.length?a.at(-1).weight:null}
+function streak(){const ds=new Set(entries().filter(isComplete).map(x=>x.date));let d=new Date(),s=0;if(!ds.has(localKey(d)))d.setDate(d.getDate()-1);while(ds.has(localKey(d))){s++;d.setDate(d.getDate()-1)}return s}
+function toast(msg){$('toast').textContent=msg;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),1400)}
+function spark(){const chars=['✨','🌟','💖','🌱','🎉'];for(let i=0;i<18;i++){const s=document.createElement('div');s.className='spark';s.textContent=chars[Math.floor(Math.random()*chars.length)];s.style.left=(45+Math.random()*10)+'%';s.style.top='70%';s.style.setProperty('--x',(Math.random()*240-120)+'px');s.style.setProperty('--y',(-80-Math.random()*180)+'px');document.body.appendChild(s);setTimeout(()=>s.remove(),1000)}}
+
+function renderDrops(boxId,count,textId){document.querySelectorAll(`#${boxId} .drop`).forEach(d=>d.classList.toggle('on',Number(d.dataset.i)<=count));$(textId).textContent=`${count} de 5`}
+function loadToday(){
+  const x=db.entries[today()]||{};
+  $('weight').value=x.weight??'';$('fat').value=x.fat??'';$('muscle').value=x.muscle??'';
+  ['pilates','tennis','walk','other'].forEach(k=>$(k).classList.toggle('active',!!x[k]));
+  food=x.food||'';document.querySelectorAll('#foodSeg .seg').forEach(b=>b.classList.toggle('active',b.dataset.v===food));
+  water=x.waterCount??waterValueToCount(x.water);renderDrops('todayDrops',water,'waterText');
+  const prev=lastWeightBefore();if(x.weight!=null&&prev!=null){const d=x.weight-prev;$('weightTrend').textContent=(d<0?'↓ ':'↑ ')+Math.abs(d).toFixed(1)+' kg vs. anterior'}else $('weightTrend').textContent='mañana';
+  const complete=isComplete(x),hasMorning=x.weight!=null;
+  $('todayStatus').innerHTML=`<span class="status-pill ${hasMorning?'done':'wait'}">${hasMorning?'☀️ Cuerpo cargado':'☀️ Falta cuerpo'}</span><span class="status-pill ${complete?'done':'open'}">${complete?'✨ Día completo':'🌙 Día abierto'}</span>`;
+  const eveningBits=[];if(x.food)eveningBits.push('comida');if(x.water)eveningBits.push('agua');
+  $('eveningSummary').textContent=complete?'Todo listo por hoy ✨':eveningBits.length?`Ya cargaste ${eveningBits.join(' y ')}.`:'Completalo cuando termine el día.';
+  const moves=[x.pilates?'🧘 Pilates':'',x.tennis?'🎾 Tenis':'',x.walk?'🚶 Caminata':'',x.other?'⚡ Otro':''].filter(Boolean);
+  $('movementNote').textContent=moves.length?`${moves.join(' · ')} ✓`:'Tocá una actividad cuando la hagas. No hace falta cerrar el día.';
+}
+['pilates','tennis','walk','other'].forEach(k=>$(k).onclick=()=>{
+  $(k).classList.toggle('active');
+  const d=today(),old=db.entries[d]||{};
+  db.entries[d]={...old,
+    pilates:$('pilates').classList.contains('active'),
+    tennis:$('tennis').classList.contains('active'),
+    walk:$('walk').classList.contains('active'),other:$('other').classList.contains('active')
+  };
+  saveDB();renderAll();
+  const names={pilates:'Pilates',tennis:'Tenis',walk:'Caminata',other:'Otro'};
+  toast($(k).classList.contains('active')?`${names[k]} guardado 💪`:`${names[k]} desmarcado`);
+});
+document.querySelectorAll('#foodSeg .seg').forEach(b=>b.onclick=()=>{food=b.dataset.v;document.querySelectorAll('#foodSeg .seg').forEach(x=>x.classList.toggle('active',x===b))});
+document.querySelectorAll('#todayDrops .drop').forEach(d=>d.onclick=()=>{const n=Number(d.dataset.i);water=water===n?n-1:n;renderDrops('todayDrops',water,'waterText')});
+$('toggleEvening').onclick=()=>{const open=$('eveningContent').classList.toggle('open');$('toggleEvening').textContent=open?'Cerrar panel':'Abrir cierre del día'};
+$('saveMorning').onclick=()=>{
+  const d=today(),old=db.entries[d]||{};
+  db.entries[d]={...old,weight:num($('weight').value),fat:num($('fat').value),muscle:num($('muscle').value)};
+  saveDB();renderAll();toast('Mañana guardada ☀️');
+};
+$('saveEvening').onclick=()=>{
+  const d=today(),old=db.entries[d]||{};
+  db.entries[d]={...old,food,water:countToWater(water),waterCount:water};
+  saveDB();renderAll();spark();toast('Día guardado ✨');
+};
+
+function recentTrend(key,unit=''){
+  const a=entries().filter(x=>x[key]!=null);if(!a.length)return '—';if(a.length===1)return a[0][key].toFixed(1)+unit;
+  const d=a.at(-1)[key]-a.at(-2)[key];return `${d<0?'↓':d>0?'↑':'→'} ${Math.abs(d).toFixed(1)}${unit}`;
+}
+function renderHomeStats(){
+  const w=entries().filter(x=>x.weight!=null),last=w.at(-1);
+  $('homeStreak').textContent=streak();
+  $('homeFatTrend').textContent=recentTrend('fat','%');
+  $('homeMuscleTrend').textContent=recentTrend('muscle',' kg');
+  if(last&&db.goal.weight!=null){$('homeGoal').textContent=(last.weight-db.goal.weight).toFixed(1)+' kg';$('homeGoalSub').textContent='para llegar al objetivo'}else{$('homeGoal').textContent='—';$('homeGoalSub').textContent='definilo en Progreso'}
+}
+function weekStart(date){let d=new Date(date+'T12:00:00'),day=(d.getDay()+6)%7;d.setDate(d.getDate()-day);return localKey(d)}
+function weekly(){const a=entries().filter(x=>x.weight!=null),w={};a.forEach(x=>(w[weekStart(x.date)]??=[]).push(x.weight));const ks=Object.keys(w).sort();if(ks.length<2)return null;const avg=x=>x.reduce((s,v)=>s+v,0)/x.length;return avg(w[ks.at(-2)])-avg(w[ks.at(-1)])}
+
+function weeklyPercent(){const a=entries().filter(x=>x.weight!=null),w={};a.forEach(x=>(w[weekStart(x.date)]??=[]).push(x.weight));const ks=Object.keys(w).sort();if(ks.length<2)return null;const avg=x=>x.reduce((s,v)=>s+v,0)/x.length,prev=avg(w[ks.at(-2)]),cur=avg(w[ks.at(-1)]);return prev?((prev-cur)/prev)*100:null}
+function lastVsPrevious(key){const a=entries().filter(x=>x[key]!=null);return a.length<2?null:a.at(-1)[key]-a.at(-2)[key]}
+function setVs(id,d,unit,goodDirection){const el=$(id);if(d==null){el.textContent='— vs. anterior';el.className='vs neutral';return}const arrow=d<0?'↓':d>0?'↑':'→';el.textContent=`${arrow} ${Math.abs(d).toFixed(1)}${unit} vs. anterior`;const good=d===0?null:(goodDirection==='down'?d<0:d>0);el.className='vs '+(good===true?'good':good===false?'watch':'neutral')}
+function renderDailyInsight(){const wd=lastVsPrevious('weight'),fd=lastVsPrevious('fat'),md=lastVsPrevious('muscle'),bits=[];if(wd!=null)bits.push(wd<0?'bajó el peso':wd>0?'subió el peso':'peso estable');if(fd!=null)bits.push(fd<0?'bajó la grasa':fd>0?'subió la grasa':'grasa estable');if(md!=null)bits.push(md>0?'subió el músculo':md<0?'bajó el músculo':'músculo estable');$('dailyInsight').textContent=bits.length?'✨ Último cambio: '+bits.join(' · ')+'.':'✨ Cuando haya dos registros, te cuento qué cambió.'}
+function celebrationData(){const a=entries(),complete=a.filter(isComplete).length,ex=a.filter(x=>x.pilates||x.tennis||x.walk||x.other).length,w=a.filter(x=>x.weight!=null),loss=w.length?Math.max(0,w[0].weight-w.at(-1).weight):0,wp=weeklyPercent(),ss=streak(),c=[];if(complete>=1)c.push(['🌱','Primer día completo','Arrancaste. Eso ya cuenta.']);if(complete>=3)c.push(['🌿','Tres días completos','Tu plantita ya tiene primeras hojas.']);if(ss>=3)c.push(['🔥',`${ss} días de racha`,'La constancia se está viendo.']);if(ex>=3)c.push(['💪','Tres movimientos','Ya sumaste tres días con actividad.']);if(ex>=10)c.push(['🏃','10 movimientos','Diez veces elegiste moverte.']);if(loss>=.5)c.push(['⚖️',`${loss.toFixed(1)} kg desde el inicio`,'Tu tendencia ya se mueve.']);if(wp!=null&&wp>=.5)c.push(['🎯',`${wp.toFixed(2)}% esta semana`,'Alcanzaste la referencia semanal de 0,5%.']);return c}
+function renderHomeCelebration(){const c=celebrationData(),box=$('homeCelebration');if(!c.length){box.classList.remove('show');return}const item=c.at(-1);box.classList.add('show');$('homeCelebrationIcon').textContent=item[0];$('homeCelebrationTitle').textContent=item[1];$('homeCelebrationText').textContent=item[2]}
+function renderProgress(){
+  const a=entries(),w=a.filter(x=>x.weight!=null),last=w.at(-1),fat=[...a].reverse().find(x=>x.fat!=null),mus=[...a].reverse().find(x=>x.muscle!=null);
+  $('kWeight').textContent=last?last.weight.toFixed(1):'—';$('kFat').textContent=fat?fat.fat.toFixed(1):'—';$('kMuscle').textContent=mus?mus.muscle.toFixed(1):'—';$('kStreak').textContent=streak();
+  const ws=weekly();$('weekly').textContent=ws==null?'—':`${ws>=0?'−':'+'}${Math.abs(ws).toFixed(2)} kg vs. semana anterior`;const wp=weeklyPercent();$('weeklyPct').textContent=wp==null?'—':`${wp>=0?'↓ ':'↑ '}${Math.abs(wp).toFixed(2)}%`;$('weeklyPctBar').style.width=Math.min(100,Math.max(0,wp||0)*100)+'%';$('weeklyPctMsg').textContent=wp==null?'Todavía no hay dos semanas para comparar.':wp>=.5?'🎉 0,5% o más: alcanzaste la referencia semanal.':wp>0?`Vas en ${wp.toFixed(2)}%. La referencia es 0,5%.`:'Esta semana el promedio no bajó; mirá la tendencia, no un solo dato.';setVs('kWeightVs',lastVsPrevious('weight'),' kg','down');setVs('kFatVs',lastVsPrevious('fat'),'%','down');setVs('kMuscleVs',lastVsPrevious('muscle'),' kg','up');renderDailyInsight();
+  $('goalWeight').value=db.goal.weight??'';$('goalDate').value=db.goal.date||'';if($('goalFat'))$('goalFat').value=db.settings.goalFat??'';if($('goalMuscle'))$('goalMuscle').value=db.settings.goalMuscle??'';
+  if(last&&db.goal.weight!=null){const start=w[0].weight,t=db.goal.weight,p=start===t?100:Math.max(0,Math.min(100,(start-last.weight)/(start-t)*100));$('goalBar').style.width=p+'%';$('goalLabel').textContent=t.toFixed(1)+' kg';$('goalText').textContent=`${p.toFixed(0)}% del camino · faltan ${(last.weight-t).toFixed(1)} kg`}else{$('goalBar').style.width='0%';$('goalLabel').textContent='Sin definir';$('goalText').textContent='Definilo abajo.'}
+  drawChart(w);
+  drawMetricChart('fatChart',a,'fat','#ff9b42');
+  drawMetricChart('muscleChart',a,'muscle','#4a90e2');
+  $('fatDelta').textContent=metricDelta('fat','%');
+  $('muscleDelta').textContent=metricDelta('muscle',' kg');
+}
+$('saveGoal').onclick=()=>{if($('goalFat'))db.settings.goalFat=+$('goalFat').value||null;if($('goalMuscle'))db.settings.goalMuscle=+$('goalMuscle').value||null;db.goal={...db.goal,weight:num($('goalWeight').value),date:$('goalDate').value};saveDB();renderAll();toast('Objetivo guardado 🎯')};
+function drawChart(a){
+  const c=$('chart'),r=c.getBoundingClientRect();if(!r.width||!r.height)return;
+  const d=devicePixelRatio||1;c.width=r.width*d;c.height=r.height*d;
+  const ctx=c.getContext('2d');ctx.scale(d,d);ctx.clearRect(0,0,r.width,r.height);
+  const data=(a||[]).map(x=>({...x,weight:Number(x.weight)})).filter(x=>Number.isFinite(x.weight)&&x.weight>0);
+  if(!data.length){ctx.fillStyle='#7a7480';ctx.font='13px system-ui';ctx.fillText('Todavía no hay datos de peso.',16,28);return}
+  const goal=Number(db.goal&&db.goal.weight), vals=data.map(x=>x.weight).concat(Number.isFinite(goal)&&goal>0?[goal]:[]);
+  const mn=Math.min(...vals),mx=Math.max(...vals),pad=24,span=Math.max(.5,mx-mn),min=mn-span*.15,max=mx+span*.15,W=r.width-pad*2,H=r.height-42,yy=v=>12+(max-v)/(max-min)*H;
+  if(Number.isFinite(goal)&&goal>0){const y=yy(goal);ctx.save();ctx.setLineDash([5,5]);ctx.strokeStyle='#45c58b';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(r.width-pad,y);ctx.stroke();ctx.restore()}
+  ctx.beginPath();data.forEach((x,i)=>{const X=pad+i*(W/Math.max(1,data.length-1)),Y=yy(x.weight);i?ctx.lineTo(X,Y):ctx.moveTo(X,Y)});ctx.strokeStyle='#ff7589';ctx.lineWidth=3;ctx.lineCap='round';ctx.lineJoin='round';ctx.stroke();
+  data.forEach((x,i)=>{const X=pad+i*(W/Math.max(1,data.length-1)),Y=yy(x.weight);ctx.beginPath();ctx.arc(X,Y,3.5,0,Math.PI*2);ctx.fillStyle='#ff7589';ctx.fill()});
+  ctx.fillStyle='#7a7480';ctx.font='10px system-ui';data.forEach((x,i)=>{const X=pad+i*(W/Math.max(1,data.length-1));ctx.fillText((x.date||'').slice(8,10)+'/'+(x.date||'').slice(5,7),Math.max(2,X-10),r.height-5)});
+}
+
+function drawMetricChart(canvasId,a,key,color){
+ const c=$(canvasId),r=c.getBoundingClientRect();if(!r.width||!r.height)return;const d=devicePixelRatio||1;c.width=r.width*d;c.height=r.height*d;const ctx=c.getContext('2d');ctx.scale(d,d);ctx.clearRect(0,0,r.width,r.height);
+ const data=(a||[]).map(x=>{let v=x[key];if(v==null&&key==='fat')v=x.bodyFat??x.body_fat;if(v==null&&key==='muscle')v=x.muscleMass??x.muscle_mass;return {...x,[key]:Number(v)}}).filter(x=>Number.isFinite(x[key])&&x[key]>0);if(!data.length){ctx.fillStyle='#7a7480';ctx.font='13px system-ui';ctx.fillText('Todavía no hay datos.',16,28);return}
+ const goal=key==='fat'?Number(db.settings&&db.settings.goalFat):key==='muscle'?Number(db.settings&&db.settings.goalMuscle):null,vals=data.map(x=>x[key]).concat(Number.isFinite(goal)&&goal>0?[goal]:[]),mn=Math.min(...vals),mx=Math.max(...vals),pad=24,span=Math.max(.5,mx-mn),min=mn-span*.25,max=mx+span*.25,W=r.width-pad*2,H=r.height-48,yy=v=>16+(max-v)/(max-min)*H;
+ if(Number.isFinite(goal)&&goal>0){const y=yy(goal);ctx.save();ctx.setLineDash([5,5]);ctx.strokeStyle='#7a7480';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(r.width-pad,y);ctx.stroke();ctx.restore();ctx.fillStyle='#7a7480';ctx.font='10px system-ui';ctx.fillText('Objetivo '+goal.toFixed(1),pad,Math.max(10,y-4))}
+ ctx.beginPath();data.forEach((x,i)=>{const X=pad+i*(W/Math.max(1,data.length-1)),Y=yy(x[key]);i?ctx.lineTo(X,Y):ctx.moveTo(X,Y)});ctx.strokeStyle=color;ctx.lineWidth=3;ctx.lineCap='round';ctx.lineJoin='round';ctx.stroke();
+ data.forEach((x,i)=>{const X=pad+i*(W/Math.max(1,data.length-1)),Y=yy(x[key]);ctx.beginPath();ctx.arc(X,Y,3.5,0,Math.PI*2);ctx.fillStyle=color;ctx.fill()});ctx.fillStyle='#7a7480';ctx.font='10px system-ui';ctx.fillText(data[0][key].toFixed(1),4,20);ctx.fillText(data.at(-1)[key].toFixed(1),Math.max(4,r.width-38),20);
+}
+function metricDelta(key,unit){
+  const a=entries().filter(x=>x[key]!=null);if(a.length<2)return '—';
+  const d=a.at(-1)[key]-a[0][key];return `${d<0?'↓':d>0?'↑':'→'} ${Math.abs(d).toFixed(1)}${unit} desde inicio`;
+}
+function renderPlant(){const n=entries().filter(isComplete).length;const stages=[{n:1,e:'🌱',name:'Primer brote'},{n:3,e:'🌿',name:'Primeras hojas'},{n:7,e:'🪴',name:'Plantita'},{n:14,e:'🌷',name:'Floreciendo'},{n:30,e:'🌸',name:'En flor'}];let idx=0;for(let i=0;i<stages.length;i++)if(n>=stages[i].n)idx=i;const cur=stages[idx],next=stages[Math.min(idx+1,stages.length-1)],pct=idx===stages.length-1?100:Math.max(0,Math.min(100,(n-cur.n)/(next.n-cur.n)*100));$('plantEmoji').textContent=cur.e;$('plantNow').textContent=cur.e;$('plantNext').textContent=next.e;$('plantTitle').textContent=n?'Tu planta está creciendo':'Tu planta está empezando';$('plantSub').textContent=n?`${n} día${n===1?'':'s'} completos desde que empezaste.`:'Cada día completo la hace crecer.';$('plantNowLabel').textContent=n?`Hoy · día ${n}`:'Hoy';$('plantNextLabel').textContent=idx===stages.length-1?'Máximo':`${next.n} días`;$('plantFill').style.width=pct+'%';$('plantCaption').textContent=idx===stages.length-1?'🌸 ¡Tu planta está en flor!':`${cur.name} · faltan ${Math.max(0,next.n-n)} día${next.n-n===1?'':'s'} para ${next.name.toLowerCase()}`;}
+function renderGreeting(){
+  const h=new Date().getHours();$('greeting').textContent=(h<12?'Buen día':h<19?'Buenas tardes':'Buenas noches')+' ✨';
+  const qs=['Un día a la vez.','No hace falta perfecto. Hace falta presente.','Hoy también suma.','El tenis cuenta como cardio y terapia 😄','Tu botella te está mirando 👀💧','Cada registro cuenta.'];
+  $('quote').textContent=qs[new Date().getDate()%qs.length]
+}
+
+function renderCalendar(){
+  const y=calDate.getFullYear(),m=calDate.getMonth(),names=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];$('monthTitle').textContent=names[m][0].toUpperCase()+names[m].slice(1)+' '+y;
+  const box=$('calendar');box.innerHTML='';['L','M','M','J','V','S','D'].forEach(x=>{const d=document.createElement('div');d.className='dow';d.textContent=x;box.appendChild(d)});
+  let first=new Date(y,m,1),start=(first.getDay()+6)%7;for(let i=0;i<start;i++)box.appendChild(document.createElement('div'));
+  const days=new Date(y,m+1,0).getDate();
+  for(let d=1;d<=days;d++){const key=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`,x=db.entries[key],el=document.createElement('div');el.className='day '+(x?(isComplete(x)?'full':'partial'):'empty');if(key===today())el.classList.add('today');el.textContent=d;const cyc=db.cycles.some(c=>key>=c.start&&key<=(c.end||today()));if(cyc){const dot=document.createElement('span');dot.className='cycle-dot';el.appendChild(dot)}el.onclick=()=>openEditor(key);box.appendChild(el)}
+}
+$('prevM').onclick=()=>{calDate.setMonth(calDate.getMonth()-1);renderCalendar()};$('nextM').onclick=()=>{calDate.setMonth(calDate.getMonth()+1);renderCalendar()};
+
+function setEditChoice(id,v){$(id).classList.toggle('active',!!v)}
+function openEditor(key){
+  editingDate=key;const x=db.entries[key]||{};$('editDateBadge').textContent=key;$('eWeight').value=x.weight??'';$('eFat').value=x.fat??'';$('eMuscle').value=x.muscle??'';
+  setEditChoice('ePilates',x.pilates);setEditChoice('eTennis',x.tennis);setEditChoice('eWalk',x.walk);setEditChoice('eOther',x.other);
+  editFood=x.food||'';document.querySelectorAll('#eFoodSeg .seg').forEach(b=>b.classList.toggle('active',b.dataset.v===editFood));
+  editWater=x.waterCount??waterValueToCount(x.water);renderDrops('editDrops',editWater,'eWaterText');$('editModal').classList.add('open')
+}
+$('closeModal').onclick=()=>$('editModal').classList.remove('open');$('editModal').onclick=e=>{if(e.target===$('editModal'))$('editModal').classList.remove('open')};
+['ePilates','eTennis','eWalk','eOther'].forEach(k=>$(k).onclick=()=>$(k).classList.toggle('active'));
+document.querySelectorAll('#eFoodSeg .seg').forEach(b=>b.onclick=()=>{editFood=b.dataset.v;document.querySelectorAll('#eFoodSeg .seg').forEach(x=>x.classList.toggle('active',x===b))});
+document.querySelectorAll('#editDrops .drop').forEach(d=>d.onclick=()=>{const n=Number(d.dataset.i);editWater=editWater===n?n-1:n;renderDrops('editDrops',editWater,'eWaterText')});
+$('saveEdit').onclick=()=>{
+  if(!editingDate)return;const old=db.entries[editingDate]||{};
+  db.entries[editingDate]={...old,weight:num($('eWeight').value),fat:num($('eFat').value),muscle:num($('eMuscle').value),pilates:$('ePilates').classList.contains('active'),tennis:$('eTennis').classList.contains('active'),walk:$('eWalk').classList.contains('active'),other:$('eOther').classList.contains('active'),food:editFood,water:countToWater(editWater),waterCount:editWater};
+  saveDB();$('editModal').classList.remove('open');renderAll();toast('Día actualizado 📅')
+};
+
+function renderBadges(){const a=entries(),complete=a.filter(isComplete).length,ex=a.filter(x=>x.pilates||x.tennis||x.walk||x.other).length,wp=weeklyPercent(),ms=Object.values(db.meals||{}).flat(),daysFood=Object.keys(db.meals||{}).filter(d=>(db.meals[d]||[]).length).length,proteinHits=Object.keys(db.meals||{}).filter(d=>{const g=+db.foodGoals.protein||0,p=(db.meals[d]||[]).reduce((z,m)=>z+(+m.protein||0),0);return g&&p>=g}).length,all=[['🌱','Primer día',complete>=1,'Tu primer día completo'],['🌿','Tres días',complete>=3,'Tres días sumando'],['🔥','Racha 3',streak()>=3,'Tres días seguidos'],['🌈','Racha 7',streak()>=7,'Una semana de constancia'],['💪','3 movimientos',ex>=3,'Tres días en movimiento'],['🏃','10 movimientos',ex>=10,'Diez veces te moviste'],['🎯','Semana 0,5%',wp!=null&&wp>=.5,'Referencia semanal alcanzada'],['🍽️','Primer registro',ms.length>=1,'Empezaste a registrar comidas'],['🥗','3 días de comidas',daysFood>=3,'Tres días con registro de comidas'],['💙','Proteína cumplida',proteinHits>=1,'Objetivo de proteína alcanzado'],['🌷','14 días',complete>=14,'Tu planta florece'],['🌸','30 días',complete>=30,'Treinta días construyendo BOOST ME']];$('badges').innerHTML=all.map((x,i)=>`<div class="badge ${['pink','orangebg','bluebg','greenbg'][i%4]} ${x[2]?'unlocked':''}" style="opacity:${x[2]?1:.35}"><div class="ico">${x[0]}</div><b>${x[1]}</b><small>${x[2]?'✨ ¡Cumplido!':x[3]}</small></div>`).join('')}
+
+function parseLocal(k){const [y,m,d]=k.split('-').map(Number);return new Date(y,m-1,d,12)}
+function daysBetween(a,b){return Math.round((parseLocal(b)-parseLocal(a))/86400000)}
+function currentCycle(){return db.cycles.length?[...db.cycles].sort((a,b)=>a.start.localeCompare(b.start)).at(-1):null}
+function renderCycle(){const c=currentCycle();if(!c){$('cycleBadge').textContent='sin registrar';$('cycleState').textContent='¿Empezó tu ciclo?';$('cycleSub').textContent='Marcá el día 1 y el final.';return}if(!c.end){const d=Math.max(1,daysBetween(c.start,today())+1);$('cycleBadge').textContent='día '+d;$('cycleState').textContent=`Ciclo en curso · día ${d} 🌸`;$('cycleSub').textContent=`Día 1: ${c.start}. Cuando termine, marcá el final.`}else{$('cycleBadge').textContent='registrado';$('cycleState').textContent='Último ciclo registrado ✓';$('cycleSub').textContent=`Del ${c.start} al ${c.end} · ${daysBetween(c.start,c.end)+1} días.`}}
+$('cycleStart').onclick=()=>{const c=currentCycle();if(c&&!c.end)c.end=localKey(new Date(Date.now()-86400000));db.cycles.push({start:today(),end:null});saveDB();renderAll();toast('Día 1 guardado 🌸')}
+$('cycleEnd').onclick=()=>{const c=currentCycle();if(!c||c.end){toast('No hay un ciclo abierto');return}c.end=today();saveDB();renderAll();toast('Final del ciclo guardado ✓')}
+function avg(a,k){const v=a.filter(x=>x[k]!=null).map(x=>+x[k]);return v.length?v.reduce((p,c)=>p+c,0)/v.length:null}
+function renderWeeklyInsight(){let e=new Date(),st=new Date();st.setDate(e.getDate()-6);let ps=new Date();ps.setDate(e.getDate()-13),pe=new Date();pe.setDate(e.getDate()-7);const a=entries().filter(x=>x.date>=localKey(st)&&x.date<=localKey(e)),p=entries().filter(x=>x.date>=localKey(ps)&&x.date<=localKey(pe));if(a.length<2){$('weekInsight').textContent='Todavía no hay suficientes datos para un insight semanal.';return}const ca=avg(a,'weight'),pa=avg(p,'weight'),moves=a.filter(x=>x.pilates||x.tennis||x.walk||x.other).length,fd=a.filter(x=>x.food).length,fg=a.filter(x=>x.food==='Bien').length,wd=a.filter(x=>x.water||x.waterCount).length,wg=a.filter(x=>x.water==='Bien'||(x.waterCount||0)>=4).length;let pct=ca!=null&&pa!=null?(pa-ca)/pa*100:null,parts=[];if(pct!=null)parts.push(`El peso promedio ${pct>=0?'bajó':'subió'} ${Math.abs(pct).toFixed(2)}% vs. los 7 días anteriores.`);parts.push(`Sumaste movimiento ${moves} día${moves==1?'':'s'}.`);if(fd)parts.push(`Comida “bien”: ${fg} de ${fd} días.`);if(wd)parts.push(`Agua bien: ${wg} de ${wd} días.`);const c=currentCycle();if(c&&!c.end)parts.push('Estás dentro del ciclo registrado: mirá más la tendencia que un cambio aislado de peso.');$('weekInsight').textContent=parts.join(' ');let tip='Mantené el foco en sostener hábitos y mirar la tendencia.';if(pct!=null&&pct>=.5)tip='Alcanzaste la referencia semanal de 0,5%. No hace falta empujar más: priorizá sostener lo que funciona.';else if(wd>=3&&wg/wd<.5)tip='El agua aparece como el hábito más flojo. Pondría el foco ahí esta semana.';else if(fd>=3&&fg/fd<.5)tip='La comida estuvo irregular. Elegí una sola mejora concreta y fácil de repetir.';else if(moves<2&&a.length>=4)tip='Hubo poco movimiento registrado. Si te da el día, sumaría 1 o 2 momentos cortos esta semana.';$('weekTip').innerHTML='<b>👉 Sugerencia:</b> '+tip;$('weekEmoji').textContent=pct!=null&&pct>=.5?'🎉':moves>=3?'💪':'🌱';$('weekTitle').textContent=pct!=null&&pct>=.5?'Semana en objetivo':'Tu semana, de un vistazo';$('weekSubtitle').textContent=`${a.length} días con registros · ${moves} con movimiento`}
+$('exportBackup').onclick=()=>{const blob=new Blob([JSON.stringify({app:'BOOST ME',version:5,exportedAt:new Date().toISOString(),data:db},null,2)],{type:'application/json'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=`BOOST ME-backup-${today()}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);toast('Backup exportado 🛟')}
+$('importBackup').onclick=()=>$('backupFile').click();
+$('backupFile').onchange=e=>{
+  const f=e.target.files&&e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=()=>{
+    let d;
+    try{
+      const o=JSON.parse(r.result);d=o.data||o;
+      if(!d||!d.entries||typeof d.entries!=='object')throw new Error('Formato inválido');
+      d.entries=d.entries||{};d.goal=d.goal||{};d.cycles=d.cycles||[];
+      d.meals=d.meals||{};d.recipes=d.recipes||[];d.foodGoals=d.foodGoals||{};d.settings=d.settings||{};
+    }catch(err){
+      console.error('Backup parse error',err);
+      alert('No pude leer ese archivo de backup.');e.target.value='';return;
+    }
+    if(confirm('¿Restaurar este backup? Va a reemplazar los datos actuales.')){
+      db=d;saveDB();
+      try{renderAll();setTimeout(()=>renderProgress(),100);toast('Backup restaurado ✓')}
+      catch(err){console.error('Render after restore',err);alert('El backup se restauró. Recargá la página para actualizar la vista.')}
+    }
+    e.target.value='';
+  };
+  r.onerror=()=>{alert('No pude leer el archivo de backup.');e.target.value=''};
+  r.readAsText(f);
+}
+
+let selectedMealType='';document.querySelectorAll('#mealTypes button').forEach(b=>b.onclick=()=>{selectedMealType=b.dataset.meal;document.querySelectorAll('#mealTypes button').forEach(x=>x.classList.toggle('active',x===b))});
+
+const AI_ENDPOINT=window.BOOST_ME_AI_ENDPOINT||'/api/analyze-meal';
+let pendingAiMeal=null;
+function fileToDataURL(file){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)})}
+function showAiResult(r){
+  pendingAiMeal=r;
+  $('aiCalories').textContent=Math.round(r.calories||0);$('aiProtein').textContent=Math.round(r.protein_g||0);
+  $('aiMealName').textContent=r.meal_name||'Comida analizada';$('aiMealSummary').textContent=r.summary||'';
+  const conf=r.confidence==='high'?'Alta':r.confidence==='medium'?'Media':'Baja';
+  $('aiConfidence').textContent=`Confianza: ${conf}${r.assumptions?.length?' · '+r.assumptions.join(' · '):''}`;
+  $('aiMealResult').style.display='block';$('aiMealResult').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function renderFood(){const ms=db.meals[today()]||[],cal=ms.reduce((a,m)=>a+(+m.calories||0),0),pro=ms.reduce((a,m)=>a+(+m.protein||0),0),cg=+db.foodGoals.calories||0,pg=+db.foodGoals.protein||0;$('dayCalories').textContent=Math.round(cal);$('dayProtein').textContent=Math.round(pro);$('mealCount').textContent=ms.length+' comidas';const types=['Desayuno','Almuerzo','Merienda','Cena','Colación'];$('mealChecks').innerHTML=types.map(t=>`<span class="${ms.some(m=>m.type===t)?'done':''}">${ms.some(m=>m.type===t)?'✓ ':''}${t}</span>`).join('');if($('calorieBar'))$('calorieBar').style.width=(cg?Math.min(100,cal/cg*100):0)+'%';if($('foodGoalText'))$('foodGoalText').textContent=cg?`${Math.round(cal)} de ${cg} kcal · ${Math.round(pro)} de ${pg||'—'} g proteína`:'Definí tus objetivos abajo.';$('mealList').innerHTML=ms.length?ms.map((m,i)=>`<div style="padding:9px 0;border-bottom:1px solid var(--line)"><b>${m.type?m.type+' · ':''}${m.text}</b><div class="soft">${m.calories||m.protein?`≈ ${m.calories} kcal · ≈ ${m.protein} g proteína`:'Estimación pendiente de IA'}</div></div>`).join(''):'<div class="soft">Todavía no cargaste comidas.</div>';$('recipeList').innerHTML=db.recipes.length?db.recipes.map((r,i)=>`<div style="padding:10px 0;border-bottom:1px solid var(--line)"><b>🍲 ${r.name}</b><div class="soft">${r.calories?`≈ ${r.calories} kcal · ${r.protein||0} g proteína / porción`:'Pendiente de análisis con IA'} · ${r.servings||'—'} porciones</div>${r.calories?`<button class="secondary" onclick="useRecipe(${i})">+ Comer 1 porción</button>`:''}</div>`).join(''):'<div class="soft">Todavía no guardaste recetas. Sumá una receta de TM7 o una receta tuya.</div>';$('calorieGoal').value=db.foodGoals.calories||'';$('proteinGoal').value=db.foodGoals.protein||'';let q='Cargá tus objetivos para recibir una sugerencia.';if(cg||pg){const rc=cg-cal,rp=pg-pro;q=rp>25?`Te quedan ≈ ${Math.max(0,Math.round(rc))} kcal y ${Math.round(rp)} g de proteína. Priorizaría proteína.`:rc>250?`Te quedan ≈ ${Math.round(rc)} kcal. La proteína viene encaminada.`:'Estás cerca del objetivo estimado del día. Mirá hambre y saciedad, no el número exacto.'}$('eatSuggestion').textContent=q;
+  $('homeCalories').textContent=`${Math.round(cal)} / ${cg||'—'}`;
+  $('homeProtein').textContent=`${Math.round(pro)} / ${pg||'—'}`;
+  let hs='Definí tus objetivos en Comidas para ver cómo viene el día.';
+  if(cg||pg){const rc=cg?cg-cal:null,rp=pg?pg-pro:null;if(rc!=null&&rc<0)hs=`Calorías: ≈ ${Math.abs(Math.round(rc))} por encima del objetivo. ${rp!=null&&rp>0?`Proteína: faltan ≈ ${Math.round(rp)} g.`:'Proteína: objetivo alcanzado ✓'}`;else hs=`Calorías: ${rc!=null?`quedan ≈ ${Math.max(0,Math.round(rc))} kcal`:'sin objetivo'}. Proteína: ${rp!=null?(rp>0?`faltan ≈ ${Math.round(rp)} g`:'objetivo alcanzado ✓'):'sin objetivo'}.`}
+  $('homeFoodStatus').textContent=hs;
+}
+window.useRecipe=i=>{const r=db.recipes[i];db.meals[today()]??=[];db.meals[today()].push({text:r.name,calories:+r.calories,protein:+r.protein});saveDB();renderFood()}
+$('mealPhoto').onchange=e=>$('photoName').textContent=e.target.files[0]?'📷 '+e.target.files[0].name:'Sin foto.';
+$('addMeal').onclick=async()=>{
+  const t=$('mealText').value.trim(),file=$('mealPhoto').files[0];
+  if(!selectedMealType)return toast('Elegí qué comida fue');
+  if(!t&&!file)return toast('Sumá una foto o contame qué comiste');
+  const btn=$('addMeal');btn.classList.add('ai-loading');btn.textContent='Analizando…';
+  try{
+    const imageDataUrl=file?await fileToDataURL(file):null;
+    const res=await fetch(AI_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mealType:selectedMealType,text:t,imageDataUrl})});
+    const body=await res.json().catch(()=>({}));
+    if(!res.ok)throw new Error(body.error||'No pude analizar la comida');
+    showAiResult(body);
+  }catch(err){console.error(err);alert('No pude analizar la comida todavía. '+(err.message||''))}
+  finally{btn.classList.remove('ai-loading');btn.textContent='✨ Analizar con IA'}
+}
+
+$('confirmAiMeal').onclick=()=>{
+  if(!pendingAiMeal)return;
+  db.meals[today()]??=[];
+  db.meals[today()].push({type:selectedMealType,text:$('mealText').value.trim()||pendingAiMeal.meal_name||'Comida',calories:+pendingAiMeal.calories||0,protein:+pendingAiMeal.protein_g||0,photo:!!$('mealPhoto').files[0],ai:true,confidence:pendingAiMeal.confidence||'medium',assumptions:pendingAiMeal.assumptions||[]});
+  saveDB();$('mealText').value='';$('mealPhoto').value='';$('photoName').textContent='Sin foto.';selectedMealType='';
+  document.querySelectorAll('#mealTypes button').forEach(x=>x.classList.remove('active'));pendingAiMeal=null;$('aiMealResult').style.display='none';
+  renderFood();renderBadges();renderExpandedAchievements();toast('Comida guardada ✨');
+};
+$('discardAiMeal').onclick=()=>{pendingAiMeal=null;$('aiMealResult').style.display='none'};
+$('toggleRecipe').onclick=()=>{$('recipeForm').style.display=$('recipeForm').style.display==='none'?'block':'none'};
+$('saveRecipe').onclick=()=>{const n=$('recipeName').value.trim(),txt=$('recipeText').value.trim(),serv=+$('recipeServings').value||null;if(!n)return toast('Poné un nombre a la receta');if(!txt)return toast('Pegá los ingredientes o contame la receta');db.recipes.push({name:n,text:txt,servings:serv,pendingAI:true});saveDB();$('recipeName').value='';$('recipeText').value='';$('recipeServings').value='';$('recipeForm').style.display='none';renderFood();toast('Receta guardada 📚')}
+$('saveFoodGoals').onclick=()=>{db.foodGoals={calories:+$('calorieGoal').value||null,protein:+$('proteinGoal').value||null};saveDB();renderFood();toast('Objetivos guardados 🎯')}
+
+function goTab(id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.id===id));
+  document.querySelectorAll('.nav').forEach(n=>n.classList.toggle('active',n.dataset.tab===id));
+  if(id==='progressTab'){setTimeout(renderProgress,20);setTimeout(renderProgress,160);}
+  if(id==='calendarTab')renderCalendar();
+  if(id==='celebrateTab'){renderBadges();renderExpandedAchievements();}
+  window.scrollTo(0,0);
+}
+function renderCoach(){
+  const all=entries(),cut=new Date();cut.setDate(cut.getDate()-6);
+  const a=all.filter(x=>x.date>=localKey(cut)&&x.date<=today());
+  const moves=a.filter(x=>x.pilates||x.tennis||x.walk||x.other).length;
+  const water=a.filter(x=>x.water||x.waterCount).length;
+  const goodWater=a.filter(x=>x.water==='Bien'||(x.waterCount||0)>=4).length;
+  const food=a.filter(x=>x.food).length,goodFood=a.filter(x=>x.food==='Bien').length;
+  const wp=weeklyPercent(),c=currentCycle();
+  let main='Estoy juntando información para conocerte mejor.';
+  let action='👉 Por ahora, seguí registrando.';
+  let focus='CONSTANCIA',focusText='Una cosa por vez. Registrar también es avanzar.';
+  if(c&&!c.end){main='Estás dentro del ciclo registrado. Un cambio aislado de peso puede tener más ruido de lo habitual.';action='👉 Hoy miraría la tendencia y no cambiaría el plan por un solo número.'}
+  if(wp!=null&&wp>=.5){main=`Tu tendencia semanal bajó ${wp.toFixed(2)}%. Ya alcanzaste la referencia de 0,5%.`;action='👉 Esta semana no intentaría hacer más: sostener también es progreso.';focus='SOSTENER';focusText='Lo que estás haciendo ya está moviendo la tendencia.'}
+  else if(water>=3&&goodWater/water<.5){main=`El agua estuvo bien ${goodWater} de ${water} días registrados esta semana.`;action='👉 Antes de cambiar comida o ejercicio, pondría el foco en agua.';focus='AGUA';focusText='Un objetivo simple para esta semana: mejorar la constancia con el agua.'}
+  else if(food>=3&&goodFood/food<.5){main='La alimentación se sintió bastante irregular en tus registros de esta semana.';action='👉 Elegiría una sola comida del día para hacerla más predecible.';focus='COMIDA';focusText='No todo junto: una comida más consistente ya suma.'}
+  else if(moves<2&&a.length>=4){main=`Registraste movimiento ${moves} día${moves===1?'':'s'} esta semana.`;action='👉 Si te da el día, sumaría uno o dos momentos cortos de movimiento.';focus='MOVIMIENTO';focusText='No hace falta que sea largo para contar.'}
+  $('advisorMain').textContent=main;$('advisorAction').textContent=action;$('focusTitle').textContent=focus;$('focusText').textContent=focusText;
+  const bits=[];if(moves)bits.push(`💪 ${moves} días con movimiento`);if(goodWater)bits.push(`💧 ${goodWater} días de agua bien`);if(goodFood)bits.push(`🥗 ${goodFood} días de comida bien`);if(streak())bits.push(`🔥 racha de ${streak()}`);
+  if($('beyondWeight'))$('beyondWeight').textContent=bits.length?bits.join(' · '):'Todavía estoy juntando datos para mostrarte progreso más allá de la balanza.';
+  const complete=all.filter(isComplete).length,ex=all.filter(x=>x.pilates||x.tennis||x.walk||x.other).length,records=[];
+  if(streak()>=3)records.push(`🔥 Racha actual: ${streak()} días`);if(ex>=3)records.push(`💪 ${ex} días con movimiento acumulados`);if(complete>=3)records.push(`🌱 ${complete} días completos`);
+  if($('personalRecords'))$('personalRecords').textContent=records.length?records.join(' · '):'Tus primeros récords aparecen cuando BOOST ME tenga un poco más de historia.';
+}
+
+function syncBeta10(){
+  if($('integratedFocusTitle')&&$('focusTitle')) $('integratedFocusTitle').textContent=$('focusTitle').textContent;
+  if($('integratedFocusText')&&$('focusText')) $('integratedFocusText').textContent=$('focusText').textContent;
+  if($('progressPlantEmoji')&&$('plantEmoji')) $('progressPlantEmoji').textContent=$('plantEmoji').textContent;
+  if($('progressPlantLabel')&&$('plantTitle')) $('progressPlantLabel').textContent=$('plantTitle').textContent;
+  if($('progressPlantNext')&&$('plantEmoji')){
+    const st=['🌱','🌿','🪴','🌷','🌸'],i=Math.max(0,st.indexOf($('plantEmoji').textContent));
+    $('progressPlantNext').textContent=st[Math.min(st.length-1,i+1)];
+  }
+}
+function renderCelebrateHighlights(){
+  const d=new Date();d.setDate(d.getDate()-6);
+  const a=entries().filter(x=>x.date>=localKey(d)&&x.date<=today()),bits=[];
+  const complete=a.filter(isComplete).length,moves=a.filter(x=>x.pilates||x.tennis||x.walk||x.other).length;
+  const mealDays=Object.keys(db.meals||{}).filter(k=>k>=localKey(d)&&k<=today()&&(db.meals[k]||[]).length).length;
+  if(complete)bits.push(`🌱 ${complete} días completos`);if(moves)bits.push(`💪 ${moves} días en movimiento`);if(mealDays)bits.push(`🍽️ ${mealDays} días con comidas registradas`);if(streak())bits.push(`🔥 racha de ${streak()}`);
+  if($('celebrateHighlights'))$('celebrateHighlights').textContent=bits.length?bits.join(' · ')+' ✨':'Tu próxima celebración empieza con el próximo registro 💙';
+}
+
+
+function renderBeta11Enhancements(){
+  const meals=(db.meals&&db.meals[today()])||[];
+  const cal=meals.reduce((a,m)=>a+(+m.calories||0),0),pro=meals.reduce((a,m)=>a+(+m.protein||0),0);
+  const cg=+(db.foodGoals&&db.foodGoals.calories)||0,pg=+(db.foodGoals&&db.foodGoals.protein)||0;
+  if($('dayCaloriesGoal'))$('dayCaloriesGoal').textContent=cg||'—';
+  if($('dayProteinGoal'))$('dayProteinGoal').textContent=pg||'—';
+  if($('calorieProgress'))$('calorieProgress').style.width=(cg?Math.min(100,cal/cg*100):0)+'%';
+  if($('proteinProgress'))$('proteinProgress').style.width=(pg?Math.min(100,pro/pg*100):0)+'%';
+  if($('foodRemaining')){
+    if(cg||pg){const bits=[];if(cg)bits.push(cal>=cg?'Calorías: objetivo alcanzado ✓':`Te quedan ≈ ${Math.max(0,Math.round(cg-cal))} kcal`);if(pg)bits.push(pro>=pg?'Proteína: objetivo alcanzado ✓':`≈ ${Math.max(0,Math.round(pg-pro))} g de proteína`);$('foodRemaining').textContent=bits.join(' · ')}
+    else $('foodRemaining').textContent='Definí tus objetivos abajo.';
+  }
+  if($('mealDayFooter'))$('mealDayFooter').textContent=`${meals.length} comida${meals.length===1?'':'s'} registrada${meals.length===1?'':'s'} · ${Math.round(cal)} kcal · ${Math.round(pro)} g proteína`;
+  if($('goalFat'))$('goalFat').value=(db.settings&&db.settings.goalFat)||'';
+  if($('goalMuscle'))$('goalMuscle').value=(db.settings&&db.settings.goalMuscle)||'';
+}
+
+$('goFood').onclick=()=>goTab('foodTab');
+$('openCalendar').onclick=()=>goTab('calendarTab');
+document.querySelectorAll('.nav').forEach(n=>n.onclick=()=>goTab(n.dataset.tab));
+function badgeClass(name){
+  if(name==='Movimiento')return 'badge-move';
+  if(name==='Días completos')return 'badge-days';
+  if(name==='Racha')return 'badge-streak';
+  if(name==='Agua bien')return 'badge-water';
+  return 'badge-food';
+}
+function badgeTile(x){
+  return `<div class="achievement-pill ${badgeClass(x.name)}"><div class="badge-ico">${x.ico}</div><div class="badge-num">${x.n}</div><div class="badge-name">${x.name}</div></div>`;
+}
+function renderExpandedAchievements(){
+  const a=entries(),complete=a.filter(isComplete).length,st=streak(),
+        moves=a.filter(x=>x.pilates||x.tennis||x.walk||x.other).length,
+        water=a.filter(x=>x.water==='Bien').length,
+        mealDays=Object.keys(db.meals||{}).filter(k=>(db.meals[k]||[]).length).length;
+  const d=new Date();d.setDate(d.getDate()-6);
+  const week=a.filter(x=>x.date>=localKey(d)&&x.date<=today());
+  const weekComplete=week.filter(isComplete).length,
+        weekMoves=week.filter(x=>x.pilates||x.tennis||x.walk||x.other).length,
+        weekWater=week.filter(x=>x.water==='Bien').length;
+
+  if($('celebrateDays'))$('celebrateDays').textContent=weekComplete;
+  if($('celebrateMoves'))$('celebrateMoves').textContent=weekMoves;
+  if($('celebrateStreak'))$('celebrateStreak').textContent=st;
+  if($('celebrateWater'))$('celebrateWater').textContent=weekWater;
+
+  const defs=[
+    ['🌱','Días completos',complete,[1,3,7,14,21,30,50,75,100]],
+    ['🔥','Racha',st,[3,5,7,10,14,21,30,50]],
+    ['💪','Movimiento',moves,[1,3,5,10,20,30,50,100]],
+    ['💧','Agua bien',water,[3,5,10,20,30,50,100]],
+    ['🍽️','Días con comidas',mealDays,[1,3,7,14,30,50,100]]
+  ];
+  const unlocked=[],next=[];
+  defs.forEach(([ico,name,val,levels])=>{
+    levels.filter(n=>val>=n).forEach(n=>unlocked.push({ico,name,n}));
+    const nx=levels.find(n=>val<n);if(nx)next.push({ico,name,n:nx,val});
+  });
+
+  if($('badges'))$('badges').innerHTML=unlocked.length
+    ?unlocked.map(badgeTile).join('')
+    :'<div class="soft">Tus logros van a aparecer acá 🌈</div>';
+
+  if($('recentAchievements'))$('recentAchievements').innerHTML=unlocked.length
+    ?unlocked.slice(-6).reverse().map(badgeTile).join('')
+    :'<div class="soft">Todavía no hay logros desbloqueados.</div>';
+
+  if($('nextAchievements'))$('nextAchievements').innerHTML=next.slice(0,4).map(x=>{
+    const pct=Math.max(0,Math.min(100,(x.val/x.n)*100));
+    return `<div class="next-card"><div class="next-head"><span>${x.ico} ${x.name}</span><span>${x.val}/${x.n}</span></div><div class="next-bar"><i style="width:${pct}%"></i></div></div>`;
+  }).join('');
+
+  if($('celebrateHighlights'))$('celebrateHighlights').textContent=
+    weekComplete||weekMoves||weekWater
+      ?`🌱 ${weekComplete} días completos · 💪 ${weekMoves} en movimiento · 💧 ${weekWater} con agua bien ✨`
+      :'Tu semana se va armando con cada registro ✨';
+}
+function renderAll(){renderGreeting();loadToday();renderHomeStats();renderPlant();renderProgress();renderCalendar();renderBadges();renderHomeCelebration();renderCycle();renderWeeklyInsight();renderFood();renderCoach();syncBeta10();renderCelebrateHighlights();renderBeta11Enhancements();renderExpandedAchievements()}
+window.addEventListener('resize',()=>{if($('progressTab').classList.contains('active'))renderProgress()});renderAll();
+</script>
+</body>
+</html>
