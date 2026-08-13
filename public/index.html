@@ -578,7 +578,7 @@ function showAiResult(r){
 
   const assumptions=(r.assumptions||[]).filter(Boolean);
   $('aiMealSummary').textContent=assumptions.length
-    ?`Para estimar asumí: ${assumptions.slice(0,2).join(' · ')}${assumptions.length>2?' · …':''}`
+    ?`Para estimar asumí: ${assumptions.slice(0,2).join(' · ')}`
     :(r.summary||'');
 
   const conf=r.confidence==='high'?'alta':r.confidence==='medium'?'media':'baja';
