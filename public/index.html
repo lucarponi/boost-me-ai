@@ -171,6 +171,20 @@ body{min-height:100vh}.app{max-width:540px;margin:0 auto;padding:24px 18px 112px
 .ai-result-kpi span{font-size:24px;display:block}.ai-result-kpi b{font-size:28px;display:block;line-height:1.1;margin:4px 0}.ai-result-kpi small{font-size:10px;font-weight:800;color:var(--muted)}
 .ai-result-title{font-weight:900;font-size:16px;margin-top:8px}.ai-confidence{font-size:12px;font-weight:800;margin-top:8px;padding:8px 10px;border-radius:13px;background:#fff}
 .ai-actions{display:grid;gap:8px;margin-top:12px}.ai-loading{opacity:.65;pointer-events:none}
+
+/* BOOST ME AI Beta 2 */
+.boost-saw-title{font-size:14px!important;color:var(--muted);margin-top:10px!important}
+.ai-detected-meal{font-size:18px;font-weight:950;line-height:1.2;margin-top:3px}
+.ai-compact-note{font-size:12px;line-height:1.35;color:var(--muted);margin-top:7px}
+.ai-details{font-size:11px;line-height:1.35;color:var(--muted);margin-top:8px;padding:0;background:transparent}
+.ai-day-context{margin-top:12px;padding:13px;border-radius:18px;background:linear-gradient(135deg,#fff2cf,#eef9ff,#eefcf3);border:1px solid rgba(0,0,0,.04)}
+.ai-context-head{font-size:13px;font-weight:950}
+.ai-context-numbers{font-size:13px;font-weight:850;margin-top:6px}
+.ai-context-advice{font-size:12px;line-height:1.35;margin-top:5px;color:var(--muted)}
+.meal-item{padding:10px 0;border-bottom:1px solid var(--line)}
+.meal-item:last-child{border-bottom:0}
+.meal-item-title{font-weight:900}
+.meal-item-macros{font-size:13px;margin-top:2px}
 </style>
 </head>
 <body>
@@ -267,20 +281,24 @@ body{min-height:100vh}.app{max-width:540px;margin:0 auto;padding:24px 18px 112px
 </div><button class="primary" id="saveGoal">Guardar objetivos</button></div><div class="card"><div class="section-title"><h3>📅 Historial</h3><span class="soft">ver y corregir días</span></div>
 <button class="secondary" id="openCalendar">Abrir calendario →</button></div><div class="card"><div class="section-title"><h3>🛟 Backup</h3><span class="soft">protege tu historial</span></div><div class="backup-actions"><button class="backup-btn export" id="exportBackup">⬇️ Exportar</button><button class="backup-btn import" id="importBackup">⬆️ Restaurar</button></div><input accept=".json,application/json" id="backupFile" style="display:none" type="file"/><div class="backup-note">Guardá una copia cada tanto. Restaurar reemplaza los datos actuales por los del backup.</div></div></section>
 <section class="tab" id="foodTab">
-<div class="hero food-hero-compact"><div><div class="eyebrow">🍽️ COMIDAS · BETA</div><h1>Comer con contexto</h1></div><div class="hero-emoji">🥗</div></div><div class="card"><div class="section-title"><h3>💡 ¿Qué puedo comer?</h3></div><div class="insight" id="eatSuggestion">Cargá tus objetivos para recibir una sugerencia.</div></div><div class="card"><div class="section-title"><h3>Hoy</h3><span class="soft">vs. objetivo</span></div><div class="food-progress-line"><div><span>🔥 Calorías</span><b><span id="dayCalories">0</span> / <span id="dayCaloriesGoal">—</span> kcal</b></div><div class="meter"><i id="calorieProgress"></i></div></div><div class="food-progress-line"><div><span>💪 Proteína</span><b><span id="dayProtein">0</span> / <span id="dayProteinGoal">—</span> g</b></div><div class="meter"><i id="proteinProgress"></i></div></div><div class="soft" id="foodRemaining">Definí tus objetivos abajo.</div><div class="meal-checks" id="mealChecks"></div></div><div class="card"><div class="section-title"><h3>➕ Registrar comida</h3><span class="soft">foto + texto</span></div><label class="secondary" style="display:block;text-align:center">📷 Elegir foto<input accept="image/*" id="mealPhoto" style="display:none" type="file"/></label><div class="soft" id="photoName" style="margin:8px 0">Sin foto.</div><div class="meal-types" id="mealTypes"><button data-meal="Desayuno">☀️ Desayuno</button><button data-meal="Almuerzo">🥗 Almuerzo</button><button data-meal="Merienda">🧉 Merienda</button><button data-meal="Cena">🌙 Cena</button><button data-meal="Colación">🍎 Colación</button></div><textarea id="mealText" placeholder="Contame qué comiste y cualquier detalle útil…" rows="3" style="width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:16px;padding:12px;font:inherit"></textarea><button class="primary" id="addMeal" style="margin-top:10px">✨ Analizar con IA</button><div class="save-note">Vos cargás foto + descripción. BOOST ME estimará calorías y proteína cuando conectemos la IA.</div></div><div class="card ai-result-card" id="aiMealResult" style="display:none">
+<div class="hero food-hero-compact"><div><div class="eyebrow">🍽️ COMIDAS · BETA</div><h1>Comer con contexto</h1></div><div class="hero-emoji">🥗</div></div><div class="card"><div class="section-title"><h3>💡 ¿Qué puedo comer?</h3></div><div class="insight" id="eatSuggestion">Cargá tus objetivos para recibir una sugerencia.</div></div><div class="card"><div class="section-title"><h3>Hoy</h3><span class="soft">vs. objetivo</span></div><div class="food-progress-line"><div><span>🔥 Calorías</span><b><span id="dayCalories">0</span> / <span id="dayCaloriesGoal">—</span> kcal</b></div><div class="meter"><i id="calorieProgress"></i></div></div><div class="food-progress-line"><div><span>💪 Proteína</span><b><span id="dayProtein">0</span> / <span id="dayProteinGoal">—</span> g</b></div><div class="meter"><i id="proteinProgress"></i></div></div><div class="soft" id="foodRemaining">Definí tus objetivos abajo.</div><div class="meal-checks" id="mealChecks"></div></div><div class="card"><div class="section-title"><h3>➕ Registrar comida</h3><span class="soft">foto + texto</span></div><label class="secondary" style="display:block;text-align:center">📷 Elegir foto<input accept="image/*" id="mealPhoto" style="display:none" type="file"/></label><div class="soft" id="photoName" style="margin:8px 0">Sin foto.</div><div class="meal-types" id="mealTypes"><button data-meal="Desayuno">☀️ Desayuno</button><button data-meal="Almuerzo">🥗 Almuerzo</button><button data-meal="Merienda">🧉 Merienda</button><button data-meal="Cena">🌙 Cena</button><button data-meal="Colación">🍎 Colación</button></div><textarea id="mealText" placeholder="Contame qué comiste y cualquier detalle útil…" rows="3" style="width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:16px;padding:12px;font:inherit"></textarea><button class="primary" id="addMeal" style="margin-top:10px">✨ Analizar con IA</button><div class="save-note">Foto + descripción ayudan a mejorar la estimación. Siempre es aproximada.</div></div><div class="card ai-result-card" id="aiMealResult" style="display:none">
 <div class="section-title"><h3>✨ Análisis</h3><span class="soft">estimado</span></div>
 <div class="ai-result-main">
 <div class="ai-result-kpi orangebg"><span>🔥</span><b id="aiCalories">—</b><small>kcal</small></div>
 <div class="ai-result-kpi bluebg"><span>💪</span><b id="aiProtein">—</b><small>g proteína</small></div>
 </div>
-<div class="ai-result-title" id="aiMealName">—</div>
-<div class="soft" id="aiMealSummary"></div>
-<div class="ai-confidence" id="aiConfidence"></div>
+<div class="ai-result-title boost-saw-title" id="aiMealName">BOOST ME vio 👀</div><div class="ai-detected-meal" id="aiDetectedMeal">—</div>
+<div class="ai-compact-note" id="aiMealSummary"></div>
+<div class="ai-details" id="aiConfidence"></div><div class="ai-day-context" id="aiDayContext">
+<div class="ai-context-head">⚡ Tu día después de esto</div>
+<div class="ai-context-numbers" id="aiContextNumbers"></div>
+<div class="ai-context-advice" id="aiContextAdvice"></div>
+</div>
 <div class="ai-actions">
 <button class="primary" id="confirmAiMeal">Guardar este análisis</button>
 <button class="secondary" id="discardAiMeal">Volver a analizar</button>
 </div>
-</div><div class="card"><div class="section-title"><h3>🧾 Lo de hoy</h3><span class="soft" id="mealCount"></span></div><div id="mealList"></div><div class="meal-day-footer" id="mealDayFooter">0 comidas registradas · 0 kcal · 0 g proteína</div></div><div class="card"><div class="section-title"><h3>📚 Mis recetas</h3><span class="soft">guardadas</span></div>
+</div><div class="card"><div class="section-title"><h3>🧾 Lo de hoy</h3><span class="soft" id="mealCount"></span></div><div id="mealList"></div></div><div class="card"><div class="section-title"><h3>📚 Mis recetas</h3><span class="soft">guardadas</span></div>
 <button class="primary" id="toggleRecipe">＋ Agregar receta</button>
 <div id="recipeForm" style="display:none;margin-top:12px">
 <input id="recipeName" placeholder="Nombre de la receta"/>
@@ -554,14 +572,51 @@ let pendingAiMeal=null;
 function fileToDataURL(file){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)})}
 function showAiResult(r){
   pendingAiMeal=r;
-  $('aiCalories').textContent=Math.round(r.calories||0);$('aiProtein').textContent=Math.round(r.protein_g||0);
-  $('aiMealName').textContent=r.meal_name||'Comida analizada';$('aiMealSummary').textContent=r.summary||'';
-  const conf=r.confidence==='high'?'Alta':r.confidence==='medium'?'Media':'Baja';
-  $('aiConfidence').textContent=`Confianza: ${conf}${r.assumptions?.length?' · '+r.assumptions.join(' · '):''}`;
-  $('aiMealResult').style.display='block';$('aiMealResult').scrollIntoView({behavior:'smooth',block:'start'});
+  const kcal=Math.round(r.calories||0),protein=Math.round(r.protein_g||0);
+  $('aiCalories').textContent=kcal;$('aiProtein').textContent=protein;
+  $('aiDetectedMeal').textContent=r.meal_name||'Comida analizada';
+
+  const assumptions=(r.assumptions||[]).filter(Boolean);
+  $('aiMealSummary').textContent=assumptions.length
+    ?`Para estimar asumí: ${assumptions.slice(0,2).join(' · ')}${assumptions.length>2?' · …':''}`
+    :(r.summary||'');
+
+  const conf=r.confidence==='high'?'alta':r.confidence==='medium'?'media':'baja';
+  $('aiConfidence').textContent=`Estimación con confianza ${conf}. Las porciones, aceites y preparaciones pueden cambiar el resultado.`;
+
+  const meals=(db.meals&&db.meals[today()])||[];
+  const consumedCal=meals.reduce((a,m)=>a+(+m.calories||0),0);
+  const consumedPro=meals.reduce((a,m)=>a+(+m.protein||0),0);
+  const afterCal=consumedCal+kcal,afterPro=consumedPro+protein;
+  const cg=+(db.foodGoals&&db.foodGoals.calories)||0,pg=+(db.foodGoals&&db.foodGoals.protein)||0;
+
+  const nums=[];
+  nums.push(cg?`${afterCal} / ${cg} kcal`:`${afterCal} kcal en el día`);
+  nums.push(pg?`${afterPro} / ${pg} g proteína`:`${afterPro} g proteína en el día`);
+  $('aiContextNumbers').textContent=nums.join(' · ');
+
+  let advice='';
+  if(!cg&&!pg){
+    advice='Definí tus objetivos de calorías y proteína para que pueda decirte qué te conviene priorizar después.';
+  }else{
+    const remCal=cg?cg-afterCal:null,remPro=pg?pg-afterPro:null;
+    if(pg&&remPro>25){
+      advice=`Después de esto priorizaría proteína: todavía te quedarían ≈ ${Math.max(0,Math.round(remPro))} g para tu objetivo.`;
+    }else if(cg&&remCal>300){
+      advice=pg?'La proteína viene bastante encaminada. Todavía tenés margen para elegir según hambre y saciedad.':'Todavía tenés margen en el día; elegí lo próximo según hambre y saciedad.';
+    }else if((cg&&remCal<=0)||(pg&&remPro<=0)){
+      advice='Ya alcanzaste al menos uno de tus objetivos. No hace falta compensar: usá esto como contexto, no como una regla rígida.';
+    }else{
+      advice='Viene bastante alineado con tus objetivos. Seguí usando hambre, saciedad y contexto además de los números.';
+    }
+  }
+  $('aiContextAdvice').textContent=advice;
+
+  $('aiMealResult').style.display='block';
+  $('aiMealResult').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-function renderFood(){const ms=db.meals[today()]||[],cal=ms.reduce((a,m)=>a+(+m.calories||0),0),pro=ms.reduce((a,m)=>a+(+m.protein||0),0),cg=+db.foodGoals.calories||0,pg=+db.foodGoals.protein||0;$('dayCalories').textContent=Math.round(cal);$('dayProtein').textContent=Math.round(pro);$('mealCount').textContent=ms.length+' comidas';const types=['Desayuno','Almuerzo','Merienda','Cena','Colación'];$('mealChecks').innerHTML=types.map(t=>`<span class="${ms.some(m=>m.type===t)?'done':''}">${ms.some(m=>m.type===t)?'✓ ':''}${t}</span>`).join('');if($('calorieBar'))$('calorieBar').style.width=(cg?Math.min(100,cal/cg*100):0)+'%';if($('foodGoalText'))$('foodGoalText').textContent=cg?`${Math.round(cal)} de ${cg} kcal · ${Math.round(pro)} de ${pg||'—'} g proteína`:'Definí tus objetivos abajo.';$('mealList').innerHTML=ms.length?ms.map((m,i)=>`<div style="padding:9px 0;border-bottom:1px solid var(--line)"><b>${m.type?m.type+' · ':''}${m.text}</b><div class="soft">${m.calories||m.protein?`≈ ${m.calories} kcal · ≈ ${m.protein} g proteína`:'Estimación pendiente de IA'}</div></div>`).join(''):'<div class="soft">Todavía no cargaste comidas.</div>';$('recipeList').innerHTML=db.recipes.length?db.recipes.map((r,i)=>`<div style="padding:10px 0;border-bottom:1px solid var(--line)"><b>🍲 ${r.name}</b><div class="soft">${r.calories?`≈ ${r.calories} kcal · ${r.protein||0} g proteína / porción`:'Pendiente de análisis con IA'} · ${r.servings||'—'} porciones</div>${r.calories?`<button class="secondary" onclick="useRecipe(${i})">+ Comer 1 porción</button>`:''}</div>`).join(''):'<div class="soft">Todavía no guardaste recetas. Sumá una receta de TM7 o una receta tuya.</div>';$('calorieGoal').value=db.foodGoals.calories||'';$('proteinGoal').value=db.foodGoals.protein||'';let q='Cargá tus objetivos para recibir una sugerencia.';if(cg||pg){const rc=cg-cal,rp=pg-pro;q=rp>25?`Te quedan ≈ ${Math.max(0,Math.round(rc))} kcal y ${Math.round(rp)} g de proteína. Priorizaría proteína.`:rc>250?`Te quedan ≈ ${Math.round(rc)} kcal. La proteína viene encaminada.`:'Estás cerca del objetivo estimado del día. Mirá hambre y saciedad, no el número exacto.'}$('eatSuggestion').textContent=q;
+function renderFood(){const ms=db.meals[today()]||[],cal=ms.reduce((a,m)=>a+(+m.calories||0),0),pro=ms.reduce((a,m)=>a+(+m.protein||0),0),cg=+db.foodGoals.calories||0,pg=+db.foodGoals.protein||0;$('dayCalories').textContent=Math.round(cal);$('dayProtein').textContent=Math.round(pro);$('mealCount').textContent=ms.length===1?'1 comida':ms.length+' comidas';const types=['Desayuno','Almuerzo','Merienda','Cena','Colación'];$('mealChecks').innerHTML=types.map(t=>`<span class="${ms.some(m=>m.type===t)?'done':''}">${ms.some(m=>m.type===t)?'✓ ':''}${t}</span>`).join('');if($('calorieBar'))$('calorieBar').style.width=(cg?Math.min(100,cal/cg*100):0)+'%';if($('foodGoalText'))$('foodGoalText').textContent=cg?`${Math.round(cal)} de ${cg} kcal · ${Math.round(pro)} de ${pg||'—'} g proteína`:'Definí tus objetivos abajo.';$('mealList').innerHTML=ms.length?ms.map((m,i)=>`<div class="meal-item"><div class="meal-item-title">${m.type?m.type+' · ':''}${m.text}</div><div class="soft meal-item-macros">${m.calories||m.protein?`≈ ${m.calories} kcal · ≈ ${m.protein} g proteína`:'Estimación pendiente de IA'}</div></div>`).join(''):'<div class="soft">Todavía no cargaste comidas.</div>';$('recipeList').innerHTML=db.recipes.length?db.recipes.map((r,i)=>`<div style="padding:10px 0;border-bottom:1px solid var(--line)"><b>🍲 ${r.name}</b><div class="soft">${r.calories?`≈ ${r.calories} kcal · ${r.protein||0} g proteína / porción`:'Pendiente de análisis con IA'} · ${r.servings||'—'} porciones</div>${r.calories?`<button class="secondary" onclick="useRecipe(${i})">+ Comer 1 porción</button>`:''}</div>`).join(''):'<div class="soft">Todavía no guardaste recetas. Sumá una receta de TM7 o una receta tuya.</div>';$('calorieGoal').value=db.foodGoals.calories||'';$('proteinGoal').value=db.foodGoals.protein||'';let q='Cargá tus objetivos para recibir una sugerencia.';if(cg||pg){const rc=cg-cal,rp=pg-pro;q=rp>25?`Te quedan ≈ ${Math.max(0,Math.round(rc))} kcal y ${Math.round(rp)} g de proteína. Priorizaría proteína.`:rc>250?`Te quedan ≈ ${Math.round(rc)} kcal. La proteína viene encaminada.`:'Estás cerca del objetivo estimado del día. Mirá hambre y saciedad, no el número exacto.'}$('eatSuggestion').textContent=q;
   $('homeCalories').textContent=`${Math.round(cal)} / ${cg||'—'}`;
   $('homeProtein').textContent=`${Math.round(pro)} / ${pg||'—'}`;
   let hs='Definí tus objetivos en Comidas para ver cómo viene el día.';
@@ -662,7 +717,6 @@ function renderBeta11Enhancements(){
     if(cg||pg){const bits=[];if(cg)bits.push(cal>=cg?'Calorías: objetivo alcanzado ✓':`Te quedan ≈ ${Math.max(0,Math.round(cg-cal))} kcal`);if(pg)bits.push(pro>=pg?'Proteína: objetivo alcanzado ✓':`≈ ${Math.max(0,Math.round(pg-pro))} g de proteína`);$('foodRemaining').textContent=bits.join(' · ')}
     else $('foodRemaining').textContent='Definí tus objetivos abajo.';
   }
-  if($('mealDayFooter'))$('mealDayFooter').textContent=`${meals.length} comida${meals.length===1?'':'s'} registrada${meals.length===1?'':'s'} · ${Math.round(cal)} kcal · ${Math.round(pro)} g proteína`;
   if($('goalFat'))$('goalFat').value=(db.settings&&db.settings.goalFat)||'';
   if($('goalMuscle'))$('goalMuscle').value=(db.settings&&db.settings.goalMuscle)||'';
 }
