@@ -581,35 +581,27 @@ let pendingAiMeal=null;
 function fileToDataURL(file){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)})}
 
 function getDayFoodIntelligence(extraCal=0,extraPro=0){
-  const meals=(db.meals&&db.meals[today()])||[];
-  const cal=meals.reduce((a,m)=>a+(+m.calories||0),0)+(+extraCal||0);
-  const pro=meals.reduce((a,m)=>a+(+m.protein||0),0)+(+extraPro||0);
-  const cg=+(db.foodGoals&&db.foodGoals.calories)||0,pg=+(db.foodGoals&&db.foodGoals.protein)||0;
-  const rc=cg?cg-cal:null,rp=pg?pg-pro:null;
-  let main='',sub='';
-  if(!meals.length&&!extraCal&&!extraPro){
-    main='Todavía estamos arrancando.';
-    sub=(cg||pg)?'Cuando cargues tu primera comida, te ayudo a leer cómo viene el día.':'Definí tus objetivos y cargá tu primera comida para empezar.';
-  }else if(!cg&&!pg){
-    main='Ya hay datos para mirar.';
-    sub='Definí tus objetivos de calorías y proteína para que pueda darte contexto útil.';
-  }else if(pg&&rp>25){
-    main='La prioridad ahora es proteína.';
-    sub=`Llevás ${Math.round(pro)} g de ${Math.round(pg)} g. Te quedan ≈ ${Math.round(rp)} g. En la próxima comida priorizaría una buena fuente de proteína.`;
-  }else if(cg&&rc<0){
-    main='Ya alcanzaste tu referencia de calorías.';
-    sub='No hace falta compensar. Tomalo como contexto y seguí guiándote también por hambre y saciedad.';
-  }else if(pg&&rp<=0){
-    main='Objetivo de proteína alcanzado 💪';
-    sub=cg&&rc>0?`Todavía tenés ≈ ${Math.round(rc)} kcal de margen. No necesitás forzar más proteína.`:'La proteína del día ya está cubierta.';
-  }else if(cg&&rc<=300){
-    main='Estás cerca de tu referencia del día.';
-    sub=pg&&rp>0?`Te quedan ≈ ${Math.max(0,Math.round(rp))} g de proteína. Elegí lo próximo con eso en mente, sin rigidez.`:'Usá hambre y saciedad para decidir lo próximo.';
-  }else{
-    main='Viene bastante alineado.';
-    sub=pg&&rp>0?`Te quedan ≈ ${Math.round(rp)} g de proteína${cg?` y ≈ ${Math.max(0,Math.round(rc))} kcal de margen.`:'.'}`:'Todavía hay margen en el día. Elegí lo próximo según hambre y saciedad.';
-  }
-  return {cal,pro,cg,pg,rc,rp,main,sub};
+ const meals=(db.meals&&db.meals[today()])||[],cal=meals.reduce((a,m)=>a+(+m.calories||0),0)+(+extraCal||0),pro=meals.reduce((a,m)=>a+(+m.protein||0),0)+(+extraPro||0);
+ const cg=+(db.foodGoals&&db.foodGoals.calories)||0,pg=+(db.foodGoals&&db.foodGoals.protein)||0,rc=cg?cg-cal:null,rp=pg?pg-pro:null,hour=new Date().getHours(),mealCount=meals.length+(extraCal||extraPro?1:0),pp=pg?pro/pg:0;
+ let main='',sub='';
+ if(!mealCount){main='Todavía estamos arrancando.';sub=(cg||pg)?'Cuando cargues tu primera comida, te ayudo a leer cómo viene el día.':'Definí tus objetivos y cargá tu primera comida para empezar.';}
+ else if(!cg&&!pg){main='Ya hay datos para mirar.';sub='Definí tus objetivos de calorías y proteína para que pueda darte contexto útil.';}
+ else if(hour<12){
+   if(pg&&pp>=.20){main='Buen arranque de proteína 💪';sub=`Llevás ${Math.round(pro)} g de ${Math.round(pg)} g. Tenés todo el día por delante para seguir sumando.`;}
+   else if(pg){main='El día recién empieza.';sub=`Llevás ${Math.round(pro)} g de ${Math.round(pg)} g de proteína. En almuerzo y cena podemos seguir sumando, sin apuro.`;}
+   else{main='Buen comienzo.';sub='El día recién empieza. Seguí registrando y después vemos el panorama completo.';}
+ }else if(hour<17){
+   if(pg&&pp<.35){main='Hoy conviene sumar proteína.';sub=`Llevás ${Math.round(pro)} g de ${Math.round(pg)} g. En lo próximo elegiría una buena fuente de proteína.`;}
+   else if(pg&&pp>=.65){main='Viene muy bien.';sub=`Ya llevás ${Math.round(pro)} g de ${Math.round(pg)} g de proteína. Seguí así, sin necesidad de perseguir el número.`;}
+   else{main='Viene bastante alineado.';sub=pg?`Llevás ${Math.round(pro)} g de ${Math.round(pg)} g de proteína. Todavía queda parte del día para completar con calma.`:'Seguí registrando y usamos el resto del día como contexto.';}
+ }else{
+   if(pg&&rp<=0){main='Proteína cubierta 💪';sub=cg&&rc>0?`Objetivo alcanzado. Todavía tenés ≈ ${Math.round(rc)} kcal de margen, si tenés hambre.`:'El objetivo de proteína del día ya está cubierto.';}
+   else if(cg&&rc<0){main='Ya alcanzaste tu referencia de calorías.';sub='No hace falta compensar. Tomalo como contexto y seguí guiándote también por hambre y saciedad.';}
+   else if(pg&&pp<.70){main='La proteína puede ser el foco de lo que queda.';sub=`Llevás ${Math.round(pro)} g de ${Math.round(pg)} g. Si todavía vas a comer, priorizaría proteína.`;}
+   else if(cg&&rc<=300){main='Estás cerca de tu referencia del día.';sub=pg&&rp>0?`Te quedan ≈ ${Math.max(0,Math.round(rp))} g de proteína. Elegí lo próximo según hambre, sin rigidez.`:'Usá hambre y saciedad para decidir lo próximo.';}
+   else{main='El día viene bien encaminado.';sub=pg&&rp>0?`Te quedan ≈ ${Math.round(rp)} g de proteína${cg?` y ≈ ${Math.max(0,Math.round(rc))} kcal de margen.`:'.'}`:'Todavía hay margen. Elegí lo próximo según hambre y saciedad.';}
+ }
+ return {cal,pro,cg,pg,rc,rp,hour,mealCount,main,sub};
 }
 function renderBoostSays(){
   if(!$('boostSaysMain'))return;
