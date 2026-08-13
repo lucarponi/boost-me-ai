@@ -563,6 +563,61 @@ $('cycleStart').onclick=()=>{const c=currentCycle();if(c&&!c.end)c.end=localKey(
 $('cycleEnd').onclick=()=>{const c=currentCycle();if(!c||c.end){toast('No hay un ciclo abierto');return}c.end=today();saveDB();renderAll();toast('Final del ciclo guardado ✓')}
 function avg(a,k){const v=a.filter(x=>x[k]!=null).map(x=>+x[k]);return v.length?v.reduce((p,c)=>p+c,0)/v.length:null}
 function renderWeeklyInsight(){let e=new Date(),st=new Date();st.setDate(e.getDate()-6),ps=new Date();ps.setDate(e.getDate()-13),pe=new Date();pe.setDate(e.getDate()-7);const a=entries().filter(x=>x.date>=localKey(st)&&x.date<=localKey(e)),p=entries().filter(x=>x.date>=localKey(ps)&&x.date<=localKey(pe));let insight='Todavía estoy juntando datos para darte un insight semanal útil.',tip='Seguí registrando: con más historia voy a poder leer patrones y tendencia.',emoji='🌱';if(a.length>=2){const ca=avg(a,'weight'),pa=avg(p,'weight'),moves=a.filter(x=>x.pilates||x.tennis||x.walk||x.other).length,fd=a.filter(x=>x.food).length,fg=a.filter(x=>x.food==='Bien').length,wd=a.filter(x=>x.water||x.waterCount).length,wg=a.filter(x=>x.water==='Bien'||(x.waterCount||0)>=4).length,pct=ca!=null&&pa!=null?(pa-ca)/pa*100:null,c=currentCycle();if(c&&!c.end){insight='Estás dentro del ciclo registrado. Mirá más la tendencia que un cambio aislado de peso.';tip='No cambiaría el plan por una variación de un solo día.';emoji='🌙'}if(pct!=null&&pct>=.5){insight=`Tu promedio semanal viene bajando ${pct.toFixed(2)}%. La tendencia ya está dentro de la referencia que buscás.`;tip='No hace falta empujar más: priorizá sostener lo que está funcionando.';emoji='🎉'}else if(pct!=null&&pct>0){insight=`Tu promedio semanal viene bajando ${pct.toFixed(2)}%. Es una tendencia a favor aunque un día aislado pueda subir.`;tip='Mirá el promedio de varios días antes de decidir cambiar algo.';emoji='✨'}else if(pct!=null&&pct<0){insight=`El promedio semanal subió ${Math.abs(pct).toFixed(2)}%. Antes de sacar conclusiones, miraría varios días más y el contexto.`;tip='Líquidos, comidas, ciclo y horario también pueden mover la balanza.';emoji='🔎'}else if(wd>=3&&wg/wd<.5){insight='El patrón más claro esta semana no está en la balanza: el agua viene menos consistente.';tip='Pondría el foco en una sola cosa: mejorar la constancia con el agua.';emoji='💧'}else if(fd>=3&&fg/fd<.5){insight='La alimentación aparece más irregular que el resto de tus registros.';tip='Elegiría una sola comida del día para hacerla más predecible.';emoji='🥗'}else if(moves<2&&a.length>=4){insight='Esta semana hay margen para sumar movimiento sin tocar todo lo demás.';tip='Uno o dos momentos cortos ya pueden mejorar la constancia.';emoji='💪'}}$('weekInsight').textContent=insight;$('weekTip').innerHTML='<b>👉 Sugerencia:</b> '+tip;$('weekEmoji').textContent=emoji;$('weekTitle').textContent='Lo importante de esta semana';$('weekSubtitle').textContent='Interpretación, no resumen.'}
+
+$('exportBackup').onclick=()=>{
+  const payload={app:'BOOST ME',version:6,exportedAt:new Date().toISOString(),data:db};
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  const u=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=u;a.download=`boost-me-backup-${today()}.json`;
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(u),1000);
+  toast('Backup exportado 🛟');
+};
+
+$('importBackup').onclick=()=>{
+  const input=$('backupFile');
+  input.value='';
+  input.click();
+};
+
+$('backupFile').onchange=e=>{
+  const f=e.target.files&&e.target.files[0];
+  if(!f)return;
+  const r=new FileReader();
+  r.onload=()=>{
+    try{
+      const o=JSON.parse(r.result);
+      const d=(o&&o.data)?o.data:o;
+      if(!d||typeof d!=='object'||!d.entries||typeof d.entries!=='object')throw new Error('Formato inválido');
+      d.entries=d.entries||{};
+      d.goal=d.goal||{};
+      d.cycles=d.cycles||[];
+      d.meals=d.meals||{};
+      d.recipes=d.recipes||[];
+      d.foodGoals=d.foodGoals||{};
+      d.settings=d.settings||{};
+      if(confirm('¿Restaurar este backup? Va a reemplazar los datos actuales.')){
+        db=d;saveDB();renderAll();
+        setTimeout(()=>{if($('progressTab')&&$('progressTab').classList.contains('active'))renderProgress()},120);
+        toast('Backup restaurado ✓');
+      }
+    }catch(err){
+      console.error('Backup import error',err);
+      alert('No pude restaurar ese backup.');
+    }finally{e.target.value='';}
+  };
+  r.onerror=()=>{alert('No pude leer el archivo de backup.');e.target.value='';};
+  r.readAsText(f);
+};
+
+let selectedMealType='';
+document.querySelectorAll('#mealTypes button').forEach(b=>b.onclick=()=>{
+  selectedMealType=b.dataset.meal;
+  document.querySelectorAll('#mealTypes button').forEach(x=>x.classList.toggle('active',x===b));
+});
+const AI_ENDPOINT=window.BOOST_ME_AI_ENDPOINT||'/api/analyze-meal';
+let pendingAiMeal=null;
+
 function fileToDataURL(file){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)})}
 
 function getDayFoodIntelligence(extraCal=0,extraPro=0){
