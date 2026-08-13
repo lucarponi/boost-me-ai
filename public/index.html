@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#ff7f6a" name="theme-color"/>
-<title>BOOST ME V6 Beta</title>
+<title>BOOST ME</title>
 <style>
 :root{
   --bg:#fffaf7;--ink:#222229;--muted:#7a7480;--card:#fff;--pink:#ff7f8f;--coral:#ff7f6a;
@@ -191,8 +191,17 @@ body{min-height:100vh}.app{max-width:540px;margin:0 auto;padding:24px 18px 112px
 .boost-says-head span{font-size:11px;color:var(--muted)}
 .boost-says-main{font-size:17px;font-weight:950;line-height:1.25;margin-top:12px}
 .boost-says-sub{font-size:12px;line-height:1.4;color:var(--muted);margin-top:6px}
+
+#foodTab .hero{display:none!important}
+.meal-types{display:flex!important;gap:4px!important;flex-wrap:nowrap!important;overflow-x:auto!important}
+.meal-type{flex:1 0 auto!important;padding:7px 6px!important;font-size:10px!important;border-radius:10px!important}
+.weekly-card-compact{padding:13px!important}.weekly-card-compact .big,.weekly-card-compact .metric-value{font-size:22px!important}
+.food-context-kicker{font-size:11px;font-weight:850;color:var(--muted);margin:2px 0 8px}
+.real-food-suggestion{padding:12px;border-radius:16px;background:linear-gradient(135deg,#fff7df,#eff9ff,#effbf3);margin-top:9px}
+.real-food-suggestion b{display:block;font-size:14px}.real-food-suggestion span{display:block;font-size:12px;line-height:1.35;color:var(--muted);margin-top:4px}
+.cycle-done{background:#eadcf7!important;border-color:#b89ad4!important;color:#533b69!important}.cycle-done::after{content:" ✓";font-weight:950}
 </style>
-</head>
+<link href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgyPSIxIiB5Mj0iMSI+PHN0b3Agc3RvcC1jb2xvcj0iI2ZmZDllOCIvPjxzdG9wIG9mZnNldD0iLjUiIHN0b3AtY29sb3I9IiNmZmYwYjgiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNkOWYxZmYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExMiIgZmlsbD0idXJsKCNnKSIvPjxwYXRoIGQ9Ik0yOTQgNjAgMTQ1IDI4M2g5NmwtMjQgMTY5IDE1MC0yMjloLTk3eiIgZmlsbD0iIzRmNDI1ZCIvPjwvc3ZnPg==" rel="apple-touch-icon"/><link href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgyPSIxIiB5Mj0iMSI+PHN0b3Agc3RvcC1jb2xvcj0iI2ZmZDllOCIvPjxzdG9wIG9mZnNldD0iLjUiIHN0b3AtY29sb3I9IiNmZmYwYjgiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNkOWYxZmYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExMiIgZmlsbD0idXJsKCNnKSIvPjxwYXRoIGQ9Ik0yOTQgNjAgMTQ1IDI4M2g5NmwtMjQgMTY5IDE1MC0yMjloLTk3eiIgZmlsbD0iIzRmNDI1ZCIvPjwvc3ZnPg==" rel="icon"/><meta content="yes" name="apple-mobile-web-app-capable"/><meta content="BOOST ME" name="apple-mobile-web-app-title"/><meta content="#fff7df" name="theme-color"/></head>
 <body>
 <div class="app">
 <div class="brand"><div><h1>BOOST ME</h1><div class="tag">Un día a la vez.</div></div><div style="font-size:28px">🌞</div></div>
@@ -226,7 +235,7 @@ body{min-height:100vh}.app{max-width:540px;margin:0 auto;padding:24px 18px 112px
 <button class="choice other" id="other" type="button"><span class="ico">⚡</span>Otro<small>rutina</small></button>
 </div>
 <div class="auto-note" id="movementNote">Tocá una actividad cuando la hagas. No hace falta cerrar el día.</div>
-</div><div class="card cycle-card"><div class="section-title"><h3>🌸 Ciclo</h3><span class="soft" id="cycleBadge">sin registrar</span></div><div class="cycle-state" id="cycleState">¿Empezó tu ciclo?</div><div class="cycle-sub" id="cycleSub">Marcá el día 1 y el final.</div><div class="cycle-actions"><button class="cycle-btn start" id="cycleStart">🌸 Marcar día 1</button><button class="cycle-btn end" id="cycleEnd">✓ Marcar final</button></div></div><div class="card close-card">
+</div><div class="card cycle-card"><div class="section-title"><h3>🌸 Ciclo</h3><span class="soft" id="cycleBadge">sin registrar</span></div><div class="cycle-state" id="cycleState">¿Empezó tu ciclo?</div><div class="cycle-sub" id="cycleSub">Marcá el día 1 y el final.</div><div class="cycle-actions"><button class="cycle-btn start" id="cycleDay1Btn">🌸 Marcar día 1</button><button class="cycle-btn end" id="cycleEnd">✓ Marcar final</button></div></div><div class="card close-card">
 <div class="evening-toggle">
 <div><div class="soft">AL FINAL DEL DÍA</div><h3 style="margin:4px 0 0">🌙 Cerrar mi día</h3><div class="soft" id="eveningSummary">Completalo cuando termine el día.</div></div>
 <div class="moon">🌙</div>
@@ -268,7 +277,7 @@ body{min-height:100vh}.app{max-width:540px;margin:0 auto;padding:24px 18px 112px
 <div class="kpi orangebg">🔥 Racha<b id="kStreak">0</b><span class="soft">días completos</span></div>
 <div class="kpi bluebg">💪 Músculo<b id="kMuscle">—</b><span class="soft">kg</span><span class="vs neutral" id="kMuscleVs">— vs. anterior</span></div>
 <div class="kpi greenbg">🧡 Grasa<b id="kFat">—</b><span class="soft">%</span><span class="vs neutral" id="kFatVs">— vs. anterior</span></div>
-</div><div class="insight" id="dailyInsight">✨ Cuando haya dos registros, te cuento qué cambió.</div><div class="card"><div class="section-title"><h3>📉 Descenso semanal</h3><span class="soft">referencia: 0,5%</span></div><div id="weekly" style="font-size:27px;font-weight:850">—</div><div class="weekly-pct" id="weeklyPct">—</div><div class="soft" id="weeklyPctMsg">Todavía no hay dos semanas para comparar.</div><div class="week-meter"><div id="weeklyPctBar"></div></div><div class="week-scale"><span>0%</span><span>0,5% ✓</span><span>1%+</span></div></div><div class="chart-grid">
+</div><div class="insight" id="dailyInsight">✨ Cuando haya dos registros, te cuento qué cambió.</div><div class="card weekly-card-compact"><div class="section-title"><h3>📉 Descenso semanal</h3><span class="soft">referencia: 0,5%</span></div><div id="weekly" style="font-size:27px;font-weight:850">—</div><div class="weekly-pct" id="weeklyPct">—</div><div class="soft" id="weeklyPctMsg">Todavía no hay dos semanas para comparar.</div><div class="week-meter"><div id="weeklyPctBar"></div></div><div class="week-scale"><span>0%</span><span>0,5% ✓</span><span>1%+</span></div></div><div class="chart-grid">
 <div class="card chart-card wide">
 <div class="section-title"><h3>📈 Peso hacia el objetivo</h3><span class="soft">tendencia diaria</span></div>
 <canvas id="chart"></canvas>
@@ -290,7 +299,7 @@ body{min-height:100vh}.app{max-width:540px;margin:0 auto;padding:24px 18px 112px
 </div><button class="primary" id="saveGoal">Guardar objetivos</button></div><div class="card"><div class="section-title"><h3>📅 Historial</h3><span class="soft">ver y corregir días</span></div>
 <button class="secondary" id="openCalendar">Abrir calendario →</button></div><div class="card"><div class="section-title"><h3>🛟 Backup</h3><span class="soft">protege tu historial</span></div><div class="backup-actions"><button class="backup-btn export" id="exportBackup">⬇️ Exportar</button><button class="backup-btn import" id="importBackup">⬆️ Restaurar</button></div><input accept=".json,application/json" id="backupFile" style="display:none" type="file"/><div class="backup-note">Guardá una copia cada tanto. Restaurar reemplaza los datos actuales por los del backup.</div></div></section>
 <section class="tab" id="foodTab">
-<div class="hero food-hero-compact"><div><div class="eyebrow">🍽️ COMIDAS · BETA</div><h1>Comer con contexto</h1></div><div class="hero-emoji">🥗</div></div><div class="card"><div class="section-title"><h3>💡 ¿Qué puedo comer?</h3></div><div class="insight" id="eatSuggestion">Cargá tus objetivos para recibir una sugerencia.</div></div><div class="card"><div class="section-title"><h3>Hoy</h3><span class="soft">vs. objetivo</span></div><div class="food-progress-line"><div><span>🔥 Calorías</span><b><span id="dayCalories">0</span> / <span id="dayCaloriesGoal">—</span> kcal</b></div><div class="meter"><i id="calorieProgress"></i></div></div><div class="food-progress-line"><div><span>💪 Proteína</span><b><span id="dayProtein">0</span> / <span id="dayProteinGoal">—</span> g</b></div><div class="meter"><i id="proteinProgress"></i></div></div><div class="soft" id="foodRemaining">Definí tus objetivos abajo.</div><div class="meal-checks" id="mealChecks"></div></div><div class="card"><div class="section-title"><h3>➕ Registrar comida</h3><span class="soft">foto + texto</span></div><label class="secondary" style="display:block;text-align:center">📷 Elegir foto<input accept="image/*" id="mealPhoto" style="display:none" type="file"/></label><div class="soft" id="photoName" style="margin:8px 0">Sin foto.</div><div class="meal-types" id="mealTypes"><button data-meal="Desayuno">☀️ Desayuno</button><button data-meal="Almuerzo">🥗 Almuerzo</button><button data-meal="Merienda">🧉 Merienda</button><button data-meal="Cena">🌙 Cena</button><button data-meal="Colación">🍎 Colación</button></div><textarea id="mealText" placeholder="Contame qué comiste y cualquier detalle útil…" rows="3" style="width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:16px;padding:12px;font:inherit"></textarea><button class="primary" id="addMeal" style="margin-top:10px">✨ Analizar con IA</button><div class="save-note">Foto + descripción ayudan a mejorar la estimación. Siempre es aproximada.</div></div><div class="card ai-result-card" id="aiMealResult" style="display:none">
+<div class="hero food-hero-compact"><div><div class="eyebrow">🍽️ COMIDAS · BETA</div><h1>Comer con contexto</h1></div><div class="hero-emoji">🥗</div></div><div class="card"><div class="section-title"><h3>💡 ¿Qué puedo comer?</h3><div class="food-context-kicker" id="foodContextKicker">Comer con contexto</div><div class="real-food-suggestion" id="realFoodSuggestion"><b id="realFoodTitle">Una idea concreta para ahora</b><span id="realFoodText"></span></div></div><div class="insight" id="eatSuggestion">Cargá tus objetivos para recibir una sugerencia.</div></div><div class="card"><div class="section-title"><h3>Hoy</h3><span class="soft">vs. objetivo</span></div><div class="food-progress-line"><div><span>🔥 Calorías</span><b><span id="dayCalories">0</span> / <span id="dayCaloriesGoal">—</span> kcal</b></div><div class="meter"><i id="calorieProgress"></i></div></div><div class="food-progress-line"><div><span>💪 Proteína</span><b><span id="dayProtein">0</span> / <span id="dayProteinGoal">—</span> g</b></div><div class="meter"><i id="proteinProgress"></i></div></div><div class="soft" id="foodRemaining">Definí tus objetivos abajo.</div><div class="meal-checks" id="mealChecks"></div></div><div class="card"><div class="section-title"><h3>➕ Registrar comida</h3><span class="soft">foto + texto</span></div><label class="secondary" style="display:block;text-align:center">📷 Elegir foto<input accept="image/*" id="mealPhoto" style="display:none" type="file"/></label><div class="soft" id="photoName" style="margin:8px 0">Sin foto.</div><div class="meal-types" id="mealTypes"><button data-meal="Desayuno">☀️ Desayuno</button><button data-meal="Almuerzo">🥗 Almuerzo</button><button data-meal="Merienda">🧉 Merienda</button><button data-meal="Cena">🌙 Cena</button><button data-meal="Colación">🍎 Colación</button></div><textarea id="mealText" placeholder="Contame qué comiste y cualquier detalle útil…" rows="3" style="width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:16px;padding:12px;font:inherit"></textarea><button class="primary" id="addMeal" style="margin-top:10px">✨ Analizar con IA</button><div class="save-note">Foto + descripción ayudan a mejorar la estimación. Siempre es aproximada.</div></div><div class="card ai-result-card" id="aiMealResult" style="display:none">
 <div class="section-title"><h3>✨ Análisis</h3><span class="soft">estimado</span></div>
 <div class="ai-result-main">
 <div class="ai-result-kpi orangebg"><span>🔥</span><b id="aiCalories">—</b><small>kcal</small></div>
@@ -581,28 +590,50 @@ let pendingAiMeal=null;
 function fileToDataURL(file){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)})}
 
 function getDayFoodIntelligence(extraCal=0,extraPro=0){
- const meals=(db.meals&&db.meals[today()])||[],cal=meals.reduce((a,m)=>a+(+m.calories||0),0)+(+extraCal||0),pro=meals.reduce((a,m)=>a+(+m.protein||0),0)+(+extraPro||0);
- const cg=+(db.foodGoals&&db.foodGoals.calories)||0,pg=+(db.foodGoals&&db.foodGoals.protein)||0,rc=cg?cg-cal:null,rp=pg?pg-pro:null,hour=new Date().getHours(),mealCount=meals.length+(extraCal||extraPro?1:0),pp=pg?pro/pg:0;
- let main='',sub='';
- if(!mealCount){main='Todavía estamos arrancando.';sub=(cg||pg)?'Cuando cargues tu primera comida, te ayudo a leer cómo viene el día.':'Definí tus objetivos y cargá tu primera comida para empezar.';}
- else if(!cg&&!pg){main='Ya hay datos para mirar.';sub='Definí tus objetivos de calorías y proteína para que pueda darte contexto útil.';}
- else if(hour<12){
-   if(pg&&pp>=.20){main='Buen arranque de proteína 💪';sub=`Llevás ${Math.round(pro)} g de ${Math.round(pg)} g. Tenés todo el día por delante para seguir sumando.`;}
-   else if(pg){main='El día recién empieza.';sub=`Llevás ${Math.round(pro)} g de ${Math.round(pg)} g de proteína. En almuerzo y cena podemos seguir sumando, sin apuro.`;}
-   else{main='Buen comienzo.';sub='El día recién empieza. Seguí registrando y después vemos el panorama completo.';}
- }else if(hour<17){
-   if(pg&&pp<.35){main='Hoy conviene sumar proteína.';sub=`Llevás ${Math.round(pro)} g de ${Math.round(pg)} g. En lo próximo elegiría una buena fuente de proteína.`;}
-   else if(pg&&pp>=.65){main='Viene muy bien.';sub=`Ya llevás ${Math.round(pro)} g de ${Math.round(pg)} g de proteína. Seguí así, sin necesidad de perseguir el número.`;}
-   else{main='Viene bastante alineado.';sub=pg?`Llevás ${Math.round(pro)} g de ${Math.round(pg)} g de proteína. Todavía queda parte del día para completar con calma.`:'Seguí registrando y usamos el resto del día como contexto.';}
- }else{
-   if(pg&&rp<=0){main='Proteína cubierta 💪';sub=cg&&rc>0?`Objetivo alcanzado. Todavía tenés ≈ ${Math.round(rc)} kcal de margen, si tenés hambre.`:'El objetivo de proteína del día ya está cubierto.';}
-   else if(cg&&rc<0){main='Ya alcanzaste tu referencia de calorías.';sub='No hace falta compensar. Tomalo como contexto y seguí guiándote también por hambre y saciedad.';}
-   else if(pg&&pp<.70){main='La proteína puede ser el foco de lo que queda.';sub=`Llevás ${Math.round(pro)} g de ${Math.round(pg)} g. Si todavía vas a comer, priorizaría proteína.`;}
-   else if(cg&&rc<=300){main='Estás cerca de tu referencia del día.';sub=pg&&rp>0?`Te quedan ≈ ${Math.max(0,Math.round(rp))} g de proteína. Elegí lo próximo según hambre, sin rigidez.`:'Usá hambre y saciedad para decidir lo próximo.';}
-   else{main='El día viene bien encaminado.';sub=pg&&rp>0?`Te quedan ≈ ${Math.round(rp)} g de proteína${cg?` y ≈ ${Math.max(0,Math.round(rc))} kcal de margen.`:'.'}`:'Todavía hay margen. Elegí lo próximo según hambre y saciedad.';}
- }
- return {cal,pro,cg,pg,rc,rp,hour,mealCount,main,sub};
+  const meals=(db.meals&&db.meals[today()])||[];
+  const cal=meals.reduce((a,m)=>a+(+m.calories||0),0)+(+extraCal||0);
+  const pro=meals.reduce((a,m)=>a+(+m.protein||0),0)+(+extraPro||0);
+  const cg=+(db.foodGoals&&db.foodGoals.calories)||0,pg=+(db.foodGoals&&db.foodGoals.protein)||0;
+  const rc=cg?cg-cal:null,rp=pg?pg-pro:null;
+  let main='',sub='';
+  if(!meals.length&&!extraCal&&!extraPro){
+    main='Todavía estamos arrancando.';
+    sub=(cg||pg)?'Cuando cargues tu primera comida, te ayudo a leer cómo viene el día.':'Definí tus objetivos y cargá tu primera comida para empezar.';
+  }else if(!cg&&!pg){
+    main='Ya hay datos para mirar.';
+    sub='Definí tus objetivos de calorías y proteína para que pueda darte contexto útil.';
+  }else if(pg&&rp>25){
+    main='La prioridad ahora es proteína.';
+    sub=`Llevás ${Math.round(pro)} g de ${Math.round(pg)} g. Te quedan ≈ ${Math.round(rp)} g. En la próxima comida priorizaría una buena fuente de proteína.`;
+  }else if(cg&&rc<0){
+    main='Ya alcanzaste tu referencia de calorías.';
+    sub='No hace falta compensar. Tomalo como contexto y seguí guiándote también por hambre y saciedad.';
+  }else if(pg&&rp<=0){
+    main='Objetivo de proteína alcanzado 💪';
+    sub=cg&&rc>0?`Todavía tenés ≈ ${Math.round(rc)} kcal de margen. No necesitás forzar más proteína.`:'La proteína del día ya está cubierta.';
+  }else if(cg&&rc<=300){
+    main='Estás cerca de tu referencia del día.';
+    sub=pg&&rp>0?`Te quedan ≈ ${Math.max(0,Math.round(rp))} g de proteína. Elegí lo próximo con eso en mente, sin rigidez.`:'Usá hambre y saciedad para decidir lo próximo.';
+  }else{
+    main='Viene bastante alineado.';
+    sub=pg&&rp>0?`Te quedan ≈ ${Math.round(rp)} g de proteína${cg?` y ≈ ${Math.max(0,Math.round(rc))} kcal de margen.`:'.'}`:'Todavía hay margen en el día. Elegí lo próximo según hambre y saciedad.';
+  }
+  return {cal,pro,cg,pg,rc,rp,main,sub};
 }
+
+function getRealFoodSuggestion(){
+ const x=getDayFoodIntelligence(),h=new Date().getHours();
+ if(!x.pg&&!x.cg)return {title:'Definí tus objetivos primero',text:'Con calorías y proteína objetivo puedo proponerte una comida concreta.'};
+ if(!x.mealCount)return {title:h<12?'Desayuno simple':'Una comida completa',text:h<12?'2 huevos + 2 claras con una tostada. Buena base de proteína para arrancar.':'Pollo o pescado con verduras y una porción de arroz o papa. Proteína, saciedad y energía.'};
+ if(x.pg&&x.rp<=0)return {title:'La proteína ya está cubierta',text:'Elegí según hambre y ganas. No necesitás sumar proteína porque sí.'};
+ if(h>=18&&x.pg&&x.rp>25){if(x.rc!==null&&x.rc<350)return {title:'Cena liviana y proteica',text:'2 huevos + 2 claras con una ensalada grande. Suma proteína sin gastar demasiado margen.'};return {title:'Para cenar',text:'150 g de pollo o pescado + ensalada o verduras + una porción chica de papa o arroz. Una forma simple de acercarte a la proteína que falta.'};}
+ if(h>=12&&h<18&&x.pg&&x.rp>25)return {title:'Para la próxima comida',text:'Una porción de pollo, atún o pescado con verduras. Si necesitás más energía, sumá arroz, papa o pan.'};
+ if(h<12&&x.pg&&x.rp>25)return {title:'Para seguir sumando',text:'En el almuerzo buscá una proteína protagonista: pollo, pescado, atún o huevos.'};
+ return {title:'Una opción equilibrada',text:'Elegí una fuente de proteína con verduras y ajustá el acompañamiento según el hambre y el margen que te queda.'};
+}
+function renderRealFoodSuggestion(){if(!$('realFoodTitle'))return;const r=getRealFoodSuggestion();$('realFoodTitle').textContent=r.title;$('realFoodText').textContent=r.text;}
+function renderCycleState(){if(!$('cycleDay1Btn'))return;const used=(db.cycles||[]).some(c=>{const d=(c&&typeof c==='object')?(c.date||c.start||c.day1||c.startDate):c;return d===today();});$('cycleDay1Btn').classList.toggle('cycle-done',used);$('cycleDay1Btn').setAttribute('aria-pressed',used?'true':'false');}
+
 function renderBoostSays(){
   if(!$('boostSaysMain'))return;
   const x=getDayFoodIntelligence();
@@ -632,7 +663,7 @@ function showAiResult(r){
   $('aiMealResult').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-function renderFood(){renderBoostSays();const ms=db.meals[today()]||[],cal=ms.reduce((a,m)=>a+(+m.calories||0),0),pro=ms.reduce((a,m)=>a+(+m.protein||0),0),cg=+db.foodGoals.calories||0,pg=+db.foodGoals.protein||0;$('dayCalories').textContent=Math.round(cal);$('dayProtein').textContent=Math.round(pro);$('mealCount').textContent=ms.length===1?'1 comida':ms.length+' comidas';const types=['Desayuno','Almuerzo','Merienda','Cena','Colación'];$('mealChecks').innerHTML=types.map(t=>`<span class="${ms.some(m=>m.type===t)?'done':''}">${ms.some(m=>m.type===t)?'✓ ':''}${t}</span>`).join('');if($('calorieBar'))$('calorieBar').style.width=(cg?Math.min(100,cal/cg*100):0)+'%';if($('foodGoalText'))$('foodGoalText').textContent=cg?`${Math.round(cal)} de ${cg} kcal · ${Math.round(pro)} de ${pg||'—'} g proteína`:'Definí tus objetivos abajo.';$('mealList').innerHTML=ms.length?ms.map((m,i)=>`<div class="meal-item"><div class="meal-item-title">${m.type?m.type+' · ':''}${m.text}</div><div class="soft meal-item-macros">${m.calories||m.protein?`≈ ${m.calories} kcal · ≈ ${m.protein} g proteína`:'Estimación pendiente de IA'}</div></div>`).join(''):'<div class="soft">Todavía no cargaste comidas.</div>';$('recipeList').innerHTML=db.recipes.length?db.recipes.map((r,i)=>`<div style="padding:10px 0;border-bottom:1px solid var(--line)"><b>🍲 ${r.name}</b><div class="soft">${r.calories?`≈ ${r.calories} kcal · ${r.protein||0} g proteína / porción`:'Pendiente de análisis con IA'} · ${r.servings||'—'} porciones</div>${r.calories?`<button class="secondary" onclick="useRecipe(${i})">+ Comer 1 porción</button>`:''}</div>`).join(''):'<div class="soft">Todavía no guardaste recetas. Sumá una receta de TM7 o una receta tuya.</div>';$('calorieGoal').value=db.foodGoals.calories||'';$('proteinGoal').value=db.foodGoals.protein||'';let q='Cargá tus objetivos para recibir una sugerencia.';if(cg||pg){const rc=cg-cal,rp=pg-pro;q=rp>25?`Te quedan ≈ ${Math.max(0,Math.round(rc))} kcal y ${Math.round(rp)} g de proteína. Priorizaría proteína.`:rc>250?`Te quedan ≈ ${Math.round(rc)} kcal. La proteína viene encaminada.`:'Estás cerca del objetivo estimado del día. Mirá hambre y saciedad, no el número exacto.'}$('eatSuggestion').textContent=q;
+function renderFood(){renderRealFoodSuggestion();renderBoostSays();const ms=db.meals[today()]||[],cal=ms.reduce((a,m)=>a+(+m.calories||0),0),pro=ms.reduce((a,m)=>a+(+m.protein||0),0),cg=+db.foodGoals.calories||0,pg=+db.foodGoals.protein||0;$('dayCalories').textContent=Math.round(cal);$('dayProtein').textContent=Math.round(pro);$('mealCount').textContent=ms.length===1?'1 comida':ms.length+' comidas';const types=['Desayuno','Almuerzo','Merienda','Cena','Colación'];$('mealChecks').innerHTML=types.map(t=>`<span class="${ms.some(m=>m.type===t)?'done':''}">${ms.some(m=>m.type===t)?'✓ ':''}${t}</span>`).join('');if($('calorieBar'))$('calorieBar').style.width=(cg?Math.min(100,cal/cg*100):0)+'%';if($('foodGoalText'))$('foodGoalText').textContent=cg?`${Math.round(cal)} de ${cg} kcal · ${Math.round(pro)} de ${pg||'—'} g proteína`:'Definí tus objetivos abajo.';$('mealList').innerHTML=ms.length?ms.map((m,i)=>`<div class="meal-item"><div class="meal-item-title">${m.type?m.type+' · ':''}${m.text}</div><div class="soft meal-item-macros">${m.calories||m.protein?`≈ ${m.calories} kcal · ≈ ${m.protein} g proteína`:'Estimación pendiente de IA'}</div></div>`).join(''):'<div class="soft">Todavía no cargaste comidas.</div>';$('recipeList').innerHTML=db.recipes.length?db.recipes.map((r,i)=>`<div style="padding:10px 0;border-bottom:1px solid var(--line)"><b>🍲 ${r.name}</b><div class="soft">${r.calories?`≈ ${r.calories} kcal · ${r.protein||0} g proteína / porción`:'Pendiente de análisis con IA'} · ${r.servings||'—'} porciones</div>${r.calories?`<button class="secondary" onclick="useRecipe(${i})">+ Comer 1 porción</button>`:''}</div>`).join(''):'<div class="soft">Todavía no guardaste recetas. Sumá una receta de TM7 o una receta tuya.</div>';$('calorieGoal').value=db.foodGoals.calories||'';$('proteinGoal').value=db.foodGoals.protein||'';let q='Cargá tus objetivos para recibir una sugerencia.';if(cg||pg){const rc=cg-cal,rp=pg-pro;q=rp>25?`Te quedan ≈ ${Math.max(0,Math.round(rc))} kcal y ${Math.round(rp)} g de proteína. Priorizaría proteína.`:rc>250?`Te quedan ≈ ${Math.round(rc)} kcal. La proteína viene encaminada.`:'Estás cerca del objetivo estimado del día. Mirá hambre y saciedad, no el número exacto.'}$('eatSuggestion').textContent=q;
   $('homeCalories').textContent=`${Math.round(cal)} / ${cg||'—'}`;
   $('homeProtein').textContent=`${Math.round(pro)} / ${pg||'—'}`;
   let hs='Definí tus objetivos en Comidas para ver cómo viene el día.';
@@ -797,8 +828,10 @@ function renderExpandedAchievements(){
       ?`🌱 ${weekComplete} días completos · 💪 ${weekMoves} en movimiento · 💧 ${weekWater} con agua bien ✨`
       :'Tu semana se va armando con cada registro ✨';
 }
-function renderAll(){renderBoostSays();renderGreeting();loadToday();renderHomeStats();renderPlant();renderProgress();renderCalendar();renderBadges();renderHomeCelebration();renderCycle();renderWeeklyInsight();renderFood();renderCoach();syncBeta10();renderCelebrateHighlights();renderBeta11Enhancements();renderExpandedAchievements()}
+function renderAll(){renderRealFoodSuggestion();renderCycleState();renderBoostSays();renderGreeting();loadToday();renderHomeStats();renderPlant();renderProgress();renderCalendar();renderBadges();renderHomeCelebration();renderCycle();renderWeeklyInsight();renderFood();renderCoach();syncBeta10();renderCelebrateHighlights();renderBeta11Enhancements();renderExpandedAchievements()}
 window.addEventListener('resize',()=>{if($('progressTab').classList.contains('active'))renderProgress()});renderAll();
+
+if($('cycleDay1Btn'))$('cycleDay1Btn').addEventListener('click',()=>setTimeout(renderCycleState,0));
 </script>
 </body>
 </html>
