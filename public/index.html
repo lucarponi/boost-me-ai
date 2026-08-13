@@ -235,7 +235,7 @@ body{min-height:100vh}.app{max-width:540px;margin:0 auto;padding:24px 18px 112px
 <button class="choice other" id="other" type="button"><span class="ico">⚡</span>Otro<small>rutina</small></button>
 </div>
 <div class="auto-note" id="movementNote">Tocá una actividad cuando la hagas. No hace falta cerrar el día.</div>
-</div><div class="card cycle-card"><div class="section-title"><h3>🌸 Ciclo</h3><span class="soft" id="cycleBadge">sin registrar</span></div><div class="cycle-state" id="cycleState">¿Empezó tu ciclo?</div><div class="cycle-sub" id="cycleSub">Marcá el día 1 y el final.</div><div class="cycle-actions"><button class="cycle-btn start" id="cycleDay1Btn">🌸 Marcar día 1</button><button class="cycle-btn end" id="cycleEnd">✓ Marcar final</button></div></div><div class="card close-card">
+</div><div class="card cycle-card"><div class="section-title"><h3>🌸 Ciclo</h3><span class="soft" id="cycleBadge">sin registrar</span></div><div class="cycle-state" id="cycleState">¿Empezó tu ciclo?</div><div class="cycle-sub" id="cycleSub">Marcá el día 1 y el final.</div><div class="cycle-actions"><button class="cycle-btn start" id="cycleStart">🌸 Marcar día 1</button><button class="cycle-btn end" id="cycleEnd">✓ Marcar final</button></div></div><div class="card close-card">
 <div class="evening-toggle">
 <div><div class="soft">AL FINAL DEL DÍA</div><h3 style="margin:4px 0 0">🌙 Cerrar mi día</h3><div class="soft" id="eveningSummary">Completalo cuando termine el día.</div></div>
 <div class="moon">🌙</div>
@@ -632,7 +632,7 @@ function getRealFoodSuggestion(){
  return {title:'Una opción equilibrada',text:'Elegí una fuente de proteína con verduras y ajustá el acompañamiento según el hambre y el margen que te queda.'};
 }
 function renderRealFoodSuggestion(){if(!$('realFoodTitle'))return;const r=getRealFoodSuggestion();$('realFoodTitle').textContent=r.title;$('realFoodText').textContent=r.text;}
-function renderCycleState(){if(!$('cycleDay1Btn'))return;const used=(db.cycles||[]).some(c=>{const d=(c&&typeof c==='object')?(c.date||c.start||c.day1||c.startDate):c;return d===today();});$('cycleDay1Btn').classList.toggle('cycle-done',used);$('cycleDay1Btn').setAttribute('aria-pressed',used?'true':'false');}
+function renderCycleState(){if(!$('cycleStart'))return;const used=(db.cycles||[]).some(c=>{const d=(c&&typeof c==='object')?(c.date||c.start||c.day1||c.startDate):c;return d===today();});$('cycleStart').classList.toggle('cycle-done',used);$('cycleStart').setAttribute('aria-pressed',used?'true':'false');}
 
 function renderBoostSays(){
   if(!$('boostSaysMain'))return;
@@ -830,8 +830,6 @@ function renderExpandedAchievements(){
 }
 function renderAll(){renderRealFoodSuggestion();renderCycleState();renderBoostSays();renderGreeting();loadToday();renderHomeStats();renderPlant();renderProgress();renderCalendar();renderBadges();renderHomeCelebration();renderCycle();renderWeeklyInsight();renderFood();renderCoach();syncBeta10();renderCelebrateHighlights();renderBeta11Enhancements();renderExpandedAchievements()}
 window.addEventListener('resize',()=>{if($('progressTab').classList.contains('active'))renderProgress()});renderAll();
-
-if($('cycleDay1Btn'))$('cycleDay1Btn').addEventListener('click',()=>setTimeout(renderCycleState,0));
 </script>
 </body>
 </html>
