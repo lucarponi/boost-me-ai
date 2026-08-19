@@ -207,6 +207,25 @@ body{min-height:100vh}.app{max-width:540px;margin:0 auto;padding:24px 18px 112px
 .meal-types{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:4px!important;overflow:visible!important}
 .meal-types button{min-width:0!important;padding:8px 2px!important;font-size:10px!important;line-height:1.1!important;white-space:normal!important;grid-column:auto!important}
 #celebrateHighlights{display:none!important}
+
+/* BOOST ME V2.2 */
+.weight-input-responsive{display:flex!important;align-items:baseline!important;gap:8px!important;min-width:0!important}
+.weight-input-responsive input{font-size:clamp(46px,14vw,72px)!important;line-height:1!important;min-width:0!important;width:100%!important;letter-spacing:-2px!important}
+.weight-input-responsive .unit{font-size:clamp(20px,6vw,34px)!important;flex:0 0 auto!important}
+.body-water-field{grid-column:1/-1}
+#bodyWaterChart{height:105px!important;max-height:105px!important}
+.chart-note{font-size:10px!important;margin-top:5px!important;line-height:1.25}
+.meal-item{position:relative;padding-right:44px!important}
+.meal-delete{position:absolute!important;right:0!important;top:50%!important;transform:translateY(-50%)!important;border:0!important;background:#fff1f2!important;color:#b54a56!important;border-radius:11px!important;width:34px!important;height:34px!important;font-size:15px!important}
+.recipe-row{padding:11px 0;border-bottom:1px solid var(--line)}
+.recipe-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+.recipe-actions .secondary{width:auto!important;flex:1 1 120px!important;padding:8px 10px!important;font-size:12px!important}
+.recipe-delete{background:#fff1f2!important;color:#a84b56!important}
+.cycle-date-panel{margin-top:12px;padding:12px;border-radius:16px;background:linear-gradient(135deg,#fff7fb,#f4f7ff);border:1px solid #eadfea}
+.cycle-date-panel input{width:100%;margin:8px 0 10px;box-sizing:border-box}
+.cycle-date-quick,.cycle-date-actions{display:flex;gap:7px}
+.cycle-date-quick button,.cycle-date-actions button{flex:1}
+.cycle-edit-btn{margin-top:8px!important}
 </style>
 <meta content="yes" name="apple-mobile-web-app-capable"/><meta content="BOOST ME" name="apple-mobile-web-app-title"/><meta content="#fff7df" name="theme-color"/><link href="/apple-touch-icon.png?v=4" rel="apple-touch-icon" sizes="180x180"/><link href="/apple-touch-icon-precomposed.png?v=4" rel="apple-touch-icon-precomposed" sizes="180x180"/><link href="/favicon.png?v=4" rel="icon" sizes="64x64" type="image/png"/></head>
 <body>
@@ -222,11 +241,11 @@ body{min-height:100vh}.app{max-width:540px;margin:0 auto;padding:24px 18px 112px
 <div class="boost-says-main" id="boostSaysMain">Cargando tu día</div>
 <div class="boost-says-sub" id="boostSaysSub"></div></div><div class="card weight-card">
 <div class="section-title"><h3>🌞 Peso de hoy</h3><span class="soft" id="weightTrend">mañana</span></div>
-<div class="weight-input"><input id="weight" inputmode="decimal" placeholder="—"/><div class="unit">kg</div></div>
+<div class="weight-input weight-input-responsive"><input id="weight" inputmode="decimal" placeholder="—"/><div class="unit">kg</div></div>
 <div class="body-grid" style="margin:12px 0">
 <div class="field"><label>Grasa corporal %</label><input id="fat" inputmode="decimal" placeholder="—"/></div>
 <div class="field"><label>Masa muscular kg</label><input id="muscle" inputmode="decimal" placeholder="—"/></div>
-</div>
+<div class="field body-water-field"><label>Agua corporal %</label><input id="bodyWater" inputmode="decimal" placeholder="—"/></div></div>
 <button class="secondary" id="saveMorning">☀️ Guardar datos de la mañana</button>
 </div><div class="quick-grid">
 <div class="quick pink">🎯 Objetivo<b id="homeGoal">—</b><span class="soft" id="homeGoalSub">definilo en Progreso</span></div>
@@ -242,7 +261,12 @@ body{min-height:100vh}.app{max-width:540px;margin:0 auto;padding:24px 18px 112px
 <button class="choice other" id="other" type="button"><span class="ico">⚡</span>Otro<small>rutina</small></button>
 </div>
 <div class="auto-note" id="movementNote">Tocá una actividad cuando la hagas. No hace falta cerrar el día.</div>
-</div><div class="card cycle-card"><div class="section-title"><h3>🌸 Ciclo</h3><span class="soft" id="cycleBadge">sin registrar</span></div><div class="cycle-state" id="cycleState">¿Empezó tu ciclo?</div><div class="cycle-sub" id="cycleSub">Marcá el día 1 y el final.</div><div class="cycle-actions"><button class="cycle-btn start" id="cycleStart">🌸 Marcar día 1</button><button class="cycle-btn end" id="cycleEnd">✓ Marcar final</button></div></div><div class="card close-card">
+</div><div class="card cycle-card"><div class="section-title"><h3>🌸 Ciclo</h3><span class="soft" id="cycleBadge">sin registrar</span></div><div class="cycle-state" id="cycleState">¿Empezó tu ciclo?</div><div class="cycle-sub" id="cycleSub">Marcá el día 1 y el final.</div><div class="cycle-actions"><button class="cycle-btn start" id="cycleStart">🌸 Marcar día 1</button><button class="cycle-btn end" id="cycleEnd">✓ Marcar final</button></div><div class="cycle-date-panel" id="cycleDatePanel" style="display:none">
+<div class="soft" id="cycleDateTitle">Elegí la fecha</div>
+<div class="cycle-date-quick"><button class="secondary cycle-quick" data-offset="0" type="button">Hoy</button><button class="secondary cycle-quick" data-offset="-1" type="button">Ayer</button></div>
+<input id="cycleDateInput" type="date"/>
+<div class="cycle-date-actions"><button class="primary" id="saveCycleDate" type="button">Guardar fecha</button><button class="secondary" id="cancelCycleDate" type="button">Cancelar</button></div>
+</div><button class="secondary cycle-edit-btn" id="editCycleDates" type="button">Editar fechas del ciclo</button></div><div class="card close-card">
 <div class="evening-toggle">
 <div><div class="soft">AL FINAL DEL DÍA</div><h3 style="margin:4px 0 0">🌙 Cerrar mi día</h3><div class="soft" id="eveningSummary">Completalo cuando termine el día.</div></div>
 <div class="moon">🌙</div>
@@ -298,7 +322,7 @@ body{min-height:100vh}.app{max-width:540px;margin:0 auto;padding:24px 18px 112px
 <div class="section-title"><h3>💪 Masa muscular</h3><span class="soft" id="muscleDelta">—</span></div>
 <canvas id="muscleChart"></canvas>
 </div>
-</div><div class="card"><div class="section-title"><h3>🎯 Objetivos</h3><span class="soft">editables</span></div><div class="objective-grid">
+<div class="card chart-card"><div class="section-title"><h3>💧 Agua corporal</h3><span class="soft" id="bodyWaterDelta">—</span></div><canvas id="bodyWaterChart"></canvas><div class="soft chart-note">Estimación de la balanza. Usala como contexto y mirá la tendencia de varios días.</div></div></div><div class="card"><div class="section-title"><h3>🎯 Objetivos</h3><span class="soft">editables</span></div><div class="objective-grid">
 <label class="objective-field"><span>Peso objetivo</span><div class="input-unit"><input id="goalWeight" step="0.1" type="number"/><b>kg</b></div></label>
 <label class="objective-field"><span>Fecha objetivo</span><input id="goalDate" type="date"/></label>
 <label class="objective-field"><span>Grasa corporal objetivo</span><div class="input-unit"><input id="goalFat" placeholder="Opcional" step="0.1" type="number"/><b>%</b></div></label>
@@ -375,7 +399,7 @@ body{min-height:100vh}.app{max-width:540px;margin:0 auto;padding:24px 18px 112px
 <div class="field"><label>Peso kg</label><input id="eWeight" inputmode="decimal"/></div>
 <div class="field"><label>Grasa %</label><input id="eFat" inputmode="decimal"/></div>
 </div>
-<div class="field" style="margin-top:10px"><label>Masa muscular kg</label><input id="eMuscle" inputmode="decimal"/></div>
+<div class="field" style="margin-top:10px"><label>Masa muscular kg</label><input id="eMuscle" inputmode="decimal"/></div><div class="field" style="margin-top:10px"><label>Agua corporal %</label><input id="eBodyWater" inputmode="decimal"/></div>
 <div class="modal-section">
 <div class="section-title"><h3>💪 Movimiento</h3></div>
 <div class="row four">
@@ -423,7 +447,7 @@ function spark(){const chars=['✨','🌟','💖','🌱','🎉'];for(let i=0;i<1
 function renderDrops(boxId,count,textId){document.querySelectorAll(`#${boxId} .drop`).forEach(d=>d.classList.toggle('on',Number(d.dataset.i)<=count));$(textId).textContent=`${count} de 5`}
 function loadToday(){
   const x=db.entries[today()]||{};
-  $('weight').value=x.weight??'';$('fat').value=x.fat??'';$('muscle').value=x.muscle??'';
+  $('weight').value=x.weight??'';$('fat').value=x.fat??'';$('muscle').value=x.muscle??'';$('bodyWater').value=x.bodyWater??x.body_water??'';
   ['pilates','tennis','walk','other'].forEach(k=>$(k).classList.toggle('active',!!x[k]));
   food=x.food||'';document.querySelectorAll('#foodSeg .seg').forEach(b=>b.classList.toggle('active',b.dataset.v===food));
   water=x.waterCount??waterValueToCount(x.water);renderDrops('todayDrops',water,'waterText');
@@ -452,7 +476,7 @@ document.querySelectorAll('#todayDrops .drop').forEach(d=>d.onclick=()=>{const n
 $('toggleEvening').onclick=()=>{const open=$('eveningContent').classList.toggle('open');$('toggleEvening').textContent=open?'Cerrar panel':'Abrir cierre del día'};
 $('saveMorning').onclick=()=>{
   const d=today(),old=db.entries[d]||{};
-  db.entries[d]={...old,weight:num($('weight').value),fat:num($('fat').value),muscle:num($('muscle').value)};
+  db.entries[d]={...old,weight:num($('weight').value),fat:num($('fat').value),muscle:num($('muscle').value),bodyWater:num($('bodyWater').value)};
   saveDB();renderAll();toast('Mañana guardada ☀️');
 };
 $('saveEvening').onclick=()=>{
@@ -478,7 +502,12 @@ function weekly(){const a=entries().filter(x=>x.weight!=null),w={};a.forEach(x=>
 function weeklyPercent(){const a=entries().filter(x=>x.weight!=null),w={};a.forEach(x=>(w[weekStart(x.date)]??=[]).push(x.weight));const ks=Object.keys(w).sort();if(ks.length<2)return null;const avg=x=>x.reduce((s,v)=>s+v,0)/x.length,prev=avg(w[ks.at(-2)]),cur=avg(w[ks.at(-1)]);return prev?((prev-cur)/prev)*100:null}
 function lastVsPrevious(key){const a=entries().filter(x=>x[key]!=null);return a.length<2?null:a.at(-1)[key]-a.at(-2)[key]}
 function setVs(id,d,unit,goodDirection){const el=$(id);if(d==null){el.textContent='— vs. anterior';el.className='vs neutral';return}const arrow=d<0?'↓':d>0?'↑':'→';el.textContent=`${arrow} ${Math.abs(d).toFixed(1)}${unit} vs. anterior`;const good=d===0?null:(goodDirection==='down'?d<0:d>0);el.className='vs '+(good===true?'good':good===false?'watch':'neutral')}
-function renderDailyInsight(){const wd=lastVsPrevious('weight'),fd=lastVsPrevious('fat'),md=lastVsPrevious('muscle'),bits=[];if(wd!=null)bits.push(wd<0?'bajó el peso':wd>0?'subió el peso':'peso estable');if(fd!=null)bits.push(fd<0?'bajó la grasa':fd>0?'subió la grasa':'grasa estable');if(md!=null)bits.push(md>0?'subió el músculo':md<0?'bajó el músculo':'músculo estable');$('dailyInsight').textContent=bits.length?'✨ Último cambio: '+bits.join(' · ')+'.':'✨ Cuando haya dos registros, te cuento qué cambió.'}
+function renderDailyInsight(){
+ const wd=lastVsPrevious('weight'),fd=lastVsPrevious('fat'),md=lastVsPrevious('muscle'),bd=lastVsPrevious('bodyWater');
+ if(wd!=null&&wd>0&&bd!=null&&bd>.2){$('dailyInsight').textContent=`✨ El peso subió ${Math.abs(wd).toFixed(1)} kg y el agua corporal estimada también subió ${Math.abs(bd).toFixed(1)} puntos. Puede ser parte del contexto: mirá varios días antes de sacar conclusiones.`;return}
+ if(wd!=null&&wd<0&&bd!=null&&bd<-.2){$('dailyInsight').textContent=`✨ El peso bajó ${Math.abs(wd).toFixed(1)} kg y el agua corporal estimada también bajó ${Math.abs(bd).toFixed(1)} puntos. Mirá varios días para separar tendencia de variación de agua.`;return}
+ const bits=[];if(wd!=null)bits.push(wd<0?'bajó el peso':wd>0?'subió el peso':'peso estable');if(fd!=null)bits.push(fd<0?'bajó la grasa':fd>0?'subió la grasa':'grasa estable');if(md!=null)bits.push(md>0?'subió el músculo':md<0?'bajó el músculo':'músculo estable');if(bd!=null)bits.push(bd>0?'subió el agua corporal':bd<0?'bajó el agua corporal':'agua corporal estable');$('dailyInsight').textContent=bits.length?'✨ Último cambio: '+bits.join(' · ')+'.':'✨ Cuando haya dos registros, te cuento qué cambió.'
+}
 function celebrationData(){const a=entries(),complete=a.filter(isComplete).length,ex=a.filter(x=>x.pilates||x.tennis||x.walk||x.other).length,w=a.filter(x=>x.weight!=null),loss=w.length?Math.max(0,w[0].weight-w.at(-1).weight):0,wp=weeklyPercent(),ss=streak(),c=[];if(complete>=1)c.push(['🌱','Primer día completo','Arrancaste. Eso ya cuenta.']);if(complete>=3)c.push(['🌿','Tres días completos','Tu plantita ya tiene primeras hojas.']);if(ss>=3)c.push(['🔥',`${ss} días de racha`,'La constancia se está viendo.']);if(ex>=3)c.push(['💪','Tres movimientos','Ya sumaste tres días con actividad.']);if(ex>=10)c.push(['🏃','10 movimientos','Diez veces elegiste moverte.']);if(loss>=.5)c.push(['⚖️',`${loss.toFixed(1)} kg desde el inicio`,'Tu tendencia ya se mueve.']);if(wp!=null&&wp>=.5)c.push(['🎯',`${wp.toFixed(2)}% esta semana`,'Alcanzaste la referencia semanal de 0,5%.']);return c}
 function renderHomeCelebration(){const c=celebrationData(),box=$('homeCelebration');if(!c.length){box.classList.remove('show');return}const item=c.at(-1);box.classList.add('show');$('homeCelebrationIcon').textContent=item[0];$('homeCelebrationTitle').textContent=item[1];$('homeCelebrationText').textContent=item[2]}
 function renderProgress(){
@@ -490,8 +519,10 @@ function renderProgress(){
   drawChart(w);
   drawMetricChart('fatChart',a,'fat','#ff9b42');
   drawMetricChart('muscleChart',a,'muscle','#4a90e2');
+  drawMetricChart('bodyWaterChart',a,'bodyWater','#55a9c9');
   $('fatDelta').textContent=metricDelta('fat','%');
   $('muscleDelta').textContent=metricDelta('muscle',' kg');
+  $('bodyWaterDelta').textContent=metricDelta('bodyWater',' pts');
 }
 $('saveGoal').onclick=()=>{if($('goalFat'))db.settings.goalFat=+$('goalFat').value||null;if($('goalMuscle'))db.settings.goalMuscle=+$('goalMuscle').value||null;db.goal={...db.goal,weight:num($('goalWeight').value),date:$('goalDate').value};saveDB();renderAll();toast('Objetivo guardado 🎯')};
 function drawChart(a){
@@ -510,15 +541,15 @@ function drawChart(a){
 
 function drawMetricChart(canvasId,a,key,color){
  const c=$(canvasId),r=c.getBoundingClientRect();if(!r.width||!r.height)return;const d=devicePixelRatio||1;c.width=r.width*d;c.height=r.height*d;const ctx=c.getContext('2d');ctx.scale(d,d);ctx.clearRect(0,0,r.width,r.height);
- const data=(a||[]).map(x=>{let v=x[key];if(v==null&&key==='fat')v=x.bodyFat??x.body_fat;if(v==null&&key==='muscle')v=x.muscleMass??x.muscle_mass;return {...x,[key]:Number(v)}}).filter(x=>Number.isFinite(x[key])&&x[key]>0);if(!data.length){ctx.fillStyle='#7a7480';ctx.font='13px system-ui';ctx.fillText('Todavía no hay datos.',16,28);return}
+ const data=(a||[]).map(x=>{let v=x[key];if(v==null&&key==='fat')v=x.bodyFat??x.body_fat;if(v==null&&key==='muscle')v=x.muscleMass??x.muscle_mass;if(v==null&&key==='bodyWater')v=x.body_water??x.waterPercent??x.bodyWaterPercent;return {...x,[key]:Number(v)}}).filter(x=>Number.isFinite(x[key])&&x[key]>0);if(!data.length){ctx.fillStyle='#7a7480';ctx.font='13px system-ui';ctx.fillText('Todavía no hay datos.',16,28);return}
  const goal=key==='fat'?Number(db.settings&&db.settings.goalFat):key==='muscle'?Number(db.settings&&db.settings.goalMuscle):null,vals=data.map(x=>x[key]).concat(Number.isFinite(goal)&&goal>0?[goal]:[]),mn=Math.min(...vals),mx=Math.max(...vals),pad=24,span=Math.max(.5,mx-mn),min=mn-span*.25,max=mx+span*.25,W=r.width-pad*2,H=r.height-48,yy=v=>16+(max-v)/(max-min)*H;
  if(Number.isFinite(goal)&&goal>0){const y=yy(goal);ctx.save();ctx.setLineDash([5,5]);ctx.strokeStyle='#7a7480';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(r.width-pad,y);ctx.stroke();ctx.restore();ctx.fillStyle='#7a7480';ctx.font='10px system-ui';ctx.fillText('Objetivo '+goal.toFixed(1),pad,Math.max(10,y-4))}
  ctx.beginPath();data.forEach((x,i)=>{const X=pad+i*(W/Math.max(1,data.length-1)),Y=yy(x[key]);i?ctx.lineTo(X,Y):ctx.moveTo(X,Y)});ctx.strokeStyle=color;ctx.lineWidth=3;ctx.lineCap='round';ctx.lineJoin='round';ctx.stroke();
  data.forEach((x,i)=>{const X=pad+i*(W/Math.max(1,data.length-1)),Y=yy(x[key]);ctx.beginPath();ctx.arc(X,Y,3.5,0,Math.PI*2);ctx.fillStyle=color;ctx.fill()});ctx.fillStyle='#7a7480';ctx.font='10px system-ui';ctx.fillText(data[0][key].toFixed(1),4,20);ctx.fillText(data.at(-1)[key].toFixed(1),Math.max(4,r.width-38),20);
 }
 function metricDelta(key,unit){
-  const a=entries().filter(x=>x[key]!=null);if(a.length<2)return '—';
-  const d=a.at(-1)[key]-a[0][key];return `${d<0?'↓':d>0?'↑':'→'} ${Math.abs(d).toFixed(1)}${unit} desde inicio`;
+ const get=x=>{if(x[key]!=null)return +x[key];if(key==='bodyWater')return +(x.body_water??x.waterPercent??x.bodyWaterPercent);return null};
+ const a=entries().map(x=>({...x,__v:get(x)})).filter(x=>Number.isFinite(x.__v));if(a.length<2)return '—';const d=a.at(-1).__v-a[0].__v;return `${d<0?'↓':d>0?'↑':'→'} ${Math.abs(d).toFixed(1)}${unit} desde inicio`
 }
 function renderPlant(){const n=entries().filter(isComplete).length;const stages=[{n:1,e:'🌱',name:'Primer brote'},{n:3,e:'🌿',name:'Primeras hojas'},{n:7,e:'🪴',name:'Plantita'},{n:14,e:'🌷',name:'Floreciendo'},{n:30,e:'🌸',name:'En flor'}];let idx=0;for(let i=0;i<stages.length;i++)if(n>=stages[i].n)idx=i;const cur=stages[idx],next=stages[Math.min(idx+1,stages.length-1)],pct=idx===stages.length-1?100:Math.max(0,Math.min(100,(n-cur.n)/(next.n-cur.n)*100));$('plantEmoji').textContent=cur.e;$('plantNow').textContent=cur.e;$('plantNext').textContent=next.e;$('plantTitle').textContent=n?'Tu planta está creciendo':'Tu planta está empezando';$('plantSub').textContent=n?`${n} día${n===1?'':'s'} completos desde que empezaste.`:'Cada día completo la hace crecer.';$('plantNowLabel').textContent=n?`Hoy · día ${n}`:'Hoy';$('plantNextLabel').textContent=idx===stages.length-1?'Máximo':`${next.n} días`;$('plantFill').style.width=pct+'%';$('plantCaption').textContent=idx===stages.length-1?'🌸 ¡Tu planta está en flor!':`${cur.name} · faltan ${Math.max(0,next.n-n)} día${next.n-n===1?'':'s'} para ${next.name.toLowerCase()}`;}
 function renderGreeting(){
@@ -538,7 +569,7 @@ $('prevM').onclick=()=>{calDate.setMonth(calDate.getMonth()-1);renderCalendar()}
 
 function setEditChoice(id,v){$(id).classList.toggle('active',!!v)}
 function openEditor(key){
-  editingDate=key;const x=db.entries[key]||{};$('editDateBadge').textContent=key;$('eWeight').value=x.weight??'';$('eFat').value=x.fat??'';$('eMuscle').value=x.muscle??'';
+  editingDate=key;const x=db.entries[key]||{};$('editDateBadge').textContent=key;$('eWeight').value=x.weight??'';$('eFat').value=x.fat??'';$('eMuscle').value=x.muscle??'';$('eBodyWater').value=x.bodyWater??x.body_water??'';
   setEditChoice('ePilates',x.pilates);setEditChoice('eTennis',x.tennis);setEditChoice('eWalk',x.walk);setEditChoice('eOther',x.other);
   editFood=x.food||'';document.querySelectorAll('#eFoodSeg .seg').forEach(b=>b.classList.toggle('active',b.dataset.v===editFood));
   editWater=x.waterCount??waterValueToCount(x.water);renderDrops('editDrops',editWater,'eWaterText');$('editModal').classList.add('open')
@@ -549,7 +580,7 @@ document.querySelectorAll('#eFoodSeg .seg').forEach(b=>b.onclick=()=>{editFood=b
 document.querySelectorAll('#editDrops .drop').forEach(d=>d.onclick=()=>{const n=Number(d.dataset.i);editWater=editWater===n?n-1:n;renderDrops('editDrops',editWater,'eWaterText')});
 $('saveEdit').onclick=()=>{
   if(!editingDate)return;const old=db.entries[editingDate]||{};
-  db.entries[editingDate]={...old,weight:num($('eWeight').value),fat:num($('eFat').value),muscle:num($('eMuscle').value),pilates:$('ePilates').classList.contains('active'),tennis:$('eTennis').classList.contains('active'),walk:$('eWalk').classList.contains('active'),other:$('eOther').classList.contains('active'),food:editFood,water:countToWater(editWater),waterCount:editWater};
+  db.entries[editingDate]={...old,weight:num($('eWeight').value),fat:num($('eFat').value),muscle:num($('eMuscle').value),bodyWater:num($('eBodyWater').value),pilates:$('ePilates').classList.contains('active'),tennis:$('eTennis').classList.contains('active'),walk:$('eWalk').classList.contains('active'),other:$('eOther').classList.contains('active'),food:editFood,water:countToWater(editWater),waterCount:editWater};
   saveDB();$('editModal').classList.remove('open');renderAll();toast('Día actualizado 📅')
 };
 
@@ -559,8 +590,15 @@ function parseLocal(k){const [y,m,d]=k.split('-').map(Number);return new Date(y,
 function daysBetween(a,b){return Math.round((parseLocal(b)-parseLocal(a))/86400000)}
 function currentCycle(){return db.cycles.length?[...db.cycles].sort((a,b)=>a.start.localeCompare(b.start)).at(-1):null}
 function renderCycle(){const c=currentCycle();if(!c){$('cycleBadge').textContent='sin registrar';$('cycleState').textContent='¿Empezó tu ciclo?';$('cycleSub').textContent='Marcá el día 1 y el final.';return}if(!c.end){const d=Math.max(1,daysBetween(c.start,today())+1);$('cycleBadge').textContent='día '+d;$('cycleState').textContent=`Ciclo en curso · día ${d} 🌸`;$('cycleSub').textContent=`Día 1: ${c.start}. Cuando termine, marcá el final.`}else{$('cycleBadge').textContent='registrado';$('cycleState').textContent='Último ciclo registrado ✓';$('cycleSub').textContent=`Del ${c.start} al ${c.end} · ${daysBetween(c.start,c.end)+1} días.`}}
-$('cycleStart').onclick=()=>{const c=currentCycle();if(c&&!c.end)c.end=localKey(new Date(Date.now()-86400000));db.cycles.push({start:today(),end:null});saveDB();renderAll();toast('Día 1 guardado 🌸')}
-$('cycleEnd').onclick=()=>{const c=currentCycle();if(!c||c.end){toast('No hay un ciclo abierto');return}c.end=today();saveDB();renderAll();toast('Final del ciclo guardado ✓')}
+let cycleEditMode=null;
+function openCycleDate(mode,dateValue){cycleEditMode=mode;$('cycleDatePanel').style.display='block';$('cycleDateTitle').textContent=mode==='start'?'Fecha del día 1':'Fecha del último día';$('cycleDateInput').value=dateValue||today();$('cycleDatePanel').scrollIntoView({behavior:'smooth',block:'nearest'})}
+function closeCycleDate(){cycleEditMode=null;$('cycleDatePanel').style.display='none'}
+$('cycleStart').onclick=()=>{const c=currentCycle();openCycleDate('start',c&&!c.end?c.start:today())};
+$('cycleEnd').onclick=()=>{const c=currentCycle();if(!c)return toast('Primero registrá el día 1');openCycleDate('end',c.end||today())};
+$('editCycleDates').onclick=()=>{const c=currentCycle();if(!c)return toast('Todavía no hay un ciclo para editar');const editStart=confirm('Aceptar para editar el día 1. Cancelar para editar el último día.');openCycleDate(editStart?'start':'end',editStart?c.start:(c.end||today()))};
+document.querySelectorAll('.cycle-quick').forEach(b=>b.onclick=()=>{const d=new Date();d.setDate(d.getDate()+(+b.dataset.offset||0));$('cycleDateInput').value=localKey(d)});
+$('cancelCycleDate').onclick=closeCycleDate;
+$('saveCycleDate').onclick=()=>{const v=$('cycleDateInput').value;if(!v)return toast('Elegí una fecha');if(v>today())return toast('La fecha no puede ser futura');let c=currentCycle();if(cycleEditMode==='start'){if(c&&!c.end)c.start=v;else db.cycles.push({start:v,end:null});toast('Día 1 guardado 🌸')}else{if(!c)return toast('Primero registrá el día 1');if(v<c.start)return toast('El último día no puede ser anterior al día 1');c.end=v;toast('Último día guardado ✓')}saveDB();closeCycleDate();renderAll()};
 function avg(a,k){const v=a.filter(x=>x[k]!=null).map(x=>+x[k]);return v.length?v.reduce((p,c)=>p+c,0)/v.length:null}
 function renderWeeklyInsight(){let e=new Date(),st=new Date();st.setDate(e.getDate()-6),ps=new Date();ps.setDate(e.getDate()-13),pe=new Date();pe.setDate(e.getDate()-7);const a=entries().filter(x=>x.date>=localKey(st)&&x.date<=localKey(e)),p=entries().filter(x=>x.date>=localKey(ps)&&x.date<=localKey(pe));let insight='Todavía estoy juntando datos para darte un insight semanal útil.',tip='Seguí registrando: con más historia voy a poder leer patrones y tendencia.',emoji='🌱';if(a.length>=2){const ca=avg(a,'weight'),pa=avg(p,'weight'),moves=a.filter(x=>x.pilates||x.tennis||x.walk||x.other).length,fd=a.filter(x=>x.food).length,fg=a.filter(x=>x.food==='Bien').length,wd=a.filter(x=>x.water||x.waterCount).length,wg=a.filter(x=>x.water==='Bien'||(x.waterCount||0)>=4).length,pct=ca!=null&&pa!=null?(pa-ca)/pa*100:null,c=currentCycle();if(c&&!c.end){insight='Estás dentro del ciclo registrado. Mirá más la tendencia que un cambio aislado de peso.';tip='No cambiaría el plan por una variación de un solo día.';emoji='🌙'}if(pct!=null&&pct>=.5){insight=`Tu promedio semanal viene bajando ${pct.toFixed(2)}%. La tendencia ya está dentro de la referencia que buscás.`;tip='No hace falta empujar más: priorizá sostener lo que está funcionando.';emoji='🎉'}else if(pct!=null&&pct>0){insight=`Tu promedio semanal viene bajando ${pct.toFixed(2)}%. Es una tendencia a favor aunque un día aislado pueda subir.`;tip='Mirá el promedio de varios días antes de decidir cambiar algo.';emoji='✨'}else if(pct!=null&&pct<0){insight=`El promedio semanal subió ${Math.abs(pct).toFixed(2)}%. Antes de sacar conclusiones, miraría varios días más y el contexto.`;tip='Líquidos, comidas, ciclo y horario también pueden mover la balanza.';emoji='🔎'}else if(wd>=3&&wg/wd<.5){insight='El patrón más claro esta semana no está en la balanza: el agua viene menos consistente.';tip='Pondría el foco en una sola cosa: mejorar la constancia con el agua.';emoji='💧'}else if(fd>=3&&fg/fd<.5){insight='La alimentación aparece más irregular que el resto de tus registros.';tip='Elegiría una sola comida del día para hacerla más predecible.';emoji='🥗'}else if(moves<2&&a.length>=4){insight='Esta semana hay margen para sumar movimiento sin tocar todo lo demás.';tip='Uno o dos momentos cortos ya pueden mejorar la constancia.';emoji='💪'}}$('weekInsight').textContent=insight;$('weekTip').innerHTML='<b>👉 Sugerencia:</b> '+tip;$('weekEmoji').textContent=emoji;$('weekTitle').textContent='Lo importante de esta semana';$('weekSubtitle').textContent='Interpretación, no resumen.'}
 
@@ -618,7 +656,14 @@ document.querySelectorAll('#mealTypes button').forEach(b=>b.onclick=()=>{
 const AI_ENDPOINT=window.BOOST_ME_AI_ENDPOINT||'/api/analyze-meal';
 let pendingAiMeal=null;
 
-function fileToDataURL(file){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)})}
+async function fileToDataURL(file){
+ if(!file)return null;
+ if(!file.type||!file.type.startsWith('image/'))return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)});
+ const maxSide=1280,quality=.82;let bitmap;
+ try{bitmap=await createImageBitmap(file)}catch(err){bitmap=await new Promise((resolve,reject)=>{const img=new Image(),u=URL.createObjectURL(file);img.onload=()=>{URL.revokeObjectURL(u);resolve(img)};img.onerror=e=>{URL.revokeObjectURL(u);reject(e)};img.src=u})}
+ const sw=bitmap.width||bitmap.naturalWidth,sh=bitmap.height||bitmap.naturalHeight,scale=Math.min(1,maxSide/Math.max(sw,sh)),w=Math.max(1,Math.round(sw*scale)),h=Math.max(1,Math.round(sh*scale));
+ const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;canvas.getContext('2d').drawImage(bitmap,0,0,w,h);if(bitmap.close)bitmap.close();return canvas.toDataURL('image/jpeg',quality)
+}
 
 function getDayFoodIntelligence(extraCal=0,extraPro=0){
   const meals=(db.meals&&db.meals[today()])||[];
@@ -649,7 +694,7 @@ function getDayFoodIntelligence(extraCal=0,extraPro=0){
     main='Viene bastante alineado.';
     sub=pg&&rp>0?`Te quedan ≈ ${Math.round(rp)} g de proteína${cg?` y ≈ ${Math.max(0,Math.round(rc))} kcal de margen.`:'.'}`:'Todavía hay margen en el día. Elegí lo próximo según hambre y saciedad.';
   }
-  return {cal,pro,cg,pg,rc,rp,main,sub};
+  return {cal,pro,cg,pg,rc,rp,main,sub,mealCount:meals.length};
 }
 
 function getRealFoodSuggestion(){const x=getDayFoodIntelligence(),h=new Date().getHours();if(!x.pg&&!x.cg)return {title:'Definí tus objetivos primero',text:'Con calorías y proteína objetivo puedo proponerte una comida concreta.'};if(!x.mealCount){if(h<11)return {title:'Un desayuno con proteína',text:'2 huevos + 2 claras con una tostada. Simple y con una buena base de proteína.'};if(h<17)return {title:'Una comida completa',text:'Pollo o pescado con verduras y una porción de arroz o papa.'};return {title:'Para esta noche',text:'Pollo o pescado con verduras. Si querés algo más simple: 2 huevos + 2 claras y ensalada.'};}if(x.pg&&x.rp<=0)return {title:'La proteína ya está cubierta',text:'Elegí según hambre y ganas. No necesitás sumar proteína porque sí.'};if(x.pg&&x.rp>40){if(h>=18)return {title:'Para la próxima comida',text:'Priorizá una porción generosa de pollo o pescado con verduras. Si necesitás algo rápido: 2 huevos + 2 claras y ensalada.'};return {title:'La próxima comida necesita proteína',text:'Pollo, pescado o huevos como base. Sumá verduras y, si tenés hambre, arroz o papa.'};}if(x.pg&&x.rp>20)return {title:'Todavía conviene priorizar proteína',text:'Una opción concreta: 2 huevos + 2 claras con ensalada, o una porción de pollo o pescado con verduras.'};if(x.cg&&x.rc>350)return {title:'Tenés margen para una comida completa',text:'Proteína + verduras + una porción de arroz o papa. Buscá que te deje satisfecha.'};return {title:'Ya estás bastante cerca',text:'Elegí según hambre y saciedad. Si comés algo más, priorizá proteína y una porción que te resulte cómoda.'};}
@@ -685,14 +730,17 @@ function showAiResult(r){
   $('aiMealResult').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-function renderFood(){renderRealFoodSuggestion();renderBoostSays();const ms=db.meals[today()]||[],cal=ms.reduce((a,m)=>a+(+m.calories||0),0),pro=ms.reduce((a,m)=>a+(+m.protein||0),0),cg=+db.foodGoals.calories||0,pg=+db.foodGoals.protein||0;$('dayCalories').textContent=Math.round(cal);$('dayProtein').textContent=Math.round(pro);$('mealCount').textContent=ms.length===1?'1 comida':ms.length+' comidas';const types=['Desayuno','Almuerzo','Merienda','Cena','Colación'];$('mealChecks').innerHTML=types.map(t=>`<span class="${ms.some(m=>m.type===t)?'done':''}">${ms.some(m=>m.type===t)?'✓ ':''}${t}</span>`).join('');if($('calorieBar'))$('calorieBar').style.width=(cg?Math.min(100,cal/cg*100):0)+'%';if($('foodGoalText'))$('foodGoalText').textContent=cg?`${Math.round(cal)} de ${cg} kcal · ${Math.round(pro)} de ${pg||'—'} g proteína`:'Definí tus objetivos abajo.';$('mealList').innerHTML=ms.length?ms.map((m,i)=>`<div class="meal-item"><div class="meal-item-title">${m.text}</div><div class="soft meal-item-macros">${m.calories||m.protein?`≈ ${m.calories} kcal · ≈ ${m.protein} g proteína`:'Estimación pendiente de IA'}</div></div>`).join(''):'<div class="soft">Todavía no cargaste comidas.</div>';$('recipeList').innerHTML=db.recipes.length?db.recipes.map((r,i)=>`<div style="padding:10px 0;border-bottom:1px solid var(--line)"><b>🍲 ${r.name}</b><div class="soft">${r.calories?`≈ ${r.calories} kcal · ${r.protein||0} g proteína / porción`:'Pendiente de análisis con IA'} · ${r.servings||'—'} porciones</div>${r.calories?`<button class="secondary" onclick="useRecipe(${i})">+ Comer 1 porción</button>`:''}</div>`).join(''):'<div class="soft">Todavía no guardaste recetas. Sumá una receta de TM7 o una receta tuya.</div>';$('calorieGoal').value=db.foodGoals.calories||'';$('proteinGoal').value=db.foodGoals.protein||'';let q='Cargá tus objetivos para recibir una sugerencia.';if(cg||pg){const rc=cg-cal,rp=pg-pro;q=rp>25?`Te quedan ≈ ${Math.max(0,Math.round(rc))} kcal y ${Math.round(rp)} g de proteína. Priorizaría proteína.`:rc>250?`Te quedan ≈ ${Math.round(rc)} kcal. La proteína viene encaminada.`:'Estás cerca del objetivo estimado del día. Mirá hambre y saciedad, no el número exacto.'}$('eatSuggestion').textContent=q;
+function renderFood(){renderRealFoodSuggestion();renderBoostSays();const ms=db.meals[today()]||[],cal=ms.reduce((a,m)=>a+(+m.calories||0),0),pro=ms.reduce((a,m)=>a+(+m.protein||0),0),cg=+db.foodGoals.calories||0,pg=+db.foodGoals.protein||0;$('dayCalories').textContent=Math.round(cal);$('dayProtein').textContent=Math.round(pro);$('mealCount').textContent=ms.length===1?'1 comida':ms.length+' comidas';const types=['Desayuno','Almuerzo','Merienda','Cena','Colación'];$('mealChecks').innerHTML=types.map(t=>`<span class="${ms.some(m=>m.type===t)?'done':''}">${ms.some(m=>m.type===t)?'✓ ':''}${t}</span>`).join('');if($('calorieBar'))$('calorieBar').style.width=(cg?Math.min(100,cal/cg*100):0)+'%';if($('foodGoalText'))$('foodGoalText').textContent=cg?`${Math.round(cal)} de ${cg} kcal · ${Math.round(pro)} de ${pg||'—'} g proteína`:'Definí tus objetivos abajo.';$('mealList').innerHTML=ms.length?ms.map((m,i)=>`<div class="meal-item"><div class="meal-item-title">${m.type?`<span class="soft">${m.type}</span> · `:''}${m.text}</div><div class="soft meal-item-macros">${m.calories||m.protein?`≈ ${m.calories} kcal · ≈ ${m.protein} g proteína`:'Estimación pendiente de IA'}</div><button class="meal-delete" type="button" onclick="deleteMeal(${i})" aria-label="Borrar comida">🗑️</button></div>`).join(''):'<div class="soft">Todavía no cargaste comidas.</div>';$('recipeList').innerHTML=db.recipes.length?db.recipes.map((r,i)=>`<div class="recipe-row"><b>🍲 ${r.name}</b><div class="soft">${r.calories!=null?`≈ ${Math.round(r.calories)} kcal · ${Math.round(r.protein||0)} g proteína / porción`:'Pendiente de análisis con IA'} · ${r.servings||'—'} porciones</div><div class="recipe-actions">${r.calories!=null?`<button class="secondary" onclick="useRecipe(${i})">+ Comer 1 porción</button>`:`<button class="secondary" onclick="analyzeRecipe(${i})">✨ Analizar receta</button>`}<button class="secondary recipe-delete" onclick="deleteRecipe(${i})">Borrar</button></div></div>`).join(''):'<div class="soft">Todavía no guardaste recetas. Sumá una receta de TM7 o una receta tuya.</div>';$('calorieGoal').value=db.foodGoals.calories||'';$('proteinGoal').value=db.foodGoals.protein||'';let q='Cargá tus objetivos para recibir una sugerencia.';if(cg||pg){const rc=cg-cal,rp=pg-pro;q=rp>25?`Te quedan ≈ ${Math.max(0,Math.round(rc))} kcal y ${Math.round(rp)} g de proteína. Priorizaría proteína.`:rc>250?`Te quedan ≈ ${Math.round(rc)} kcal. La proteína viene encaminada.`:'Estás cerca del objetivo estimado del día. Mirá hambre y saciedad, no el número exacto.'}$('eatSuggestion').textContent=q;
   $('homeCalories').textContent=`${Math.round(cal)} / ${cg||'—'}`;
   $('homeProtein').textContent=`${Math.round(pro)} / ${pg||'—'}`;
   let hs='Definí tus objetivos en Comidas para ver cómo viene el día.';
   if(cg||pg){const rc=cg?cg-cal:null,rp=pg?pg-pro:null;if(rc!=null&&rc<0)hs=`Calorías: ≈ ${Math.abs(Math.round(rc))} por encima del objetivo. ${rp!=null&&rp>0?`Proteína: faltan ≈ ${Math.round(rp)} g.`:'Proteína: objetivo alcanzado ✓'}`;else hs=`Calorías: ${rc!=null?`quedan ≈ ${Math.max(0,Math.round(rc))} kcal`:'sin objetivo'}. Proteína: ${rp!=null?(rp>0?`faltan ≈ ${Math.round(rp)} g`:'objetivo alcanzado ✓'):'sin objetivo'}.`}
   $('homeFoodStatus').textContent=hs;
 }
-window.useRecipe=i=>{const r=db.recipes[i];db.meals[today()]??=[];db.meals[today()].push({text:r.name,calories:+r.calories,protein:+r.protein});saveDB();renderFood()}
+window.deleteMeal=i=>{const ms=db.meals[today()]||[],m=ms[i];if(!m)return;if(!confirm(`¿Borrar "${m.text}"?`))return;ms.splice(i,1);saveDB();renderFood();renderBoostSays();toast('Comida borrada')};
+window.deleteRecipe=i=>{const r=db.recipes[i];if(!r)return;if(!confirm(`¿Borrar la receta "${r.name}"?`))return;db.recipes.splice(i,1);saveDB();renderFood();toast('Receta borrada')};
+window.useRecipe=i=>{const r=db.recipes[i];if(!r||r.calories==null)return;if(!selectedMealType)return toast('Elegí arriba si fue Desayuno, Almuerzo, Merienda, Cena o Colación');db.meals[today()]??=[];db.meals[today()].push({type:selectedMealType,text:r.name,calories:+r.calories||0,protein:+r.protein||0,recipe:true});saveDB();renderFood();renderBoostSays();toast('1 porción registrada 🍲')};
+window.analyzeRecipe=async i=>{const r=db.recipes[i];if(!r)return;const servings=+r.servings||1,prompt=`RECETA COMPLETA PARA ${servings} PORCIONES. Estimá calorías y proteína del TOTAL de toda la receta, no de una sola porción. Receta: ${r.text}`;try{toast('Analizando receta ✨');const res=await fetch(AI_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mealType:'Receta completa',text:prompt,imageDataUrl:null})});const body=await res.json().catch(()=>({}));if(!res.ok)throw new Error(body.error||'No pude analizar la receta');const tc=+body.calories||0,tp=+body.protein_g||0;if(!tc&&!tp)throw new Error('La estimación volvió vacía');r.totalCalories=Math.round(tc);r.totalProtein=Math.round(tp);r.calories=Math.round(tc/servings);r.protein=Math.round(tp/servings);r.pendingAI=false;r.confidence=body.confidence||'medium';r.assumptions=body.assumptions||[];saveDB();renderFood();toast('Receta analizada ✓')}catch(err){console.error(err);alert('No pude analizar la receta. '+(err.message||''))}};
 $('mealPhoto').onchange=e=>$('photoName').textContent=e.target.files[0]?'📷 '+e.target.files[0].name:'Sin foto.';
 $('addMeal').onclick=async()=>{
   const t=$('mealText').value.trim(),file=$('mealPhoto').files[0];
@@ -719,7 +767,7 @@ $('confirmAiMeal').onclick=()=>{
 };
 $('discardAiMeal').onclick=()=>{pendingAiMeal=null;$('aiMealResult').style.display='none'};
 $('toggleRecipe').onclick=()=>{$('recipeForm').style.display=$('recipeForm').style.display==='none'?'block':'none'};
-$('saveRecipe').onclick=()=>{const n=$('recipeName').value.trim(),txt=$('recipeText').value.trim(),serv=+$('recipeServings').value||null;if(!n)return toast('Poné un nombre a la receta');if(!txt)return toast('Pegá los ingredientes o contame la receta');db.recipes.push({name:n,text:txt,servings:serv,pendingAI:true});saveDB();$('recipeName').value='';$('recipeText').value='';$('recipeServings').value='';$('recipeForm').style.display='none';renderFood();toast('Receta guardada 📚')}
+$('saveRecipe').onclick=async()=>{const n=$('recipeName').value.trim(),txt=$('recipeText').value.trim(),serv=+$('recipeServings').value||null;if(!n)return toast('Poné un nombre a la receta');if(!txt)return toast('Pegá los ingredientes o contame la receta');if(!serv)return toast('Indicá cuántas porciones rinde');db.recipes.push({name:n,text:txt,servings:serv,pendingAI:true});const i=db.recipes.length-1;saveDB();$('recipeName').value='';$('recipeText').value='';$('recipeServings').value='';$('recipeForm').style.display='none';renderFood();await analyzeRecipe(i)}
 $('saveFoodGoals').onclick=()=>{db.foodGoals={calories:+$('calorieGoal').value||null,protein:+$('proteinGoal').value||null};saveDB();renderFood();toast('Objetivos guardados 🎯')}
 
 function goTab(id){
