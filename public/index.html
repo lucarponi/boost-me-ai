@@ -226,6 +226,9 @@ body{min-height:100vh}.app{max-width:540px;margin:0 auto;padding:24px 18px 112px
 .cycle-date-quick,.cycle-date-actions{display:flex;gap:7px}
 .cycle-date-quick button,.cycle-date-actions button{flex:1}
 .cycle-edit-btn{margin-top:8px!important}
+
+/* BOOST ME V2.3 */
+.week-ai-loading{opacity:.72}
 </style>
 <meta content="yes" name="apple-mobile-web-app-capable"/><meta content="BOOST ME" name="apple-mobile-web-app-title"/><meta content="#fff7df" name="theme-color"/><link href="/apple-touch-icon.png?v=4" rel="apple-touch-icon" sizes="180x180"/><link href="/apple-touch-icon-precomposed.png?v=4" rel="apple-touch-icon-precomposed" sizes="180x180"/><link href="/favicon.png?v=4" rel="icon" sizes="64x64" type="image/png"/></head>
 <body>
@@ -536,7 +539,7 @@ function drawChart(a){
   if(Number.isFinite(goal)&&goal>0){const y=yy(goal);ctx.save();ctx.setLineDash([5,5]);ctx.strokeStyle='#45c58b';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(r.width-pad,y);ctx.stroke();ctx.restore()}
   ctx.beginPath();data.forEach((x,i)=>{const X=pad+i*(W/Math.max(1,data.length-1)),Y=yy(x.weight);i?ctx.lineTo(X,Y):ctx.moveTo(X,Y)});ctx.strokeStyle='#ff7589';ctx.lineWidth=3;ctx.lineCap='round';ctx.lineJoin='round';ctx.stroke();
   data.forEach((x,i)=>{const X=pad+i*(W/Math.max(1,data.length-1)),Y=yy(x.weight);ctx.beginPath();ctx.arc(X,Y,3.5,0,Math.PI*2);ctx.fillStyle='#ff7589';ctx.fill()});
-  ctx.fillStyle='#7a7480';ctx.font='10px system-ui';data.forEach((x,i)=>{const X=pad+i*(W/Math.max(1,data.length-1));ctx.fillText((x.date||'').slice(8,10)+'/'+(x.date||'').slice(5,7),Math.max(2,X-10),r.height-5)});
+  ctx.fillStyle='#7a7480';ctx.font='10px system-ui';const maxLabels=6,step=Math.max(1,Math.ceil((data.length-1)/Math.max(1,maxLabels-1)));data.forEach((x,i)=>{if(i!==0&&i!==data.length-1&&i%step!==0)return;const X=pad+i*(W/Math.max(1,data.length-1)),lab=(x.date||'').slice(8,10)+'/'+(x.date||'').slice(5,7);ctx.fillText(lab,Math.max(2,Math.min(r.width-30,X-10)),r.height-5)});
 }
 
 function drawMetricChart(canvasId,a,key,color){
@@ -600,7 +603,32 @@ document.querySelectorAll('.cycle-quick').forEach(b=>b.onclick=()=>{const d=new 
 $('cancelCycleDate').onclick=closeCycleDate;
 $('saveCycleDate').onclick=()=>{const v=$('cycleDateInput').value;if(!v)return toast('Elegí una fecha');if(v>today())return toast('La fecha no puede ser futura');let c=currentCycle();if(cycleEditMode==='start'){if(c&&!c.end)c.start=v;else db.cycles.push({start:v,end:null});toast('Día 1 guardado 🌸')}else{if(!c)return toast('Primero registrá el día 1');if(v<c.start)return toast('El último día no puede ser anterior al día 1');c.end=v;toast('Último día guardado ✓')}saveDB();closeCycleDate();renderAll()};
 function avg(a,k){const v=a.filter(x=>x[k]!=null).map(x=>+x[k]);return v.length?v.reduce((p,c)=>p+c,0)/v.length:null}
-function renderWeeklyInsight(){let e=new Date(),st=new Date();st.setDate(e.getDate()-6),ps=new Date();ps.setDate(e.getDate()-13),pe=new Date();pe.setDate(e.getDate()-7);const a=entries().filter(x=>x.date>=localKey(st)&&x.date<=localKey(e)),p=entries().filter(x=>x.date>=localKey(ps)&&x.date<=localKey(pe));let insight='Todavía estoy juntando datos para darte un insight semanal útil.',tip='Seguí registrando: con más historia voy a poder leer patrones y tendencia.',emoji='🌱';if(a.length>=2){const ca=avg(a,'weight'),pa=avg(p,'weight'),moves=a.filter(x=>x.pilates||x.tennis||x.walk||x.other).length,fd=a.filter(x=>x.food).length,fg=a.filter(x=>x.food==='Bien').length,wd=a.filter(x=>x.water||x.waterCount).length,wg=a.filter(x=>x.water==='Bien'||(x.waterCount||0)>=4).length,pct=ca!=null&&pa!=null?(pa-ca)/pa*100:null,c=currentCycle();if(c&&!c.end){insight='Estás dentro del ciclo registrado. Mirá más la tendencia que un cambio aislado de peso.';tip='No cambiaría el plan por una variación de un solo día.';emoji='🌙'}if(pct!=null&&pct>=.5){insight=`Tu promedio semanal viene bajando ${pct.toFixed(2)}%. La tendencia ya está dentro de la referencia que buscás.`;tip='No hace falta empujar más: priorizá sostener lo que está funcionando.';emoji='🎉'}else if(pct!=null&&pct>0){insight=`Tu promedio semanal viene bajando ${pct.toFixed(2)}%. Es una tendencia a favor aunque un día aislado pueda subir.`;tip='Mirá el promedio de varios días antes de decidir cambiar algo.';emoji='✨'}else if(pct!=null&&pct<0){insight=`El promedio semanal subió ${Math.abs(pct).toFixed(2)}%. Antes de sacar conclusiones, miraría varios días más y el contexto.`;tip='Líquidos, comidas, ciclo y horario también pueden mover la balanza.';emoji='🔎'}else if(wd>=3&&wg/wd<.5){insight='El patrón más claro esta semana no está en la balanza: el agua viene menos consistente.';tip='Pondría el foco en una sola cosa: mejorar la constancia con el agua.';emoji='💧'}else if(fd>=3&&fg/fd<.5){insight='La alimentación aparece más irregular que el resto de tus registros.';tip='Elegiría una sola comida del día para hacerla más predecible.';emoji='🥗'}else if(moves<2&&a.length>=4){insight='Esta semana hay margen para sumar movimiento sin tocar todo lo demás.';tip='Uno o dos momentos cortos ya pueden mejorar la constancia.';emoji='💪'}}$('weekInsight').textContent=insight;$('weekTip').innerHTML='<b>👉 Sugerencia:</b> '+tip;$('weekEmoji').textContent=emoji;$('weekTitle').textContent='Lo importante de esta semana';$('weekSubtitle').textContent='Interpretación, no resumen.'}
+function mondayOf(d){const x=new Date(d.getFullYear(),d.getMonth(),d.getDate(),12);x.setDate(x.getDate()-((x.getDay()+6)%7));return x}
+function addDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x}
+function previousClosedWeek(){const thisMonday=mondayOf(new Date()),start=addDays(thisMonday,-7),end=addDays(start,6),prevStart=addDays(start,-7),prevEnd=addDays(prevStart,6);return {key:localKey(start),start:localKey(start),end:localKey(end),prevStart:localKey(prevStart),prevEnd:localKey(prevEnd)}}
+function metricSummary(arr,key){const vals=arr.map(x=>({date:x.date,value:+x[key]})).filter(x=>Number.isFinite(x.value));if(!vals.length)return null;return {count:vals.length,first:vals[0].value,last:vals.at(-1).value,average:+(vals.reduce((a,b)=>a+b.value,0)/vals.length).toFixed(2),min:Math.min(...vals.map(x=>x.value)),max:Math.max(...vals.map(x=>x.value))}}
+function weeklyPayload(range){
+ const all=entries(),cur=all.filter(x=>x.date>=range.start&&x.date<=range.end),prev=all.filter(x=>x.date>=range.prevStart&&x.date<=range.prevEnd),mealDays=Object.keys(db.meals||{}).filter(d=>d>=range.start&&d<=range.end);
+ const byDay=mealDays.map(d=>{const ms=db.meals[d]||[];return {date:d,calories:ms.reduce((a,m)=>a+(+m.calories||0),0),protein:ms.reduce((a,m)=>a+(+m.protein||0),0),mealCount:ms.length}});
+ const movementDays=cur.filter(x=>x.pilates||x.tennis||x.walk||x.other).length,waterDays=cur.filter(x=>x.water||x.waterCount).length,proteinGoal=+(db.foodGoals&&db.foodGoals.protein)||null,calorieGoal=+(db.foodGoals&&db.foodGoals.calories)||null;
+ return {week:{start:range.start,end:range.end},completeness:{entryDays:cur.length,mealDays:mealDays.length,movementDays,waterDays},weight:metricSummary(cur,'weight'),previousWeight:metricSummary(prev,'weight'),fat:metricSummary(cur,'fat'),previousFat:metricSummary(prev,'fat'),muscle:metricSummary(cur,'muscle'),previousMuscle:metricSummary(prev,'muscle'),bodyWater:metricSummary(cur,'bodyWater'),previousBodyWater:metricSummary(prev,'bodyWater'),movement:{days:movementDays},qualitativeFood:{values:cur.filter(x=>x.food).map(x=>x.food)},nutrition:{calorieGoal,proteinGoal,days:byDay,proteinHitDays:proteinGoal?byDay.filter(x=>x.protein>=proteinGoal).length:null},cycles:(db.cycles||[]).filter(c=>c.start<=range.end&&(!c.end||c.end>=range.start))}
+}
+function localWeeklyFallback(payload){
+ const w=payload.weight,pw=payload.previousWeight,bw=payload.bodyWater;let insight='Ya cerró la semana. Todavía necesito algunos registros más para encontrar un patrón confiable.',priority='Esta semana: seguí registrando de manera simple y consistente.';
+ if(w&&pw){const diff=w.average-pw.average;if(Math.abs(diff)>=.1){insight=diff<0?`El promedio de peso de la semana bajó ${Math.abs(diff).toFixed(2)} kg frente a la anterior.`:`El promedio de peso de la semana subió ${Math.abs(diff).toFixed(2)} kg frente a la anterior.`;if(bw)insight+=' También hay registros de agua corporal, así que miraría ambas tendencias antes de interpretar un cambio aislado.'}}
+ if(payload.nutrition.proteinGoal&&payload.completeness.mealDays>=3&&payload.nutrition.proteinHitDays<Math.ceil(payload.completeness.mealDays/2))priority='Esta semana: priorizá acercarte más seguido a tu objetivo de proteína.';
+ return {title:'Tu semana, analizada',insight,priority,confidence:'local'}
+}
+function paintWeeklyAnalysis(r,range){$('weekEmoji').textContent='✨';$('weekTitle').textContent=r.title||'Tu semana, analizada';$('weekSubtitle').textContent=`${range.start.slice(8,10)}/${range.start.slice(5,7)} al ${range.end.slice(8,10)}/${range.end.slice(5,7)}`;$('weekInsight').textContent=r.insight||'Todavía no hay suficiente información para un análisis útil.';$('weekTip').innerHTML='<b>👉 Foco de esta semana:</b> '+(r.priority||'Seguí registrando.')}
+async function renderWeeklyInsight(){
+ const range=previousClosedWeek(),payload=weeklyPayload(range);db.weeklyInsights=db.weeklyInsights||{};
+ if(db.weeklyInsights[range.key]){paintWeeklyAnalysis(db.weeklyInsights[range.key],range);return}
+ const fallback=localWeeklyFallback(payload);
+ if(payload.completeness.entryDays<3&&payload.completeness.mealDays<3){paintWeeklyAnalysis(fallback,range);return}
+ paintWeeklyAnalysis({title:'Tu semana, analizada',insight:'Analizando la semana cerrada con tus datos.',priority:'En un momento aparece tu foco para esta semana.'},range);
+ const card=$('weekInsight')&&$('weekInsight').closest('.card');if(card)card.classList.add('week-ai-loading');
+ try{const res=await fetch('/api/analyze-week',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}),body=await res.json().catch(()=>({}));if(!res.ok)throw new Error(body.error||'No pude analizar la semana');const clean={title:String(body.title||'Tu semana, analizada').slice(0,80),insight:String(body.insight||fallback.insight).slice(0,700),priority:String(body.priority||fallback.priority).slice(0,240),confidence:body.confidence||'medium',generatedAt:new Date().toISOString()};db.weeklyInsights[range.key]=clean;saveDB();paintWeeklyAnalysis(clean,range)}catch(err){console.error('Weekly analysis error',err);paintWeeklyAnalysis(fallback,range)}finally{if(card)card.classList.remove('week-ai-loading')}
+}
 
 $('exportBackup').onclick=()=>{
   const payload={app:'BOOST ME',version:6,exportedAt:new Date().toISOString(),data:db};
@@ -634,6 +662,7 @@ $('backupFile').onchange=e=>{
       d.recipes=d.recipes||[];
       d.foodGoals=d.foodGoals||{};
       d.settings=d.settings||{};
+      d.weeklyInsights=d.weeklyInsights||{};
       if(confirm('¿Restaurar este backup? Va a reemplazar los datos actuales.')){
         db=d;saveDB();renderAll();
         setTimeout(()=>{if($('progressTab')&&$('progressTab').classList.contains('active'))renderProgress()},120);
