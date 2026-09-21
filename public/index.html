@@ -250,6 +250,8 @@ body{min-height:100vh}.app{max-width:540px;margin:0 auto;padding:24px 18px 112px
 #foodTab .food-progress-line{margin:0 0 10px}#foodTab .food-progress-line:last-of-type{margin-bottom:0}
 .food-slots-card{padding:6px 18px}.food-slot-row{width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);font:inherit;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 0;text-align:left}.food-slot-row:last-child{border-bottom:0}.food-slot-row b{font-size:15px}.food-slot-row span{font-size:13px;color:var(--muted);white-space:nowrap}.food-slot-row.done span{color:var(--ink);font-weight:800}.food-slot-editor{border-bottom:1px solid var(--line);padding:0 0 15px}.food-slot-editor textarea{width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:14px;padding:11px;font:inherit;resize:vertical}.food-slot-editor .manual-macros{margin-top:8px}.food-slot-inline-actions{display:flex;gap:8px;margin-top:9px}.food-slot-inline-actions button{flex:1}.food-week-link{margin-top:2px!important}.food-week-link .food-section-button span:first-child{font-weight:900}.food-week-link .food-section-button .soft{font-weight:700}
 #mealEditModal #editMealTypes{display:none!important}
+
+.day-context-card .segment{grid-template-columns:repeat(2,minmax(0,1fr))}.context-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.context-buttons button,.sleep-buttons button{min-width:0}.sleep-buttons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.context-note{margin-top:9px}.context-chip{display:inline-flex;align-items:center;gap:4px;padding:3px 7px;border-radius:999px;background:#f4f1f7;font-size:11px;font-weight:800;margin:2px 3px 0 0}.day-flags{position:absolute;left:4px;right:4px;bottom:3px;display:flex;justify-content:center;gap:2px;font-size:10px;line-height:1}.day{position:relative}.patterns-list{display:grid;gap:10px}.pattern-item{padding:12px;border-radius:16px;background:#faf8fc;line-height:1.4}.pattern-item b{display:block;margin-bottom:3px}.pattern-empty{font-size:13px;color:#7a7480;line-height:1.45}.last7-tags{display:flex;flex-wrap:wrap;gap:3px;margin-top:4px}.last7-tag{font-size:10px;font-weight:800;padding:2px 6px;border-radius:999px;background:#f4f1f7}.edit-context-grid{display:grid;gap:10px}.edit-context-grid .soft{margin-bottom:5px;display:block}
 </style>
 <meta content="yes" name="apple-mobile-web-app-capable"/><meta content="BOOST ME" name="apple-mobile-web-app-title"/><meta content="#fff7df" name="theme-color"/><link href="/apple-touch-icon.png?v=4" rel="apple-touch-icon" sizes="180x180"/><link href="/apple-touch-icon-precomposed.png?v=4" rel="apple-touch-icon-precomposed" sizes="180x180"/><link href="/favicon.png?v=4" rel="icon" sizes="64x64" type="image/png"/></head>
 <body>
@@ -293,7 +295,7 @@ body{min-height:100vh}.app{max-width:540px;margin:0 auto;padding:24px 18px 112px
 <div class="cycle-date-quick"><button class="secondary cycle-quick" data-offset="0" type="button">Hoy</button><button class="secondary cycle-quick" data-offset="-1" type="button">Ayer</button></div>
 <input id="cycleDateInput" type="date"/>
 <div class="cycle-date-actions"><button class="primary" id="saveCycleDate" type="button">Guardar fecha</button><button class="secondary" id="cancelCycleDate" type="button">Cancelar</button></div>
-</div><button class="secondary cycle-edit-btn" id="editCycleDates" type="button">Editar fechas del ciclo</button></div><div class="card close-card">
+</div><button class="secondary cycle-edit-btn" id="editCycleDates" type="button">Editar fechas del ciclo</button></div><div class="card day-context-card"><div class="section-title"><h3>🧭 Contexto de hoy</h3><span class="soft">opcional · un toque</span></div><div class="modal-section"><div class="soft">ESTADO DEL REGISTRO</div><div class="segment" id="recordStatusSeg"><button class="seg good" data-v="complete" type="button">✓ Completo</button><button class="seg reg" data-v="incomplete" type="button">📝 Incompleto</button></div></div><div class="modal-section"><div class="soft">CONTEXTO DEL DÍA</div><div class="context-buttons"><button class="secondary" id="todayTravel" type="button">✈️ Viaje</button><button class="secondary" id="todaySpecial" type="button">🎉 Día especial</button></div></div><div class="modal-section"><div class="soft">¿CÓMO DORMISTE?</div><div class="sleep-buttons" id="todaySleep"><button class="secondary" data-v="Mal" type="button">😴 Mal</button><button class="secondary" data-v="Regular" type="button">🙂 Regular</button><button class="secondary" data-v="Bien" type="button">✨ Bien</button></div></div><div class="soft context-note">Viaje y Día especial dan contexto. No cuentan como algo negativo.</div></div><div class="card close-card">
 <div class="evening-toggle">
 <div><div class="soft">AL FINAL DEL DÍA</div><h3 style="margin:4px 0 0">🌙 Cerrar mi día</h3><div class="soft" id="eveningSummary">Completalo cuando termine el día.</div></div>
 <div class="moon">🌙</div>
@@ -348,7 +350,7 @@ body{min-height:100vh}.app{max-width:540px;margin:0 auto;padding:24px 18px 112px
 <label class="objective-field"><span>Fecha objetivo</span><input id="goalDate" type="date"/></label>
 <label class="objective-field"><span>Grasa corporal objetivo</span><div class="input-unit"><input id="goalFat" inputmode="decimal" placeholder="Opcional" step="0.1" type="text"/><b>%</b></div></label>
 <label class="objective-field"><span>Masa muscular objetivo</span><div class="input-unit"><input id="goalMuscle" inputmode="decimal" placeholder="Opcional" step="0.1" type="text"/><b>kg</b></div></label>
-</div><button class="primary" id="saveGoal">Guardar objetivos</button></div><div class="card"><div class="section-title"><h3>📅 Historial</h3><span class="soft">ver y corregir días</span></div>
+</div><button class="primary" id="saveGoal">Guardar objetivos</button></div><div class="card"><div class="section-title"><h3>🔎 Patrones que estoy viendo</h3><span class="soft">solo cuando hay datos suficientes</span></div><div id="patternsList" class="patterns-list"><div class="pattern-empty">Todavía estoy juntando observaciones comparables.</div></div></div><div class="card"><div class="section-title"><h3>📅 Historial</h3><span class="soft">ver y corregir días</span></div>
 <button class="secondary" id="openCalendar">Abrir calendario →</button></div><div class="card"><div class="section-title"><h3>🛟 Backup</h3><span class="soft">protege tu historial</span></div><div class="backup-actions"><button class="backup-btn export" id="exportBackup">⬇️ Exportar</button><button class="backup-btn import" id="importBackup">⬆️ Restaurar</button></div><input accept=".json,application/json" id="backupFile" style="display:none" type="file"/><div class="backup-note">Guardá una copia cada tanto. Restaurar reemplaza los datos actuales por los del backup.</div></div></section>
 <section class="tab" id="foodTab">
 <div class="hero food-hero-compact"><div><div class="eyebrow">🍽️ COMIDAS</div><h1>Comer con contexto</h1></div><div class="hero-emoji">🥗</div></div>
@@ -438,7 +440,7 @@ body{min-height:100vh}.app{max-width:540px;margin:0 auto;padding:24px 18px 112px
 <span class="drop" data-i="1">💧</span><span class="drop" data-i="2">💧</span><span class="drop" data-i="3">💧</span><span class="drop" data-i="4">💧</span><span class="drop" data-i="5">💧</span>
 </div>
 </div>
-<button class="primary" id="saveEdit">Guardar cambios</button>
+<div class="modal-section"><div class="section-title"><h3>🧭 Contexto del día</h3><span class="soft">opcional</span></div><div class="edit-context-grid"><div><span class="soft">ESTADO DEL REGISTRO</span><div class="segment" id="eRecordStatusSeg"><button class="seg good" data-v="complete" type="button">✓ Completo</button><button class="seg reg" data-v="incomplete" type="button">📝 Incompleto</button></div></div><div><span class="soft">CONTEXTO</span><div class="context-buttons"><button class="secondary" id="eTravel" type="button">✈️ Viaje</button><button class="secondary" id="eSpecial" type="button">🎉 Día especial</button></div></div><div><span class="soft">SUEÑO</span><div class="sleep-buttons" id="eSleep"><button class="secondary" data-v="Mal" type="button">😴 Mal</button><button class="secondary" data-v="Regular" type="button">🙂 Regular</button><button class="secondary" data-v="Bien" type="button">✨ Bien</button></div></div></div></div><button class="primary" id="saveEdit">Guardar cambios</button>
 </div>
 </div>
 <div class="toast" id="toast">Guardado ✨</div>
@@ -459,11 +461,12 @@ function normalizeDB(d){
     const bw=[x.bodyWater,x.body_water,x.waterPercent,x.bodyWaterPercent].map(toFinite).find(v=>v!=null&&v>0&&v<=100);if(bw==null)delete x.bodyWater;else x.bodyWater=bw;
     delete x.body_water;delete x.waterPercent;delete x.bodyWaterPercent;
     ['pilates','tennis','walk','other'].forEach(f=>{x[f]=x[f]===true||x[f]===1||x[f]==='true'});
+    x.incomplete=x.incomplete===true||x.incomplete===1||x.incomplete==='true';x.travel=x.travel===true||x.travel===1||x.travel==='true';x.special=x.special===true||x.special===1||x.special==='true';if(!['Bien','Regular','Mal'].includes(x.sleep))delete x.sleep;
     if(!['Bien','Regular','Mal'].includes(x.food))delete x.food;
     if(x.waterCount!=null){const wc=toFinite(x.waterCount);x.waterCount=wc==null?0:Math.max(0,Math.min(5,Math.round(wc)));x.water=x.waterCount>=4?'Bien':x.waterCount>=2?'Regular':x.waterCount>=1?'Mal':''}
     else if(['Bien','Regular','Mal'].includes(x.water))x.waterCount=x.water==='Bien'?5:x.water==='Regular'?3:1;
     else{delete x.water;delete x.waterCount}
-    const meaningful=x.weight!=null||x.fat!=null||x.muscle!=null||x.bodyWater!=null||x.pilates||x.tennis||x.walk||x.other||!!x.food||!!x.water;
+    const meaningful=x.weight!=null||x.fat!=null||x.muscle!=null||x.bodyWater!=null||x.pilates||x.tennis||x.walk||x.other||!!x.food||!!x.water||x.incomplete||x.travel||x.special||!!x.sleep;
     if(!meaningful)delete d.entries[k];
   });
   d.goal=(d.goal&&typeof d.goal==='object'&&!Array.isArray(d.goal))?d.goal:{};
@@ -512,8 +515,8 @@ let lastSavedSnapshot=JSON.stringify(db);
 function saveDB(){try{const serialized=JSON.stringify(db);localStorage.setItem(KEY,serialized);lastSavedSnapshot=serialized;return true}catch(err){console.error('BOOST ME local save error',err);try{db=normalizeDB(JSON.parse(lastSavedSnapshot))}catch(rollbackErr){console.error('BOOST ME rollback error',rollbackErr)}try{renderAll()}catch(renderErr){console.error('BOOST ME rollback render error',renderErr)}alert('No pude guardar este cambio en el teléfono. El último dato guardado sigue intacto.');throw err}}
 function waterValueToCount(v){if(v==='Bien')return 5;if(v==='Regular')return 3;if(v==='Mal')return 1;return 0}
 function countToWater(v){return v>=4?'Bien':v>=2?'Regular':v>=1?'Mal':''}
-function isComplete(x){return !!(x&&x.weight!=null&&x.food&&x.water)}
-function entryHasData(x){return !!(x&&(x.weight!=null||x.fat!=null||x.muscle!=null||x.bodyWater!=null||x.pilates||x.tennis||x.walk||x.other||x.food||x.water))}
+function isComplete(x){return !!(x&&!x.incomplete&&x.weight!=null&&x.food&&x.water)}
+function entryHasData(x){return !!(x&&(x.weight!=null||x.fat!=null||x.muscle!=null||x.bodyWater!=null||x.pilates||x.tennis||x.walk||x.other||x.food||x.water||x.incomplete||x.travel||x.special||x.sleep))}
 function pruneEntry(date){if(db.entries[date]&&!entryHasData(db.entries[date]))delete db.entries[date]}
 function lastWeightBefore(date=today()){const a=entries().filter(x=>x.date<date&&x.weight!=null);return a.length?a.at(-1).weight:null}
 function streak(){const ds=new Set(entries().filter(isComplete).map(x=>x.date));let d=new Date(),s=0;if(!ds.has(localKey(d)))d.setDate(d.getDate()-1);while(ds.has(localKey(d))){s++;d.setDate(d.getDate()-1)}return s}
@@ -527,6 +530,7 @@ function loadToday(){
   ['pilates','tennis','walk','other'].forEach(k=>$(k).classList.toggle('active',!!x[k]));
   food=x.food||'';document.querySelectorAll('#foodSeg .seg').forEach(b=>b.classList.toggle('active',b.dataset.v===food));
   water=x.waterCount??waterValueToCount(x.water);renderDrops('todayDrops',water,'waterText');
+  document.querySelectorAll('#recordStatusSeg .seg').forEach(b=>b.classList.toggle('active',b.dataset.v===(x.incomplete?'incomplete':'complete')));$('todayTravel').classList.toggle('active',!!x.travel);$('todaySpecial').classList.toggle('active',!!x.special);document.querySelectorAll('#todaySleep button').forEach(b=>b.classList.toggle('active',b.dataset.v===x.sleep));
   const prev=lastWeightBefore();if(x.weight!=null&&prev!=null){const d=x.weight-prev;$('weightTrend').textContent=(d<0?'↓ ':d>0?'↑ ':'→ ')+Math.abs(d).toFixed(1)+' kg vs. anterior'}else $('weightTrend').textContent='mañana';
   const complete=isComplete(x),hasMorning=x.weight!=null;
   $('todayStatus').innerHTML=`<span class="status-pill ${hasMorning?'done':'wait'}">${hasMorning?'☀️ Cuerpo cargado':'☀️ Falta cuerpo'}</span><span class="status-pill ${complete?'done':'open'}">${complete?'✨ Día completo':'🌙 Día abierto'}</span>`;
@@ -535,6 +539,11 @@ function loadToday(){
   const moves=[x.pilates?'🧘 Pilates':'',x.tennis?'🎾 Tenis':'',x.walk?'🏃 Running':'',x.other?'⚡ Otro':''].filter(Boolean);
   $('movementNote').textContent=moves.length?`${moves.join(' · ')} ✓`:'Tocá una actividad cuando la hagas. No hace falta cerrar el día.';
 }
+function saveTodayContext(patch,msg){const d=today(),old=db.entries[d]||{};db.entries[d]={...old,...patch};pruneEntry(d);saveDB();renderAll();if(msg)toast(msg)}
+document.querySelectorAll('#recordStatusSeg .seg').forEach(b=>b.onclick=()=>saveTodayContext({incomplete:b.dataset.v==='incomplete'},b.dataset.v==='incomplete'?'Registro marcado incompleto 📝':'Registro marcado completo ✓'));
+$('todayTravel').onclick=()=>{const x=db.entries[today()]||{};saveTodayContext({travel:!x.travel},!x.travel?'Viaje marcado ✈️':'Viaje desmarcado')};
+$('todaySpecial').onclick=()=>{const x=db.entries[today()]||{};saveTodayContext({special:!x.special},!x.special?'Día especial marcado 🎉':'Día especial desmarcado')};
+document.querySelectorAll('#todaySleep button').forEach(b=>b.onclick=()=>{const x=db.entries[today()]||{},v=x.sleep===b.dataset.v?null:b.dataset.v;saveTodayContext({sleep:v},v?`Sueño: ${v}`:'Sueño desmarcado')});
 ['pilates','tennis','walk','other'].forEach(k=>$(k).onclick=()=>{
   $(k).classList.toggle('active');
   const d=today(),old=db.entries[d]||{};
@@ -662,7 +671,7 @@ function renderCalendar(){
   const box=$('calendar');box.innerHTML='';['L','M','M','J','V','S','D'].forEach(x=>{const d=document.createElement('div');d.className='dow';d.textContent=x;box.appendChild(d)});
   let first=new Date(y,m,1),start=(first.getDay()+6)%7;for(let i=0;i<start;i++)box.appendChild(document.createElement('div'));
   const days=new Date(y,m+1,0).getDate();
-  for(let d=1;d<=days;d++){const key=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`,x=key<=today()?db.entries[key]:null,el=document.createElement('div');el.className='day '+(x?(isComplete(x)?'full':'partial'):'empty');if(key===today())el.classList.add('today');el.textContent=d;const cyc=db.cycles.some(c=>key>=c.start&&key<=(c.end||today()));if(cyc){const dot=document.createElement('span');dot.className='cycle-dot';el.appendChild(dot)}el.onclick=()=>key>today()?toast('Ese día todavía no llegó'):openEditor(key);box.appendChild(el)}
+  for(let d=1;d<=days;d++){const key=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`,x=key<=today()?db.entries[key]:null,el=document.createElement('div');el.className='day '+(x?(isComplete(x)?'full':'partial'):'empty');if(key===today())el.classList.add('today');el.textContent=d;const cyc=db.cycles.some(c=>key>=c.start&&key<=(c.end||today()));if(cyc){const dot=document.createElement('span');dot.className='cycle-dot';el.appendChild(dot)}if(x&&(x.incomplete||x.travel||x.special)){const flags=document.createElement('span');flags.className='day-flags';flags.textContent=(x.travel?'✈️':'')+(x.special?'🎉':'')+(x.incomplete?'📝':'');el.appendChild(flags)}el.onclick=()=>key>today()?toast('Ese día todavía no llegó'):openEditor(key);box.appendChild(el)}
 }
 $('prevM').onclick=()=>{calDate.setMonth(calDate.getMonth()-1);renderCalendar()};$('nextM').onclick=()=>{calDate.setMonth(calDate.getMonth()+1);renderCalendar()};
 
@@ -685,10 +694,11 @@ function openEditor(key){
   setEditChoice('ePilates',x.pilates);setEditChoice('eTennis',x.tennis);setEditChoice('eWalk',x.walk);setEditChoice('eOther',x.other);
   renderEditMealMacros(key);
   editFood=x.food||'';document.querySelectorAll('#eFoodSeg .seg').forEach(b=>b.classList.toggle('active',b.dataset.v===editFood));
-  editWater=x.waterCount??waterValueToCount(x.water);renderDrops('editDrops',editWater,'eWaterText');$('editModal').classList.add('open')
+  editWater=x.waterCount??waterValueToCount(x.water);renderDrops('editDrops',editWater,'eWaterText');document.querySelectorAll('#eRecordStatusSeg .seg').forEach(b=>b.classList.toggle('active',b.dataset.v===(x.incomplete?'incomplete':'complete')));$('eTravel').classList.toggle('active',!!x.travel);$('eSpecial').classList.toggle('active',!!x.special);document.querySelectorAll('#eSleep button').forEach(b=>b.classList.toggle('active',b.dataset.v===x.sleep));$('editModal').classList.add('open')
 }
 $('closeModal').onclick=()=>$('editModal').classList.remove('open');$('editModal').onclick=e=>{if(e.target===$('editModal'))$('editModal').classList.remove('open')};
 ['ePilates','eTennis','eWalk','eOther'].forEach(k=>$(k).onclick=()=>$(k).classList.toggle('active'));
+document.querySelectorAll('#eRecordStatusSeg .seg').forEach(b=>b.onclick=()=>document.querySelectorAll('#eRecordStatusSeg .seg').forEach(x=>x.classList.toggle('active',x===b)));$('eTravel').onclick=()=>$('eTravel').classList.toggle('active');$('eSpecial').onclick=()=>$('eSpecial').classList.toggle('active');document.querySelectorAll('#eSleep button').forEach(b=>b.onclick=()=>{const was=b.classList.contains('active');document.querySelectorAll('#eSleep button').forEach(x=>x.classList.remove('active'));if(!was)b.classList.add('active')});
 document.querySelectorAll('#eFoodSeg .seg').forEach(b=>b.onclick=()=>{editFood=b.dataset.v;document.querySelectorAll('#eFoodSeg .seg').forEach(x=>x.classList.toggle('active',x===b))});
 document.querySelectorAll('#editDrops .drop').forEach(d=>d.onclick=()=>{const n=Number(d.dataset.i);editWater=editWater===n?n-1:n;renderDrops('editDrops',editWater,'eWaterText')});
 $('toggleHistoryAddMeal').onclick=()=>{const p=$('historyAddMealPanel');p.style.display=p.style.display==='none'?'block':'none'};
@@ -698,7 +708,7 @@ $('saveEdit').onclick=()=>{
   const parsed=readBodyInputs(['eWeight','eFat','eMuscle','eBodyWater']);if(parsed.error)return toast(parsed.error);
   const mealMacros=readEditMealMacros(editingDate);if(mealMacros.error)return toast(mealMacros.error);
   const [weight,fat,muscle,bodyWater]=parsed.values,old=db.entries[editingDate]||{};
-  db.entries[editingDate]={...old,weight,fat,muscle,bodyWater,pilates:$('ePilates').classList.contains('active'),tennis:$('eTennis').classList.contains('active'),walk:$('eWalk').classList.contains('active'),other:$('eOther').classList.contains('active'),food:editFood,water:countToWater(editWater),waterCount:editWater};
+  db.entries[editingDate]={...old,weight,fat,muscle,bodyWater,pilates:$('ePilates').classList.contains('active'),tennis:$('eTennis').classList.contains('active'),walk:$('eWalk').classList.contains('active'),other:$('eOther').classList.contains('active'),food:editFood,water:countToWater(editWater),waterCount:editWater,incomplete:document.querySelector('#eRecordStatusSeg .seg.active')?.dataset.v==='incomplete',travel:$('eTravel').classList.contains('active'),special:$('eSpecial').classList.contains('active'),sleep:document.querySelector('#eSleep button.active')?.dataset.v||null};
   for(const v of mealMacros.values){const m=editMealsDraft[v.i];if(m){const original=db.meals?.[editingDate]?.[v.i],changed=!original||Number(original.calories)!==v.calories||Number(original.protein)!==v.protein;m.calories=v.calories;m.protein=v.protein;if(changed&&original)m.manualCorrection=true}}
   if(editMealsDraft.length)db.meals[editingDate]=editMealsDraft.map(m=>({...m}));else delete db.meals[editingDate];
   pruneEntry(editingDate);saveDB();$('editModal').classList.remove('open');renderAll();toast('Día actualizado 📅')
@@ -734,13 +744,13 @@ function mondayToMondayForRange(range){
 }
 function weeklyPayload(range){
  const all=entries(),cur=all.filter(x=>x.date>=range.start&&x.date<=range.end),prev=all.filter(x=>x.date>=range.prevStart&&x.date<=range.prevEnd),mealDays=Object.keys(db.meals||{}).filter(d=>d>=range.start&&d<=range.end&&Array.isArray(db.meals[d])&&db.meals[d].length>0).sort();
- const byDay=mealDays.map(d=>{const ms=db.meals[d]||[];return {date:d,calories:ms.reduce((a,m)=>a+(+m.calories||0),0),protein:ms.reduce((a,m)=>a+(+m.protein||0),0),mealCount:ms.length}});
+ const byDay=mealDays.map(d=>{const ms=db.meals[d]||[],e=db.entries[d]||{};return {date:d,calories:ms.reduce((a,m)=>a+(+m.calories||0),0),protein:ms.reduce((a,m)=>a+(+m.protein||0),0),mealCount:ms.length,incomplete:!!e.incomplete,travel:!!e.travel,special:!!e.special}});
  const movementDays=cur.filter(x=>x.pilates||x.tennis||x.walk||x.other).length,waterDays=cur.filter(x=>x.water||x.waterCount).length,proteinGoal=+(db.foodGoals&&db.foodGoals.protein)||null,calorieGoal=+(db.foodGoals&&db.foodGoals.calories)||null;
- const dayMap={};for(let i=0;i<7;i++){const dt=addDays(new Date(range.start+'T12:00:00'),i),date=localKey(dt),e=db.entries[date]||{},ms=db.meals[date]||[];dayMap[date]={date,weight:e.weight??null,fat:e.fat??null,muscle:e.muscle??null,bodyWater:e.bodyWater??null,waterCount:e.waterCount??waterValueToCount(e.water),movement:{pilates:!!e.pilates,tennis:!!e.tennis,running:!!e.walk,other:!!e.other},foodBalance:e.food||null,calories:ms.length?ms.reduce((a,m)=>a+(+m.calories||0),0):null,protein:ms.length?ms.reduce((a,m)=>a+(+m.protein||0),0):null,mealCount:ms.length}}
- return {week:{start:range.start,end:range.end,mode:'rolling_7_days'},primaryProgress:null,completeness:{entryDays:cur.length,mealDays:mealDays.length,movementDays,waterDays},weight:metricSummary(cur,'weight'),previousWeight:metricSummary(prev,'weight'),fat:metricSummary(cur,'fat'),previousFat:metricSummary(prev,'fat'),muscle:metricSummary(cur,'muscle'),previousMuscle:metricSummary(prev,'muscle'),bodyWater:metricSummary(cur,'bodyWater'),previousBodyWater:metricSummary(prev,'bodyWater'),movement:{days:movementDays},qualitativeFood:{values:cur.filter(x=>x.food).map(x=>x.food)},nutrition:{calorieGoal,proteinGoal,days:byDay,proteinHitDays:proteinGoal?byDay.filter(x=>x.protein>=proteinGoal).length:null},daily:Object.values(dayMap),cycles:(db.cycles||[]).filter(c=>c.start<=range.end&&(!c.end||c.end>=range.start))}
+ const dayMap={};for(let i=0;i<7;i++){const dt=addDays(new Date(range.start+'T12:00:00'),i),date=localKey(dt),e=db.entries[date]||{},ms=db.meals[date]||[];dayMap[date]={date,weight:e.weight??null,fat:e.fat??null,muscle:e.muscle??null,bodyWater:e.bodyWater??null,waterCount:e.waterCount??waterValueToCount(e.water),movement:{pilates:!!e.pilates,tennis:!!e.tennis,running:!!e.walk,other:!!e.other},foodBalance:e.food||null,recordStatus:e.incomplete?'incomplete':'complete',context:{travel:!!e.travel,special:!!e.special},sleep:e.sleep||null,calories:ms.length?ms.reduce((a,m)=>a+(+m.calories||0),0):null,protein:ms.length?ms.reduce((a,m)=>a+(+m.protein||0),0):null,mealCount:ms.length}}
+ return {week:{start:range.start,end:range.end,mode:'rolling_7_days'},primaryProgress:null,completeness:{entryDays:cur.length,mealDays:mealDays.length,movementDays,waterDays},weight:metricSummary(cur,'weight'),previousWeight:metricSummary(prev,'weight'),fat:metricSummary(cur,'fat'),previousFat:metricSummary(prev,'fat'),muscle:metricSummary(cur,'muscle'),previousMuscle:metricSummary(prev,'muscle'),bodyWater:metricSummary(cur,'bodyWater'),previousBodyWater:metricSummary(prev,'bodyWater'),movement:{days:movementDays},qualitativeFood:{values:cur.filter(x=>x.food).map(x=>x.food)},nutrition:{calorieGoal,proteinGoal,days:byDay,proteinHitDays:proteinGoal?byDay.filter(x=>!x.incomplete&&x.protein>=proteinGoal).length:null,completeNutritionDays:byDay.filter(x=>!x.incomplete).length},daily:Object.values(dayMap),cycles:(db.cycles||[]).filter(c=>c.start<=range.end&&(!c.end||c.end>=range.start))}
 }
 function localWeeklyFallback(payload){
- const days=payload.daily||[],logged=days.filter(d=>d.calories!=null),weights=days.filter(d=>d.weight!=null),move=days.filter(d=>Object.values(d.movement||{}).some(Boolean)),rest=days.filter(d=>!Object.values(d.movement||{}).some(Boolean)),waterGood=days.filter(d=>(d.waterCount||0)>=4),waterLow=days.filter(d=>(d.waterCount||0)>0&&(d.waterCount||0)<4);let insight='',priority='Seguí registrando para que el patrón sea cada vez más confiable.';
+ const days=payload.daily||[],logged=days.filter(d=>d.calories!=null&&d.recordStatus!=='incomplete'),weights=days.filter(d=>d.weight!=null),move=days.filter(d=>Object.values(d.movement||{}).some(Boolean)),rest=days.filter(d=>!Object.values(d.movement||{}).some(Boolean)),waterGood=days.filter(d=>(d.waterCount||0)>=4),waterLow=days.filter(d=>(d.waterCount||0)>0&&(d.waterCount||0)<4);let insight='',priority='Seguí registrando para que el patrón sea cada vez más confiable.';
  const avg=a=>a.length?a.reduce((s,x)=>s+x,0)/a.length:null,avgField=(arr,k)=>avg(arr.map(x=>+x[k]).filter(Number.isFinite));
  if(weights.length>=2){const first=weights[0],last=weights.at(-1),delta=last.weight-first.weight;insight=`En estos 7 días tu peso ${Math.abs(delta)<0.05?'se mantuvo prácticamente estable':delta<0?`bajó ${Math.abs(delta).toFixed(2)} kg`:`subió ${Math.abs(delta).toFixed(2)} kg`}. `}else insight='Estoy mirando tus últimos 7 días. ';
  if(logged.length>=3){const ac=avgField(logged,'calories'),ap=avgField(logged,'protein');insight+=`En ${logged.length} días con comidas cargadas promediaste ≈ ${Math.round(ac)} kcal y ${Math.round(ap)} g de proteína. `}
@@ -767,7 +777,7 @@ async function renderWeeklyInsight(){
 }
 
 $('exportBackup').onclick=()=>{
-  const payload={app:'BOOST ME',version:7,exportedAt:new Date().toISOString(),data:db};
+  const payload={app:'BOOST ME',version:8,exportedAt:new Date().toISOString(),data:db};
   const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
   const u=URL.createObjectURL(blob),a=document.createElement('a');
   a.href=u;a.download=`boost-me-backup-${today()}.json`;
@@ -902,17 +912,17 @@ function showAiResult(r,meta={}){
 function currentFoodWeek(){const now=new Date(),dow=(now.getDay()+6)%7,start=new Date(now);start.setHours(12,0,0,0);start.setDate(start.getDate()-dow);const end=new Date(start);end.setDate(end.getDate()+6);return {start:localKey(start),end:localKey(end),daysElapsed:dow+1,daysLeft:6-dow}}
 function renderWeeklyFood(){
  if(!$('weekCalories'))return;
- const w=currentFoodWeek(),todayKey=today(),dates=Object.keys(db.meals||{}).filter(d=>d>=w.start&&d<=w.end&&d<=todayKey),all=dates.flatMap(d=>db.meals[d]||[]),cal=all.reduce((a,m)=>a+(+m.calories||0),0),pro=all.reduce((a,m)=>a+(+m.protein||0),0),cg=+db.foodGoals.calories||0,pg=+db.foodGoals.protein||0,wcg=cg*7,wpg=pg*7;
- $('weekCalories').textContent=`${Math.round(cal)} / ${wcg||'—'}`;$('weekProtein').textContent=`${Math.round(pro)} / ${wpg||'—'}`;$('weekCaloriesSub').textContent=wcg?'kcal lunes–domingo':'sin objetivo';$('weekProteinSub').textContent=wpg?'g lunes–domingo':'sin objetivo';
+ const w=currentFoodWeek(),todayKey=today(),dates=Object.keys(db.meals||{}).filter(d=>d>=w.start&&d<=w.end&&d<=todayKey),all=dates.flatMap(d=>db.meals[d]||[]),cal=all.reduce((a,m)=>a+(+m.calories||0),0),pro=all.reduce((a,m)=>a+(+m.protein||0),0),partialDates=dates.filter(d=>db.entries[d]?.incomplete),cg=+db.foodGoals.calories||0,pg=+db.foodGoals.protein||0,wcg=cg*7,wpg=pg*7;
+ $('weekCalories').textContent=`${Math.round(cal)} / ${wcg||'—'}`;$('weekProtein').textContent=`${Math.round(pro)} / ${wpg||'—'}`;$('weekCaloriesSub').textContent=wcg?(partialDates.length?'kcal registradas · incluye parciales':'kcal lunes–domingo'):'sin objetivo';$('weekProteinSub').textContent=wpg?(partialDates.length?'g registrados · incluye parciales':'g lunes–domingo'):'sin objetivo';
  let msg='Cargá tus objetivos para ver el contexto semanal.';
  if(wcg||wpg){
   const rc=wcg-cal,rp=wpg-pro,parts=[];
   if(wcg){
    const when=w.daysLeft===0?'para hoy':'entre hoy y domingo';
    parts.push(rc>=0?`Te quedan ≈ ${Math.round(rc)} kcal ${when}.`:`La semana está ≈ ${Math.abs(Math.round(rc))} kcal sobre la referencia. No hace falta compensar de forma brusca.`);
-   const pastMealDates=dates.filter(d=>d<todayKey&&(db.meals[d]||[]).length>0);
+   const pastMealDates=dates.filter(d=>d<todayKey&&(db.meals[d]||[]).length>0&&!db.entries[d]?.incomplete);
    if(pastMealDates.length){const pastCal=pastMealDates.flatMap(d=>db.meals[d]||[]).reduce((a,m)=>a+(+m.calories||0),0),avgRecorded=pastCal/pastMealDates.length;parts.push(`En los ${pastMealDates.length} día${pastMealDates.length===1?'':'s'} anteriores con comidas cargadas, el promedio registrado fue ≈ ${Math.round(avgRecorded)} kcal/día.`)}
-   if(w.daysElapsed>1&&pastMealDates.length<w.daysElapsed-1)parts.push('Hay días anteriores sin comidas cargadas, así que no saco conclusiones de ritmo semanal con esos huecos.');
+   if(partialDates.length)parts.push(`${partialDates.length} día${partialDates.length===1?'':'s'} marcado${partialDates.length===1?'':'s'} como incompleto${partialDates.length===1?'':'s'}: sus macros son parciales y no entran en el promedio diario.`);if(w.daysElapsed>1&&pastMealDates.length<w.daysElapsed-1)parts.push('Hay días anteriores sin registro completo de comidas, así que no saco conclusiones de ritmo semanal con esos huecos.');
   }
   if(wpg)parts.push(rp>0?`Para proteína faltan ≈ ${Math.round(rp)} g en la semana.`:'Objetivo semanal de proteína alcanzado ✓');
   msg=parts.join(' ')
@@ -921,12 +931,14 @@ function renderWeeklyFood(){
 }
 function renderLast7Days(){
  const list=$('last7DaysList');if(!list)return;
- const dayNames=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'],rows=[];
+ const dayNames=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'],rows=[],logged=[];
  for(let offset=0;offset<7;offset++){
-  const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-offset);const key=localKey(d),items=db.meals[key]||[],cal=items.reduce((a,m)=>a+(+m.calories||0),0),pro=items.reduce((a,m)=>a+(+m.protein||0),0),label=offset===0?'Hoy':dayNames[d.getDay()],dateLabel=`${d.getDate()}/${d.getMonth()+1}`;
-  rows.push(`<div class="last7-row"><div class="last7-date">${label}<small>${dateLabel}</small></div><div class="last7-macro ${items.length?'':'last7-empty'}"><b>${items.length?`${Math.round(cal)} kcal`:'—'}</b><small>${items.length?'calorías':'sin comidas'}</small></div><div class="last7-macro ${items.length?'':'last7-empty'}"><b>${items.length?`${Math.round(pro)} g`:'—'}</b><small>${items.length?'proteína':'sin registro'}</small></div></div>`)
+  const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-offset);const key=localKey(d),items=db.meals[key]||[],e=db.entries[key]||{},cal=items.reduce((a,m)=>a+(+m.calories||0),0),pro=items.reduce((a,m)=>a+(+m.protein||0),0),label=offset===0?'Hoy':dayNames[d.getDay()],dateLabel=`${d.getDate()}/${d.getMonth()+1}`,tags=[];
+  if(e.travel)tags.push('✈️ Viaje');if(e.special)tags.push('🎉 Especial');if(e.incomplete)tags.push('📝 Incompleto');if(e.sleep)tags.push(`😴 ${e.sleep}`);
+  rows.push(`<div class="last7-row"><div class="last7-date">${label}<small>${dateLabel}</small>${tags.length?`<div class="last7-tags">${tags.map(t=>`<span class="last7-tag">${t}</span>`).join('')}</div>`:''}</div><div class="last7-macro ${items.length?'':'last7-empty'}"><b>${items.length?`${Math.round(cal)} kcal`:'—'}</b><small>${items.length?(e.incomplete?'parcial':'calorías'):'sin comidas'}</small></div><div class="last7-macro ${items.length?'':'last7-empty'}"><b>${items.length?`${Math.round(pro)} g`:'—'}</b><small>${items.length?(e.incomplete?'parcial':'proteína'):'sin registro'}</small></div></div>`);
+  if(items.length&&!e.incomplete)logged.push({cal,pro});
  }
- const logged=[];for(let offset=0;offset<7;offset++){const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-offset);const items=db.meals[localKey(d)]||[];if(items.length)logged.push({cal:items.reduce((a,m)=>a+(+m.calories||0),0),pro:items.reduce((a,m)=>a+(+m.protein||0),0)})}const avgBox=$('last7Average');if(avgBox){if(logged.length){const ac=logged.reduce((a,x)=>a+x.cal,0)/logged.length,ap=logged.reduce((a,x)=>a+x.pro,0)/logged.length;avgBox.innerHTML=`<div><b>${Math.round(ac)} kcal</b><small>promedio diario · ${logged.length} día${logged.length===1?'':'s'} con registro</small></div><div><b>${Math.round(ap)} g</b><small>proteína promedio</small></div>`}else avgBox.innerHTML='<div><b>—</b><small>promedio kcal</small></div><div><b>—</b><small>promedio proteína</small></div>'}
+ const avgBox=$('last7Average');if(avgBox){if(logged.length){const ac=logged.reduce((a,x)=>a+x.cal,0)/logged.length,ap=logged.reduce((a,x)=>a+x.pro,0)/logged.length;avgBox.innerHTML=`<div><b>${Math.round(ac)} kcal</b><small>promedio diario · ${logged.length} día${logged.length===1?' completo':'s completos'}</small></div><div><b>${Math.round(ap)} g</b><small>proteína promedio</small></div>`}else avgBox.innerHTML='<div><b>—</b><small>sin días completos para promediar</small></div><div><b>—</b><small>promedio proteína</small></div>'}
  list.innerHTML=rows.join('')
 }
 function mealContextLocal(m){const x=getDayFoodIntelligence(0,0),cg=x.cg,pg=x.pg;let status='Esta comida suma al día.';if(cg&&x.rc<0)status='Con esta comida ya superaste la referencia diaria de calorías.';else if(pg&&x.rp>25)status='Todavía conviene priorizar proteína en lo que queda del día.';else if(pg&&x.rp<=0)status='Con esta comida, el objetivo diario de proteína ya está cubierto.';else if(cg&&x.rc<=300)status='Con esta comida quedás cerca de tu referencia diaria.';return status}
@@ -1141,7 +1153,16 @@ function renderExpandedAchievements(){
       ?`🌱 ${weekComplete} días completos · 💪 ${weekMoves} en movimiento · 💧 ${weekWater} con agua bien ✨`
       :'Tu semana se va armando con cada registro ✨';
 }
-function renderAll(){renderRealFoodSuggestion();renderCycleState();renderBoostSays();renderGreeting();loadToday();renderHomeStats();renderPlant();renderProgress();renderCalendar();renderBadges();renderHomeCelebration();renderCycle();renderWeeklyInsight();renderFood();renderCoach();syncBeta10();renderCelebrateHighlights();renderBeta11Enhancements();renderExpandedAchievements()}
+function renderPatterns(){
+ const box=$('patternsList');if(!box)return;const dates=[];for(let i=0;i<60;i++){const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-i);dates.unshift(localKey(d))}const obs=[];
+ dates.forEach((date,i)=>{if(i===dates.length-1)return;const e=db.entries[date]||{},next=db.entries[dates[i+1]]||{},ms=db.meals[date]||[],w=Number(e.weight),nw=Number(next.weight);if(!Number.isFinite(w)||!Number.isFinite(nw)||w<=0||nw<=0)return;obs.push({date,delta:nw-w,movement:!!(e.pilates||e.tennis||e.walk||e.other),sleep:e.sleep||null,context:!!(e.travel||e.special),incomplete:!!e.incomplete,calories:ms.length&&!e.incomplete?ms.reduce((a,m)=>a+(+m.calories||0),0):null})});
+ const found=[],consistent=(arr,test)=>arr.length>=3&&arr.filter(test).length/arr.length>=.7;
+ const ctx=obs.filter(x=>x.context);if(consistent(ctx,x=>x.delta>0.05))found.push({title:'🎉 Días fuera de rutina',text:`En ${ctx.filter(x=>x.delta>0.05).length} de ${ctx.length} días de viaje/especial con peso comparable, el registro siguiente fue más alto. Lo tomo como contexto de corto plazo, no como cambio de grasa.`});
+ const poor=obs.filter(x=>x.sleep==='Mal'&&Number.isFinite(x.calories)),good=obs.filter(x=>x.sleep==='Bien'&&Number.isFinite(x.calories));if(poor.length>=3&&good.length>=3){const av=a=>a.reduce((s,x)=>s+x.calories,0)/a.length,diff=av(poor)-av(good);if(Math.abs(diff)>=150)found.push({title:'😴 Sueño y alimentación',text:`Con al menos 3 días completos por grupo, los días después de dormir Mal registraste en promedio ≈ ${Math.abs(Math.round(diff))} kcal ${diff>0?'más':'menos'} que los días marcados con sueño Bien. Es una asociación para seguir mirando, no una causa.`})}
+ const completeCal=obs.filter(x=>Number.isFinite(x.calories));if(completeCal.length>=8){const sorted=[...completeCal].sort((a,b)=>a.calories-b.calories),n=Math.max(3,Math.floor(sorted.length/3)),low=sorted.slice(0,n),high=sorted.slice(-n),av=a=>a.reduce((s,x)=>s+x.delta,0)/a.length,diff=av(high)-av(low);if(Math.abs(diff)>=.2)found.push({title:'🍽️ Ingesta y peso del registro siguiente',text:`Comparando tus días completos de menor y mayor ingesta, aparece una diferencia de ≈ ${Math.abs(diff).toFixed(1)} kg en el cambio de peso del registro siguiente. Puede incluir líquidos y otros factores; lo sigo observando.`})}
+ box.innerHTML=found.length?found.slice(0,2).map(p=>`<div class="pattern-item"><b>${p.title}</b><span>${p.text}</span></div>`).join(''):'<div class="pattern-empty">Todavía no hay suficientes observaciones comparables para mostrar un patrón con confianza. Prefiero no inventarlo.</div>';
+}
+function renderAll(){renderRealFoodSuggestion();renderCycleState();renderBoostSays();renderGreeting();loadToday();renderHomeStats();renderPlant();renderProgress();renderCalendar();renderBadges();renderHomeCelebration();renderCycle();renderWeeklyInsight();renderFood();renderCoach();syncBeta10();renderCelebrateHighlights();renderBeta11Enhancements();renderExpandedAchievements();renderPatterns()}
 let activeDay=today();
 function handleDayRollover(){
   const now=today();
